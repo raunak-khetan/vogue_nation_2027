@@ -1,0 +1,24 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register Your Team</title>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+  </head>
+  <body>
+    <h1>Register Your Team</h1>
+
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <h3>Leader Details</h3>
+      <hr/>
+      {{form2.as_p}}
+      <h3>Member Details</h3>
+      <hr/>
+      {{form3.as_p}}
+      <button type="button">Add Member</button>
+      <button type="submit">Register</button>
+    </form>
+  </body>
+</html>
