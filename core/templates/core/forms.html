@@ -1,24 +1,109 @@
+
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Your Team</title>
+
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>Register Your Team</h1>
 
     <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
-      <h3>Leader Details</h3>
-      <hr/>
-      {{form2.as_p}}
-      <h3>Member Details</h3>
-      <hr/>
-      {{form3.as_p}}
-      <button type="button">Add Member</button>
-      <button type="submit">Register</button>
+        {% csrf_token %}
+
+        <div class="team-details">
+            {{ form.as_p }}
+        </div>
+
+        <hr>
+
+        <h3>Leader Details</h3>
+        {{ form2.as_p }}
+
+        <hr>
+
+        <h3>Member Details</h3>
+
+        {{ form3.management_form }}
+        {{ form3.non_form_errors }}
+
+        <div id="members-container">
+            {% for member_form in form3 %}
+                <div class="member-form">
+                    <h3 class="member-heading">
+                        Member {{ forloop.counter }}
+                    </h3>
+
+                    {{ member_form.as_p }}
+
+                    <button type="button" class="delete-member">
+                        Delete
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="add-member">Add Member</button>
+        <button type="submit">Register</button>
     </form>
-  </body>
+
+    <template id="empty-form-template">
+        <div class="member-form">
+            <h3 class="member-heading">Member</h3>
+
+            {{ form3.empty_form.as_p }}
+
+            <button type="button" class="delete-member">
+                Delete
+            </button>
+        </div>
+    </template>
+
+    <script>
+        const addButton = document.getElementById("add-member");
+        const container = document.getElementById("members-container");
+        const template = document.getElementById("empty-form-template");
+        const totalForms = document.getElementById("id_members-TOTAL_FORMS");
+
+        function updateMemberHeadings() {
+            const members = container.querySelectorAll(".member-form");
+
+            members.forEach((member, index) => {
+                member.querySelector(".member-heading").textContent =
+                    `Member ${index + 1}`;
+            });
+        }
+
+        addButton.addEventListener("click", function () {
+            const index = Number(totalForms.value);
+
+            const html = template.innerHTML.replace(/__prefix__/g, index);
+
+            container.insertAdjacentHTML("beforeend", html);
+
+            totalForms.value = index + 1;
+            updateMemberHeadings();
+        });
+
+        container.addEventListener("click", function (event) {
+            if (event.target.classList.contains("delete-member")) {
+                const members = container.querySelectorAll(".member-form");
+
+                // Keep at least one member form.
+                if (members.length <= 1) {
+                    alert("At least one member is required.");
+                    return;
+                }
+
+                event.target.closest(".member-form").remove();
+                updateMemberHeadings();
+            }
+        });
+    </script>
+</body>
 </html>
