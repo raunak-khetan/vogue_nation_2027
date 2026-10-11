@@ -1,8 +1,7 @@
 
 from django.shortcuts import render
 
-from .forms import HC_D_form,HC_D_LeaderForm, MemberFormSet
-
+from .forms import HC_D_form, HC_D_LeaderForm, MemberFormSet
 
 
 def forms(request):
@@ -16,7 +15,6 @@ def forms(request):
 
         valid1 = form.is_valid()
         valid2 = leader_form.is_valid()
-
 
         if valid2:
             member_form.leader_name = (
@@ -40,8 +38,6 @@ def forms(request):
                 for member in member_form
                 if member.cleaned_data
             ]
-
-            
 
     else:
         form = HC_D_form()
