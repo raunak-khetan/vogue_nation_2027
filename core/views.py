@@ -1,9 +1,11 @@
 from django.shortcuts import render
-
+from django.db import transaction
+from .models import HCDTeam, HCDTeamLeader, HCDMember
 from .forms import (
     HC_D_form, HC_D_LeaderForm, HC_D_MemberFormSet,
     GN_M_Form, GN_M_LeaderForm, GN_M_MemberFormSet,
 )
+
 
 
 def hc_d_section(request):
@@ -11,10 +13,13 @@ def hc_d_section(request):
 
     if request.method == "POST":
         form = HC_D_form(request.POST, prefix="hcd")
-        leader_form = HC_D_LeaderForm(request.POST, prefix="hcd_leader")
+        leader_form = HC_D_LeaderForm(
+            request.POST,
+            prefix="hcd_leader",
+        )
         member_form = HC_D_MemberFormSet(
             request.POST,
-            prefix="hcd_members"
+            prefix="hcd_members",
         )
 
         valid1 = form.is_valid()
@@ -22,10 +27,14 @@ def hc_d_section(request):
 
         if valid2:
             member_form.leader_name = (
-                leader_form.cleaned_data["fullName"].strip().casefold()
+                leader_form.cleaned_data["fullName"]
+                .strip()
+                .casefold()
             )
             member_form.leader_email = (
-                leader_form.cleaned_data["email"].strip().casefold()
+                leader_form.cleaned_data["email"]
+                .strip()
+                .casefold()
             )
             member_form.leader_contact = (
                 leader_form.cleaned_data["contactNumber"].strip()
@@ -34,7 +43,6 @@ def hc_d_section(request):
         valid3 = member_form.is_valid()
 
         if valid1 and valid2 and valid3:
-            valid = True
             team_data = form.cleaned_data
             leader_data = leader_form.cleaned_data
 
@@ -44,18 +52,41 @@ def hc_d_section(request):
                 if member.cleaned_data
             ]
 
+            with transaction.atomic():
+                hcd_team = HCDTeam.objects.create(
+                    teamName=team_data["teamName"],
+                    submitPerformances=team_data[
+                        "submitPerformances"
+                    ],
+                )
+
+                HCDTeamLeader.objects.create(
+                    team=hcd_team,
+                    **leader_data,
+                )
+
+                for hcd_member_data in member_data:
+                    HCDMember.objects.create(
+                        team=hcd_team,
+                        **hcd_member_data,
+                    )
+
+            valid = True
+
     else:
         form = HC_D_form(prefix="hcd")
         leader_form = HC_D_LeaderForm(prefix="hcd_leader")
-        member_form = HC_D_MemberFormSet(prefix="hcd_members")
+        member_form = HC_D_MemberFormSet(
+            prefix="hcd_members",
+        )
 
     context = {
         "hcd_form": form,
         "hcd_leader_form": leader_form,
         "hcd_member_formset": member_form,
     }
-    return context, valid
 
+    return context, valid
 
 def gn_m_section(request):
     valid = False
