@@ -6,7 +6,16 @@ from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import HCDTeam, HCDTeamLeader, HCDMember
+from .models import (
+    SOD_Team,
+    SOD_Member_detail,
+    HCDTeam,
+    HCDTeamLeader,
+    HCDMember,
+    GN_MTeam,
+    GN_MTeamLeader,
+    GN_MMember,
+)
 from .forms import (
     BaseSODMemberFormSet,
     SOD_MemberDetailForm,
@@ -249,16 +258,13 @@ def hc_d_section(request):
 def gn_m_section(request):
     valid = False
     is_submitted = (
-        request.method == "POST" and "gnm_members-TOTAL_FORMS" in request.POST
+        request.method == "POST" and "gn_m_members-TOTAL_FORMS" in request.POST
     )
 
     if is_submitted:
-        form = GN_M_Form(request.POST, prefix="gnm")
-        leader_form = GN_M_LeaderForm(request.POST, prefix="gnm_leader")
-        member_form = GN_M_MemberFormSet(
-            request.POST,
-            prefix="gnm_members"
-        )
+        form = GN_M_Form(request.POST, prefix="gn_m_team")
+        leader_form = GN_M_LeaderForm(request.POST, prefix="gn_m_leader")
+        member_form = GN_M_MemberFormSet(request.POST, prefix="gn_m_members")
 
         valid1 = form.is_valid()
         valid2 = leader_form.is_valid()
@@ -277,17 +283,29 @@ def gn_m_section(request):
         valid3 = member_form.is_valid()
 
         if valid1 and valid2 and valid3:
-            valid = True
+            team_data = form.cleaned_data
+            leader_data = leader_form.cleaned_data
+
+            if GN_MTeam.objects.filter(teamName__iexact=team_data["teamName"]).exists():
+                form.add_error("teamName", "A team with this name is already registered.")
+            else:
+                with transaction.atomic():
+                    team = GN_MTeam.objects.create(**team_data)
+                    GN_MTeamLeader.objects.create(team=team, **leader_data)
+                    for m_form in member_form:
+                        if m_form.cleaned_data:
+                            GN_MMember.objects.create(team=team, **m_form.cleaned_data)
+                valid = True
 
     else:
-        form = GN_M_Form(prefix="gnm")
-        leader_form = GN_M_LeaderForm(prefix="gnm_leader")
-        member_form = GN_M_MemberFormSet(prefix="gnm_members")
+        form = GN_M_Form(prefix="gn_m_team")
+        leader_form = GN_M_LeaderForm(prefix="gn_m_leader")
+        member_form = GN_M_MemberFormSet(prefix="gn_m_members")
 
     context = {
-        "gnm_form": form,
-        "gnm_leader_form": leader_form,
-        "gnm_member_formset": member_form,
+        "gn_m_form": form,
+        "gn_m_leader_form": leader_form,
+        "gn_m_member_formset": member_form,
     }
     return context, valid
 

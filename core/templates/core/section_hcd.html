@@ -1,9 +1,15 @@
-<div class="team-details">{{ hcd_form.as_p }}</div>
+<div class="team-details">
+  {% for field in hcd_form %}
+    <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+  {% endfor %}
+</div>
 
 <hr />
 
 <h3>Leader Details</h3>
-{{ hcd_leader_form.as_p }}
+{% for field in hcd_leader_form %}
+  <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+{% endfor %}
 
 <hr />
 
@@ -16,7 +22,9 @@
   <div class="member-form">
     <h3 class="member-heading">Member {{ forloop.counter }}</h3>
 
-    {{ member_form.as_p }}
+    {% for field in member_form %}
+      <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+    {% endfor %}
 
     <button type="button" class="delete-member">Delete</button>
   </div>
@@ -29,7 +37,9 @@
   <div class="member-form">
     <h3 class="member-heading">Member</h3>
 
-    {{ hcd_member_formset.empty_form.as_p }}
+    {% for field in hcd_member_formset.empty_form %}
+      <p>{{ field.label_tag }} {{ field }}</p>
+    {% endfor %}
 
     <button type="button" class="delete-member">Delete</button>
   </div>

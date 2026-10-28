@@ -78,10 +78,10 @@
         {% csrf_token %}
         <input type="hidden" name="competition" value="gnm" />
 
-        {% comment %}
-          Uncomment when merged:
-          {% include "core/section_gnm.html" %}
-        {% endcomment %}
+        {% include "core/section_GN.html" %}
+
+        <hr style="margin: 2rem 0;" />
+        <button type="submit" class="submit-btn" id="submit-gnm">Register for Glamour Nova</button>
       </form>
     </div>
 

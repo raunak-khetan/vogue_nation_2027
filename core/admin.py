@@ -6,7 +6,54 @@ from .models import (
     HCDTeam,
     HCDTeamLeader,
     HCDMember,
+    GN_MTeam,
+    GN_MTeamLeader,
+    GN_MMember,
 )
+
+
+# Glamour Nova Team admin
+@admin.register(GN_MTeam)
+class GN_MTeamAdmin(admin.ModelAdmin):
+    list_display = ("teamName", "submitPerformances")
+    search_fields = ("teamName",)
+
+
+# Glamour Nova Team Leader admin
+@admin.register(GN_MTeamLeader)
+class GN_MTeamLeaderAdmin(admin.ModelAdmin):
+    list_display = (
+        "fullName",
+        "contactNumber",
+        "email",
+        "team",
+    )
+    search_fields = (
+        "fullName",
+        "email",
+        "contactNumber",
+        "team__teamName",
+    )
+    list_filter = ("gender",)
+
+
+# Glamour Nova Member admin
+@admin.register(GN_MMember)
+class GN_MMemberAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "email",
+        "contactNumber",
+        "gender",
+        "team",
+    )
+    search_fields = (
+        "name",
+        "email",
+        "contactNumber",
+        "team__teamName",
+    )
+    list_filter = ("gender",)
 
 
 # Inline members inside SOD team detail
@@ -22,7 +69,6 @@ class SOD_MemberInline(admin.TabularInline):
 # SOD Team admin
 @admin.register(SOD_Team)
 class SOD_TeamAdmin(admin.ModelAdmin):
-    # List view
     list_display  = (
         'team_name',
         'lead_name',
@@ -37,7 +83,6 @@ class SOD_TeamAdmin(admin.ModelAdmin):
     ordering      = ('team_name',)
     list_per_page = 25
 
-    # Detail view
     fieldsets = (
         ('Team Info', {
             'fields': ('team_name', 'prev_performance'),
@@ -55,7 +100,6 @@ class SOD_TeamAdmin(admin.ModelAdmin):
     readonly_fields = ('lead_email',)
     inlines        = [SOD_MemberInline]
 
-    # Member count column
     @admin.display(description='Members')
     def member_count(self, obj):
         return obj.members.count()
@@ -64,7 +108,6 @@ class SOD_TeamAdmin(admin.ModelAdmin):
 # SOD Member admin
 @admin.register(SOD_Member_detail)
 class SOD_MemberAdmin(admin.ModelAdmin):
-    # List view
     list_display  = (
         'name',
         'team',
@@ -79,7 +122,6 @@ class SOD_MemberAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_select_related = ('team',)
 
-    # Detail view
     fieldsets = (
         (None, {
             'fields': ('team', 'name', 'gender'),
