@@ -13,6 +13,7 @@ class HCDTeamAdmin(admin.ModelAdmin):
     list_per_page = 25
 
 
+
 @admin.register(HCDTeamLeader)
 class HCDTeamLeaderAdmin(admin.ModelAdmin):
     list_display = (
