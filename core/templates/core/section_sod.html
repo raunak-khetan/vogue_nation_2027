@@ -1,0 +1,201 @@
+<!-- -- States of Dress Section -- -->
+
+{% if messages %}
+    {% for message in messages %}
+        <p><strong>{{ message }}</strong></p>
+    {% endfor %}
+{% endif %}
+
+{{ member_formset.management_form }}
+
+{% if team_form.non_field_errors %}
+    {% for error in team_form.non_field_errors %}
+        <p><strong>{{ error }}</strong></p>
+    {% endfor %}
+{% endif %}
+
+<div>
+    <label for="{{ team_form.team_name.id_for_label }}">Team Name</label>
+    {{ team_form.team_name }}
+    {% for error in team_form.team_name.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<div>
+    <label for="{{ team_form.prev_performance.id_for_label }}">Submit your performance(s)</label>
+    {{ team_form.prev_performance }}
+    {% for error in team_form.prev_performance.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<h2>Leader Details</h2>
+
+<div>
+    <label for="{{ team_form.lead_name.id_for_label }}">Full Name</label>
+    {{ team_form.lead_name }}
+    {% for error in team_form.lead_name.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<div>
+    <label for="{{ team_form.lead_phone.id_for_label }}">Contact No.</label>
+    {{ team_form.lead_phone }}
+    {% for error in team_form.lead_phone.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<div>
+    <label for="{{ team_form.lead_gender.id_for_label }}">Gender</label>
+    {{ team_form.lead_gender }}
+    {% for error in team_form.lead_gender.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<div>
+    <label for="{{ team_form.lead_email.id_for_label }}">Email Address</label>
+    {{ team_form.lead_email }}
+    {% for error in team_form.lead_email.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<div>
+    <label for="{{ team_form.lead_city.id_for_label }}">City</label>
+    {{ team_form.lead_city }}
+    {% for error in team_form.lead_city.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<div>
+    <label for="{{ team_form.lead_postal_code.id_for_label }}">Postal Code</label>
+    {{ team_form.lead_postal_code }}
+    {% for error in team_form.lead_postal_code.errors %}<p>{{ error }}</p>{% endfor %}
+</div>
+
+<h2>Member Details</h2>
+
+{% if member_formset.non_form_errors %}
+    {% for error in member_formset.non_form_errors %}
+        <p><strong>{{ error }}</strong></p>
+    {% endfor %}
+{% endif %}
+
+<div id="sod-member-forms">
+    {% for member_form in member_formset %}
+    <div class="sod-member-block" id="sod-member-{{ forloop.counter }}">
+
+        <h3>
+            Team Member #{{ forloop.counter }}
+            {% if not forloop.first %}
+                <button type="button" onclick="deleteSODMemberBlock(this)">Remove</button>
+            {% endif %}
+        </h3>
+
+        {% if member_form.non_field_errors %}
+            {% for error in member_form.non_field_errors %}
+                <p><strong>{{ error }}</strong></p>
+            {% endfor %}
+        {% endif %}
+
+        <div>
+            <label for="{{ member_form.name.id_for_label }}">Full Name</label>
+            {{ member_form.name }}
+            {% for error in member_form.name.errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ member_form.email.id_for_label }}">Email Address</label>
+            {{ member_form.email }}
+            {% for error in member_form.email.errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ member_form.phone.id_for_label }}">Contact No.</label>
+            {{ member_form.phone }}
+            {% for error in member_form.phone.errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ member_form.gender.id_for_label }}">Gender</label>
+            {{ member_form.gender }}
+            {% for error in member_form.gender.errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ member_form.postal_code.id_for_label }}">Postal Code</label>
+            {{ member_form.postal_code }}
+            {% for error in member_form.postal_code.errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ member_form.city.id_for_label }}">City</label>
+            {{ member_form.city }}
+            {% for error in member_form.city.errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+<button type="button" id="add-sod-member">+ Add Team Member</button>
+
+<script>
+    const sodAddBtn          = document.getElementById('add-sod-member');
+    const sodMemberForms     = document.getElementById('sod-member-forms');
+    const sodTotalFormsInput = document.getElementById('id_sod_members-TOTAL_FORMS');
+
+    // Re-index name/id prefixes (0..N-1) and update TOTAL_FORMS so Django binds contiguous formset data.
+    function reindexSODBlocks() {
+        const blocks = sodMemberForms.querySelectorAll('.sod-member-block');
+
+        blocks.forEach((block, i) => {
+            block.id = `sod-member-${i + 1}`;
+
+            // Re-index all field name / id attributes
+            block.querySelectorAll('[name]').forEach(el => {
+                el.name = el.name.replace(/sod_members-\d+-/, `sod_members-${i}-`);
+                el.id   = el.id.replace(/sod_members-\d+-/,   `sod_members-${i}-`);
+            });
+            block.querySelectorAll('label[for]').forEach(lbl => {
+                lbl.setAttribute('for',
+                    lbl.getAttribute('for').replace(/sod_members-\d+-/, `sod_members-${i}-`)
+                );
+            });
+
+            const h3 = block.querySelector('h3');
+            if (h3) {
+                h3.childNodes[0].textContent = `Team Member #${i + 1} `;
+
+                const existingBtn = h3.querySelector('button');
+                if (i === 0 && existingBtn) {
+                    existingBtn.remove();
+                } else if (i > 0 && !existingBtn) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.setAttribute('onclick', 'deleteSODMemberBlock(this)');
+                    btn.textContent = 'Remove';
+                    h3.appendChild(btn);
+                }
+            }
+        });
+
+        // Keep management form in sync
+        sodTotalFormsInput.value = blocks.length;
+    }
+
+    function deleteSODMemberBlock(btn) {
+        btn.closest('.sod-member-block').remove();
+        reindexSODBlocks();
+    }
+
+    if (sodAddBtn) {
+        sodAddBtn.addEventListener('click', function () {
+            const firstBlock = sodMemberForms.querySelector('.sod-member-block');
+            const newBlock   = firstBlock.cloneNode(true);
+
+            // Clear all user input and previous error messages from the clone
+            newBlock.querySelectorAll('input').forEach(el => el.value = '');
+            newBlock.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+            newBlock.querySelectorAll('textarea').forEach(el => el.value = '');
+            newBlock.querySelectorAll('p').forEach(p => {
+                // Remove error paragraphs (those without form widgets inside)
+                if (!p.querySelector('input, select, textarea')) p.remove();
+            });
+
+            sodMemberForms.appendChild(newBlock);
+            reindexSODBlocks();  // assigns the correct index to the new block
+        });
+    }
+</script>
