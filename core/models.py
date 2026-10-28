@@ -62,6 +62,9 @@ class HCDTeam(models.Model):
     def __str__(self):
         return self.teamName
 
+    class Meta:
+        verbose_name = "HC Team"
+        verbose_name_plural = "HC Teams"
 
 class HCDTeamLeader(models.Model):
     GENDER_CHOICES = [
@@ -101,6 +104,9 @@ class HCDTeamLeader(models.Model):
     def __str__(self):
         return self.fullName
 
+    class Meta:
+        verbose_name = "HC Team Leader"
+        verbose_name_plural = "HC Team Leaders"
 
 class HCDMember(models.Model):
     GENDER_CHOICES = HCDTeamLeader.GENDER_CHOICES
@@ -135,6 +141,10 @@ class HCDMember(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "HC Member"
+        verbose_name_plural = "HC Members"
 
 
 # Glamour Nova
@@ -144,6 +154,8 @@ class GN_MTeam(models.Model):
 
     def __str__(self):
         return self.teamName
+    
+    
 
 
 class GN_MTeamLeader(models.Model):

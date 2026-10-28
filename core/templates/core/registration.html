@@ -74,7 +74,7 @@
       role="tabpanel"
       aria-labelledby="tab-gnm"
     >
-      <form method="POST" id="form-gnm">
+      <form method="POST" id="form-gnm" novalidate>
         {% csrf_token %}
         <input type="hidden" name="competition" value="gnm" />
 
@@ -92,14 +92,14 @@
       role="tabpanel"
       aria-labelledby="tab-hcd"
     >
-      <form method="POST" id="form-hcd">
+      <form method="POST" id="form-hcd" novalidate>
         {% csrf_token %}
         <input type="hidden" name="competition" value="hcd" />
 
-        {% comment %}
-          Uncomment when merged:
-          {% include "core/section_hcd.html" %}
-        {% endcomment %}
+        {% include "core/section_hcd.html" %}
+
+        <hr style="margin: 2rem 0;" />
+        <button type="submit" class="submit-btn" id="submit-hcd">Register for Haute Couture</button>
       </form>
     </div>
 
@@ -110,7 +110,7 @@
       role="tabpanel"
       aria-labelledby="tab-sod"
     >
-      <form method="POST" id="form-sod">
+      <form method="POST" id="form-sod" novalidate>
         {% csrf_token %}
         <input type="hidden" name="competition" value="sod" />
 

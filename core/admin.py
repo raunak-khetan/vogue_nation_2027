@@ -1,15 +1,23 @@
 from django.contrib import admin
 
-from .models import SOD_Member_detail, SOD_Team
+from .models import (
+    SOD_Team,
+    SOD_Member_detail,
+    HCDTeam,
+    HCDTeamLeader,
+    HCDMember,
+)
 
-# Inline members inside team detail
+
+# Inline members inside SOD team detail
 class SOD_MemberInline(admin.TabularInline):
     model         = SOD_Member_detail
-    extra         = 0           # no blank rows by default
+    extra         = 0
     can_delete    = True
     show_change_link = True
     fields        = ('name', 'gender', 'email', 'phone', 'city', 'postal_code')
-    readonly_fields = ('email',)   # email is unique
+    readonly_fields = ('email',)
+
 
 # SOD Team admin
 @admin.register(SOD_Team)
@@ -53,6 +61,7 @@ class SOD_TeamAdmin(admin.ModelAdmin):
         return obj.members.count()
 
 
+# SOD Member admin
 @admin.register(SOD_Member_detail)
 class SOD_MemberAdmin(admin.ModelAdmin):
     # List view
@@ -80,3 +89,55 @@ class SOD_MemberAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = ('email',)
+
+
+# Haute Couture Team admin
+@admin.register(HCDTeam)
+class HCDTeamAdmin(admin.ModelAdmin):
+    list_display = ("id", "teamName", "submitPerformances")
+    search_fields = ("teamName",)
+    list_per_page = 25
+
+
+# Haute Couture Team Leader admin
+@admin.register(HCDTeamLeader)
+class HCDTeamLeaderAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "fullName",
+        "team",
+        "contactNumber",
+        "email",
+        "gender",
+        "cityName",
+    )
+    search_fields = (
+        "fullName",
+        "email",
+        "contactNumber",
+        "team__teamName",
+    )
+    list_filter = ("gender", "cityName")
+    list_per_page = 25
+
+
+# Haute Couture Member admin
+@admin.register(HCDMember)
+class HCDMemberAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "team",
+        "email",
+        "contactNumber",
+        "gender",
+        "cityName",
+    )
+    search_fields = (
+        "name",
+        "email",
+        "contactNumber",
+        "team__teamName",
+    )
+    list_filter = ("gender", "cityName")
+    list_per_page = 25

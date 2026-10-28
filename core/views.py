@@ -6,6 +6,7 @@ from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
+from .models import HCDTeam, HCDTeamLeader, HCDMember
 from .forms import (
     BaseSODMemberFormSet,
     SOD_MemberDetailForm,
@@ -174,8 +175,11 @@ def sod_section(request):
 # Haute Couture
 def hc_d_section(request):
     valid = False
+    is_submitted = (
+        request.method == "POST" and "hcd_members-TOTAL_FORMS" in request.POST
+    )
 
-    if request.method == "POST":
+    if is_submitted:
         form = HC_D_form(request.POST, prefix="hcd")
         leader_form = HC_D_LeaderForm(request.POST, prefix="hcd_leader")
         member_form = HC_D_MemberFormSet(
@@ -200,6 +204,32 @@ def hc_d_section(request):
         valid3 = member_form.is_valid()
 
         if valid1 and valid2 and valid3:
+            team_data = form.cleaned_data
+            leader_data = leader_form.cleaned_data
+
+            member_data = [
+                member.cleaned_data
+                for member in member_form
+                if member.cleaned_data
+            ]
+
+            with transaction.atomic():
+                hcd_team = HCDTeam.objects.create(
+                    teamName=team_data["teamName"],
+                    submitPerformances=team_data["submitPerformances"],
+                )
+
+                HCDTeamLeader.objects.create(
+                    team=hcd_team,
+                    **leader_data,
+                )
+
+                for hcd_member_data in member_data:
+                    HCDMember.objects.create(
+                        team=hcd_team,
+                        **hcd_member_data,
+                    )
+
             valid = True
 
     else:
@@ -218,8 +248,11 @@ def hc_d_section(request):
 # Glamour Nova
 def gn_m_section(request):
     valid = False
+    is_submitted = (
+        request.method == "POST" and "gnm_members-TOTAL_FORMS" in request.POST
+    )
 
-    if request.method == "POST":
+    if is_submitted:
         form = GN_M_Form(request.POST, prefix="gnm")
         leader_form = GN_M_LeaderForm(request.POST, prefix="gnm_leader")
         member_form = GN_M_MemberFormSet(
