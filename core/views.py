@@ -6,13 +6,22 @@ from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .forms import BaseSODMemberFormSet, SOD_MemberDetailForm, SOD_TeamForm
+from .forms import (
+    BaseSODMemberFormSet,
+    SOD_MemberDetailForm,
+    SOD_TeamForm,
+    HC_D_form,
+    HC_D_LeaderForm,
+    HC_D_MemberFormSet,
+    GN_M_Form,
+    GN_M_LeaderForm,
+    GN_M_MemberFormSet,
+)
 
 logger = logging.getLogger(__name__)
 
 
-# -- Helpers & Model Saves --
-
+# States of Dress
 def _has_registered(email, team_name):
     from .models import SOD_Member_detail, SOD_Team
 
@@ -40,8 +49,6 @@ def _save_sod_registration(team_form, member_formset):
 
     return team
 
-
-# -- States of Dress Section --
 
 def sod_section(request):
     SOD_MemberFormSet = formset_factory(
@@ -148,7 +155,6 @@ def sod_section(request):
         return context, False
 
     messages.success(request, "Registration successful! You're all set for States of Dress.")
-    # Return a fresh blank form so the page resets after success
     FreshFormSet = formset_factory(
         SOD_MemberDetailForm,
         formset=BaseSODMemberFormSet,
@@ -165,15 +171,103 @@ def sod_section(request):
     return fresh_context, True
 
 
-# -- Section Registry --
+# Haute Couture
+def hc_d_section(request):
+    valid = False
 
+    if request.method == "POST":
+        form = HC_D_form(request.POST, prefix="hcd")
+        leader_form = HC_D_LeaderForm(request.POST, prefix="hcd_leader")
+        member_form = HC_D_MemberFormSet(
+            request.POST,
+            prefix="hcd_members"
+        )
+
+        valid1 = form.is_valid()
+        valid2 = leader_form.is_valid()
+
+        if valid2:
+            member_form.leader_name = (
+                leader_form.cleaned_data["fullName"].strip().casefold()
+            )
+            member_form.leader_email = (
+                leader_form.cleaned_data["email"].strip().casefold()
+            )
+            member_form.leader_contact = (
+                leader_form.cleaned_data["contactNumber"].strip()
+            )
+
+        valid3 = member_form.is_valid()
+
+        if valid1 and valid2 and valid3:
+            valid = True
+
+    else:
+        form = HC_D_form(prefix="hcd")
+        leader_form = HC_D_LeaderForm(prefix="hcd_leader")
+        member_form = HC_D_MemberFormSet(prefix="hcd_members")
+
+    context = {
+        "hcd_form": form,
+        "hcd_leader_form": leader_form,
+        "hcd_member_formset": member_form,
+    }
+    return context, valid
+
+
+# Glamour Nova
+def gn_m_section(request):
+    valid = False
+
+    if request.method == "POST":
+        form = GN_M_Form(request.POST, prefix="gnm")
+        leader_form = GN_M_LeaderForm(request.POST, prefix="gnm_leader")
+        member_form = GN_M_MemberFormSet(
+            request.POST,
+            prefix="gnm_members"
+        )
+
+        valid1 = form.is_valid()
+        valid2 = leader_form.is_valid()
+
+        if valid2:
+            member_form.leader_name = (
+                leader_form.cleaned_data["fullName"].strip().casefold()
+            )
+            member_form.leader_email = (
+                leader_form.cleaned_data["email"].strip().casefold()
+            )
+            member_form.leader_contact = (
+                leader_form.cleaned_data["contactNumber"].strip()
+            )
+
+        valid3 = member_form.is_valid()
+
+        if valid1 and valid2 and valid3:
+            valid = True
+
+    else:
+        form = GN_M_Form(prefix="gnm")
+        leader_form = GN_M_LeaderForm(prefix="gnm_leader")
+        member_form = GN_M_MemberFormSet(prefix="gnm_members")
+
+    context = {
+        "gnm_form": form,
+        "gnm_leader_form": leader_form,
+        "gnm_member_formset": member_form,
+    }
+    return context, valid
+
+
+# Section registry
 REGISTRATION_SECTIONS = [
     sod_section,
+    hc_d_section,
+    gn_m_section,
 ]
 
 
-# -- Master Registration View --
-
+# Master registration view
 def registration(request):
     context = {}
     section_results = []
@@ -189,8 +283,7 @@ def registration(request):
     return render(request, "core/registration.html", context)
 
 
-# -- Success Views --
-
+# Success view
 def success(request):
     """Temporary success page — replace with a proper template when ready."""
     return HttpResponse(

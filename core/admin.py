@@ -2,20 +2,19 @@ from django.contrib import admin
 
 from .models import SOD_Member_detail, SOD_Team
 
-# Inline: show members directly inside the Team detail page
+# Inline members inside team detail
 class SOD_MemberInline(admin.TabularInline):
     model         = SOD_Member_detail
     extra         = 0           # no blank rows by default
     can_delete    = True
     show_change_link = True
     fields        = ('name', 'gender', 'email', 'phone', 'city', 'postal_code')
-    readonly_fields = ('email',)   # email is unique — prevent accidental edits
+    readonly_fields = ('email',)   # email is unique
 
-
-# SOD_Team admin
+# SOD Team admin
 @admin.register(SOD_Team)
 class SOD_TeamAdmin(admin.ModelAdmin):
-    # ── List view ──
+    # List view
     list_display  = (
         'team_name',
         'lead_name',
@@ -30,7 +29,7 @@ class SOD_TeamAdmin(admin.ModelAdmin):
     ordering      = ('team_name',)
     list_per_page = 25
 
-    # ── Detail view ──
+    # Detail view
     fieldsets = (
         ('Team Info', {
             'fields': ('team_name', 'prev_performance'),
@@ -48,7 +47,7 @@ class SOD_TeamAdmin(admin.ModelAdmin):
     readonly_fields = ('lead_email',)
     inlines        = [SOD_MemberInline]
 
-    # ── Custom column: member count ───
+    # Member count column
     @admin.display(description='Members')
     def member_count(self, obj):
         return obj.members.count()
@@ -56,7 +55,7 @@ class SOD_TeamAdmin(admin.ModelAdmin):
 
 @admin.register(SOD_Member_detail)
 class SOD_MemberAdmin(admin.ModelAdmin):
-    # ── List view ───
+    # List view
     list_display  = (
         'name',
         'team',
@@ -71,7 +70,7 @@ class SOD_MemberAdmin(admin.ModelAdmin):
     list_per_page = 50
     list_select_related = ('team',)
 
-    # ── Detail view ──
+    # Detail view
     fieldsets = (
         (None, {
             'fields': ('team', 'name', 'gender'),
