@@ -1,0 +1,100 @@
+<div class="team-details">{{ gn_m_form.as_p }}</div>
+
+<hr />
+
+<h3>Leader Details</h3>
+{{ gn_m_leader_form.as_p }}
+
+<hr />
+
+<h3>Member Details</h3>
+
+{{ gn_m_member_formset.management_form }}
+{{ gn_m_member_formset.non_form_errors }}
+
+<div id="gn_m_members_container">
+    {% for gn_m_member_form in gn_m_member_formset %}
+    <div class="member-form">
+        <h3 class="member-heading">
+            Member {{ forloop.counter }}
+        </h3>
+
+        {{ gn_m_member_form.as_p }}
+
+        <button type="button" class="delete-member">
+            Delete
+        </button>
+    </div>
+    {% endfor %}
+</div>
+
+<button type="button" id="gn_m_add_member">
+    Add Member
+</button>
+
+<template id="gn_m_empty_form_template">
+    <div class="member-form">
+        <h3 class="member-heading">Member</h3>
+
+        {{ gn_m_member_formset.empty_form.as_p }}
+
+        <button type="button" class="delete-member">
+            Delete
+        </button>
+    </div>
+</template>
+
+<script>
+    const gnMAddButton = document.getElementById("gn_m_add_member");
+    const gnMMembersContainer = document.getElementById(
+        "gn_m_members_container"
+    );
+    const gnMEmptyFormTemplate = document.getElementById(
+        "gn_m_empty_form_template"
+    );
+
+    const gnMTotalForms = document.getElementById(
+        "id_gn_m_members-TOTAL_FORMS"
+    );
+
+    function updateGNMemberHeadings() {
+        const members =
+            gnMMembersContainer.querySelectorAll(".member-form");
+
+        members.forEach((member, index) => {
+            member.querySelector(".member-heading").textContent =
+                `Member ${index + 1}`;
+        });
+    }
+
+    gnMAddButton.addEventListener("click", function () {
+        const index = Number(gnMTotalForms.value);
+
+        const html = gnMEmptyFormTemplate.innerHTML.replace(
+            /__prefix__/g,
+            index
+        );
+
+        gnMMembersContainer.insertAdjacentHTML("beforeend", html);
+
+        gnMTotalForms.value = index + 1;
+
+        updateGNMemberHeadings();
+    });
+
+    gnMMembersContainer.addEventListener("click", function (event) {
+        if (event.target.classList.contains("delete-member")) {
+            const members =
+                gnMMembersContainer.querySelectorAll(".member-form");
+
+            if (members.length <= 1) {
+                alert("At least one member is required.");
+                return;
+            }
+
+            event.target.closest(".member-form").remove();
+
+            updateGNMemberHeadings();
+        }
+    });
+</script>

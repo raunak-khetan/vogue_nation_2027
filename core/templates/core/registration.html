@@ -1,29 +1,31 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register Your Team</title>
 
-    <link rel="stylesheet" href="{% static 'core/style.css' %}" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Your Team</title>
 
-  <body>
-    <h1>Register Your Team</h1>
+  <link rel="stylesheet" href="{% static 'core/style.css' %}" />
+</head>
 
-    <form method="POST">
-      {% csrf_token %}
+<body>
+  <h1>Register Your Team</h1>
 
-      <!-- Section 1: Dipank (HCD) -->
-      <section class="registration-section">
-        <h2>Haute Couture</h2>
-        {% include "core/section_hcd.html" %}
-      </section>
+  <form method="POST">
+    {% csrf_token %}
 
-      <hr style="margin: 2rem 0;" />
+    <!-- Section 1: Dipank (HCD) -->
+    <section class="registration-section">
+      <h2>Glamour Nova</h2>
+      {% include "core/section_GN.html" %}
+    </section>
 
-      <button type="submit" id="submit-all">Register</button>
-    </form>
-  </body>
+    <hr style="margin: 2rem 0;" />
+
+    <button type="submit" id="submit-all">Register</button>
+  </form>
+</body>
+
 </html>
