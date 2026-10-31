@@ -1,5 +1,12 @@
-body{
+body {
     background-color: rgb(24, 23, 23);
     color: white;
 
+}
+
+@font-face {
+    font-family: "Palace Script";
+    src: url("./fonts/Palscri.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
 }

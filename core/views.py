@@ -343,3 +343,6 @@ def success(request):
         "<a href='/forms/'>Back to forms</a>",
         status=200,
     )
+
+def glimpses(request):
+    return render(request , 'core/section_glimpses.html')
