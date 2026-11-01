@@ -1,56 +1,173 @@
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
 <link rel="stylesheet" href="{% static 'core/style.css' %}">
 
-<section class = "w-full bg-[#0B0B0B] min-h-[465px] overflow-hidden">
+<!-- Main Wrapper: display: block guarantees vertical stacking -->
+<div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
-    <div class = "flex justify-center items-center pt-12 md:pt-16">
-
-       <div class="w-[681px] h-[89px] flex justify-center items-center">
-            <h2
-                class="text-white  font-normal  whitespace-nowrap"
-                style="font-family: 'Palace Script', cursive;
-                font-size: 96px;
-                line-height: 1"
-            >
-            Glimpses of VogueNation'26
+    <!-- ============================================================== -->
+    <!-- SECTION 1: HEADER (Full Width, Centered on Top)                -->
+    <!-- ============================================================== -->
+    <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
+        <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
+            <h2 style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
+                Glimpses of VogueNation'26
             </h2>
         </div>
-
-
-        <div class = "w-full overflow-x-auto flex gap-6 px-8 py-10">
-
-        <img src="{% static 'core/images/glimpses/_1RJ19269 1.png '%}" 
-        class="w-[411px] h-[274.61px] object-cover shrink-0"
-        alt="Vogue Nation glimpse 2">
-
-        <img src="{% static 'core/images/glimpses/_2RJ19094 1.png '%}" 
-        class="w-[411px] h-[274.61px] object-cover shrink-0"
-        alt="Vogue Nation glimpse 2">
-
-        <img src="{% static 'core/images/glimpses/_3RJ19143 1.png '%}" 
-        class="w-[411px] h-[274.61px] object-cover shrink-0"
-        alt="Vogue Nation glimpse 2">
-
-        <img src="{% static 'core/images/glimpses/_4RJ19220 1.png '%}" 
-        class="w-[411px] h-[274.61px] object-cover shrink-0"
-        alt="Vogue Nation glimpse 2">
-
-        <img src="{% static 'core/images/glimpses/_5RJ19190 1.png '%}" 
-        class="w-[411px] h-[274.61px] object-cover shrink-0"
-        alt="Vogue Nation glimpse 2">
-        
-        
-        
-        
-        
-        
-        </div>
-    
     </div>
 
+    <!-- ============================================================== -->
+    <!-- SECTION 2: CURVED IMAGES CAROUSEL (Tight 10px Gap)             -->
+    <!-- ============================================================== -->
+    <div class="carousel-viewport" 
+         style="width: 100%; height: 412px; overflow: hidden; position: relative; box-sizing: border-box;">
+        
+        <!-- Track of Photos -->
+        <div class="carousel-track" 
+             style="display: flex; flex-direction: row; align-items: center; width: max-content; height: 100%; cursor: grab; user-select: none;">
+            
+            <!-- Set 1 (280px x 412px with tight 10px gap) -->
+            <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
+            <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
+            <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
+            <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
+            <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
 
+            <!-- Set 2 (Cloned for seamless infinite loop) -->
+            <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
+            <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
+            <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
+            <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
+            <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
 
+            <!-- Set 3 (Guarantees seamless loop on large monitors) -->
+            <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
+            <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
+            <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
+            <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
+            <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 10px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
+        </div>
 
-</section>
+        <!-- Vector 8: The upward curved black arch at the bottom -->
+        <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 50px; pointer-events: none; z-index: 10;" 
+             viewBox="0 0 1440 50" preserveAspectRatio="none">
+            <path d="M0,50 Q720,0 1440,50 L1440,50 L0,50 Z" fill="#0B0B0B"></path>
+        </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 3: EMPTY SECTION (Below Carousel)                      -->
+    <!-- ============================================================== -->
+    <div style="width: 100%; height: 250px; background-color: #0B0B0B;"></div>
+
+</div>
+
+<!-- GSAP Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.querySelector('.carousel-track');
+    const images = document.querySelectorAll('.carousel-img');
+    const viewport = document.querySelector('.carousel-viewport');
+    if (!track || !viewport) return;
+
+    // Tight Spacing: 280px width + 10px gap = 290px per slot
+    const imgWidth = 280;
+    const gap = 10;
+    const itemSpacing = imgWidth + gap; // 290px
+    const singleSetWidth = 5 * itemSpacing; // 1,450px
+    
+    let scrollPos = 0;
+    const autoSpeed = 1.0; 
+    let isDragging = false;
+    let startX = 0;
+    let startScroll = 0;
+
+    function render() {
+        const trackX = -(scrollPos % singleSetWidth);
+        track.style.transform = `translateX(${trackX}px)`;
+
+        const viewportCenter = window.innerWidth / 2;
+
+        images.forEach((img, i) => {
+            // Position relative to viewport center
+            const imgCenter = trackX + (i * itemSpacing) + (imgWidth / 2);
+            const signedDist = imgCenter - viewportCenter;
+            const dist = Math.abs(signedDist);
+            const normDist = Math.min(dist / viewportCenter, 1.0);
+
+            // CURVE: 74% size at center, 100% size at sides
+            const minScale = 0.74;
+            const maxScale = 1.0;
+            const scale = minScale + (Math.pow(normDist, 1.4) * (maxScale - minScale));
+
+            // Squeeze compensation tuned for 10px gap (keeps photos close together with zero overlap)
+            const shiftX = -Math.tanh(signedDist / 350) * 78;
+
+            img.style.transform = `translateX(${shiftX}px) scale(${scale})`;
+            img.style.transformOrigin = "center center";
+        });
+    }
+
+    // Auto-scroll loop
+    gsap.ticker.add(() => {
+        if (!isDragging) {
+            scrollPos += autoSpeed;
+            render();
+        }
+    });
+
+    // Mouse wheel horizontal scroll
+    viewport.addEventListener('wheel', (e) => {
+        e.preventDefault(); 
+        scrollPos += (e.deltaY + e.deltaX) * 0.8;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    }, { passive: false });
+
+    // Mouse drag
+    track.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startScroll = scrollPos;
+        track.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const delta = e.clientX - startX;
+        scrollPos = startScroll - delta * 1.2;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            track.style.cursor = 'grab';
+        }
+    });
+
+    // Mobile touch support
+    track.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        startScroll = scrollPos;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const delta = e.touches[0].clientX - startX;
+        scrollPos = startScroll - delta * 1.2;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    window.addEventListener('resize', render);
+});
+</script>
