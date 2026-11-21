@@ -2,11 +2,45 @@
 <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
 <link rel="stylesheet" href="{% static 'core/style.css' %}">
 
-<!-- Main Wrapper: display: block guarantees vertical stacking -->
+<style>
+  #footer-inner-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 60px 80px 40px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  #footer-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px 28px;
+    box-sizing: border-box;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #footer-divider { padding: 0 80px; box-sizing: border-box; width: 100%; }
+
+  @media (max-width: 768px) {
+    #footer-inner-top { flex-direction: column; gap: 36px; padding: 48px 28px 32px; }
+    #footer-nav-links { align-items: flex-start !important; }
+    #footer-bottom-bar { flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px 28px 20px; }
+    #footer-divider { padding: 0 28px; }
+  }
+  @media (max-width: 480px) {
+    #footer-inner-top { padding: 36px 20px 24px; }
+    #footer-bottom-bar { padding: 14px 20px 16px; }
+    #footer-divider { padding: 0 20px; }
+  }
+</style>
+
+<!-- Main Wrapper -->
 <div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
     <!-- ============================================================== -->
-    <!-- SECTION 1: HEADER (Full Width, Centered on Top)                -->
+    <!-- SECTION 1: HEADER                                              -->
     <!-- ============================================================== -->
     <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
         <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
@@ -17,69 +51,54 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- SECTION 2: CURVED IMAGES CAROUSEL (Tight 3px Gap)              -->
+    <!-- SECTION 2: CAROUSEL                                            -->
     <!-- ============================================================== -->
-    <div class="carousel-viewport" 
+    <div class="carousel-viewport"
          style="width: 100%; height: 412px; overflow: hidden; position: relative; box-sizing: border-box;">
-        
-        <!-- Track of Photos -->
-        <div class="carousel-track" 
+        <div class="carousel-track"
              style="display: flex; flex-direction: row; align-items: center; width: max-content; height: 100%; cursor: grab; user-select: none;">
-            
-            <!-- Set 1 (280px x 412px with 3px gap) -->
+            <!-- Set 1 -->
             <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
             <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
             <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
             <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
             <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
-
-            <!-- Set 2 (Cloned for seamless infinite loop) -->
+            <!-- Set 2 -->
             <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
             <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
             <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
             <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
             <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
-
-            <!-- Set 3 (Guarantees seamless loop on large monitors) -->
+            <!-- Set 3 -->
             <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
             <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
             <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
             <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
             <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
         </div>
-
-        <!-- Vector 8: The upward curved black arch at the bottom -->
-        <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 50px; pointer-events: none; z-index: 10;" 
+        <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 50px; pointer-events: none; z-index: 10;"
              viewBox="0 0 1440 50" preserveAspectRatio="none">
             <path d="M0,50 Q720,0 1440,50 L1440,50 L0,50 Z" fill="#0B0B0B"></path>
         </svg>
     </div>
 
     <!-- ============================================================== -->
-    <!-- SECTION 3: EMPTY SECTION (Below Carousel)                      -->
+    <!-- SECTION 3: SPACER                                              -->
     <!-- ============================================================== -->
     <div style="width: 100%; height: 250px; background-color: #0B0B0B;"></div>
-
 </div>
 
 <!-- ============================================================== -->
 <!-- SECTION 4: FAQ                                                  -->
 <!-- ============================================================== -->
 <section id="faq-section"
-         style="width: 100vw;
-                min-height: 100vh;
-                margin-left: calc(50% - 50vw);
-                background-color: #000;
-                padding-top: 112px;
-                padding-bottom: 64px;
-                user-select: none;
-                box-sizing: border-box;">
-    <h1 style="text-align: center; font-size: 52px; font-weight: 400; letter-spacing: -2px; margin-bottom: 55px; font-family: Georgia, serif; color: #fff;">
+         style="width: 100vw; min-height: 100vh; margin-left: calc(50% - 50vw);
+                background-color: #000; padding-top: 112px; padding-bottom: 64px;
+                user-select: none; box-sizing: border-box;">
+    <h1 style="text-align: center; font-size: clamp(28px, 5vw, 52px); font-weight: 400; letter-spacing: -2px; margin-bottom: 55px; font-family: Georgia, serif; color: #fff;">
         Frequently Asked Questions
     </h1>
-
-    <div id="faq-container"
-         style="width: 800px; max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+    <div id="faq-container" style="width: 800px; max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
 
         <!-- FAQ 1 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #123c70, #777);">
@@ -89,11 +108,7 @@
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;">
-                        <p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s.
-                        </p>
-                    </div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s.</p></div>
                 </div>
             </div>
         </div>
@@ -106,11 +121,7 @@
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;">
-                        <p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">
-                            It has been the industry's standard dummy text since the 1500s, when an unknown printer took a galley of type and scrambled it.
-                        </p>
-                    </div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">It has been the industry's standard dummy text since the 1500s, when an unknown printer took a galley of type and scrambled it.</p></div>
                 </div>
             </div>
         </div>
@@ -123,11 +134,7 @@
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;">
-                        <p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">
-                            It is used to demonstrate the visual layout of a webpage before final content is written.
-                        </p>
-                    </div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">It is used to demonstrate the visual layout of a webpage before final content is written.</p></div>
                 </div>
             </div>
         </div>
@@ -140,11 +147,7 @@
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;">
-                        <p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">
-                            It helps designers preview typography, spacing, and overall visual hierarchy without distraction.
-                        </p>
-                    </div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">It helps designers preview typography, spacing, and overall visual hierarchy without distraction.</p></div>
                 </div>
             </div>
         </div>
@@ -157,11 +160,7 @@
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;">
-                        <p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">
-                            This is the fifth frequently asked question and its placeholder answer content.
-                        </p>
-                    </div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">This is the fifth frequently asked question and its placeholder answer content.</p></div>
                 </div>
             </div>
         </div>
@@ -169,146 +168,241 @@
     </div>
 </section>
 
-<!-- GSAP Script -->
+<!-- ============================================================== -->
+<!-- SECTION 5: FOOTER                                              -->
+<!-- ============================================================== -->
+<footer id="main-footer"
+        style="width: 100vw;
+               min-height: 100vh;
+               margin-left: calc(50% - 50vw);
+               background: radial-gradient(ellipse at 55% 10%, #1c1c35 0%, #0e0e0e 50%, #000 100%);
+               position: relative;
+               overflow: hidden;
+               user-select: none;
+               box-sizing: border-box;
+               display: flex;
+               flex-direction: column;
+               justify-content: flex-end;">
+
+    <!-- Contact + Nav — sits in lower portion, pushed up from brand text -->
+    <div id="footer-inner-top">
+
+        <!-- LEFT: Contact -->
+        <div style="display: flex; flex-direction: column;">
+            <p style="font-family: Georgia, serif; font-size: 12px; letter-spacing: 2px; color: #777; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
+            <p style="font-family: Georgia, serif; font-size: clamp(24px, 3vw, 36px); font-weight: 400; color: #fff; margin: 0 0 2px 0; line-height: 1.1;">Name</p>
+            <p style="font-family: Georgia, serif; font-size: 14px; color: #777; margin: 0 0 28px 0;">Vogue Nation Convenor</p>
+            <p style="font-family: Georgia, serif; font-size: 14px; color: #bbb; margin: 0 0 5px 0;">Phone Number</p>
+            <p style="font-family: Georgia, serif; font-size: 14px; color: #bbb; margin: 0;">Email ID</p>
+        </div>
+
+        <!-- RIGHT: Nav -->
+        <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
+            <a href="#" style="font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                About <span style="font-size: 14px; transform: rotate(-45deg); display:inline-block;">↗</span>
+            </a>
+            <a href="#faq-section" style="font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                FAQs <span style="font-size: 14px; transform: rotate(-45deg); display:inline-block;">↗</span>
+            </a>
+            <a href="#" style="font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                Glimpses <span style="font-size: 14px; transform: rotate(-45deg); display:inline-block;">↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Divider -->
+    <div id="footer-divider">
+        <div style="width: 100%; height: 1px; background: rgba(255,255,255,0.1);"></div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div id="footer-bottom-bar">
+        <p style="font-family: Georgia, serif; font-size: 13px; color: #555; margin: 0;">2027 Aicheringa</p>
+
+        <p style="font-family: Georgia, serif; font-size: 13px; color: #555; margin: 0;">
+            Designed By Team Creatives &nbsp; Developed By
+            <span id="webops-trigger" style="color: #999; cursor: default; position: relative; font-family: Georgia, serif; font-size: 13px;">
+                Team Webops
+                <span id="webops-popup"
+                      style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
+                             background: #161616; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px;
+                             padding: 16px 22px; min-width: 190px; display: none; flex-direction: column; gap: 9px;
+                             box-shadow: 0 12px 40px rgba(0,0,0,0.9); z-index: 999; white-space: nowrap;">
+                    <span style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #161616; border-right: 1px solid rgba(255,255,255,0.13); border-bottom: 1px solid rgba(255,255,255,0.13);"></span>
+                    <span style="font-family: Georgia, serif; font-size: 10px; letter-spacing: 1.5px; color: #555; text-transform: uppercase; margin-bottom: 2px;">Team Members</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Arjun Mehta</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Priya Sharma</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Rohit Verma</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Sneha Iyer</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Karan Nair</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Divya Pillai</span>
+                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Aditya Rao</span>
+                </span>
+            </span>
+        </p>
+
+        <p style="font-family: Georgia, serif; font-size: 13px; color: #555; margin: 0;">All Rights Reserved</p>
+    </div>
+
+    <!-- Full-width "Vogue Nation" — hidden until font loads, then sized by JS -->
+    <div style="width: 100%; overflow: hidden; line-height: 1; flex-shrink: 0;">
+        <p id="footer-brand-text"
+           style="font-family: 'Palace Script MT', 'Palace Script', cursive;
+                  color: rgba(255,255,255,0.13);
+                  margin: 0; padding: 0;
+                  white-space: nowrap;
+                  display: block;
+                  line-height: 0.85;
+                  letter-spacing: 0px;
+                  pointer-events: none;
+                  visibility: hidden;
+                  font-size: 200px;">Vogue Nation</p>
+    </div>
+</footer>
+
+<!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script>
+/* ─────────────────────────────────────────────
+   FIT "Vogue Nation" to full page width.
+   KEY FIX: wait for document.fonts.ready so
+   Palace Script MT is actually loaded before
+   we measure anything.
+───────────────────────────────────────────── */
+function fitBrandText() {
+    const el = document.getElementById('footer-brand-text');
+    if (!el) return;
+
+    const targetW = document.documentElement.clientWidth;
+
+    // Use an off-screen measuring span with the same font
+    const probe = document.createElement('span');
+    probe.style.cssText = [
+        "font-family:'Palace Script MT','Palace Script',cursive",
+        "white-space:nowrap",
+        "position:fixed",
+        "top:-9999px",
+        "left:-9999px",
+        "visibility:hidden",
+        "line-height:1",
+        "letter-spacing:0px"
+    ].join(';');
+    probe.textContent = 'Vogue Nation';
+    document.body.appendChild(probe);
+
+    // Binary search the perfect px size
+    let lo = 50, hi = 4000;
+    for (let i = 0; i < 25; i++) {
+        const mid = (lo + hi) >> 1;
+        probe.style.fontSize = mid + 'px';
+        (probe.getBoundingClientRect().width <= targetW) ? lo = mid : hi = mid;
+    }
+
+    document.body.removeChild(probe);
+
+    el.style.fontSize   = lo + 'px';
+    el.style.visibility = 'visible';   // reveal only after sizing
+}
+
+// Wait for fonts, then fit — also re-fit on resize
+document.fonts.ready.then(fitBrandText);
+window.addEventListener('resize', () => document.fonts.ready.then(fitBrandText));
+
+/* ── Carousel ── */
 document.addEventListener("DOMContentLoaded", () => {
-    const track = document.querySelector('.carousel-track');
-    const images = document.querySelectorAll('.carousel-img');
+    const track    = document.querySelector('.carousel-track');
+    const images   = document.querySelectorAll('.carousel-img');
     const viewport = document.querySelector('.carousel-viewport');
     if (!track || !viewport) return;
 
-    // Tight 3px Spacing: 280px width + 3px gap = 283px per slot
-    const imgWidth = 280;
-    const gap = 3;
-    const itemSpacing = imgWidth + gap; // 283px
-    const singleSetWidth = 5 * itemSpacing; // 1,415px
-    
-    let scrollPos = 0;
-    const autoSpeed = 1.0; 
-    let isDragging = false;
-    let startX = 0;
-    let startScroll = 0;
+    const imgWidth       = 280, gap = 3;
+    const itemSpacing    = imgWidth + gap;
+    const singleSetWidth = 5 * itemSpacing;
+    let scrollPos = 0, isDragging = false, startX = 0, startScroll = 0;
 
     function render() {
         const trackX = -(scrollPos % singleSetWidth);
         track.style.transform = `translateX(${trackX}px)`;
-
-        const viewportCenter = window.innerWidth / 2;
-
+        const vc = window.innerWidth / 2;
         images.forEach((img, i) => {
-            // Position relative to viewport center
-            const imgCenter = trackX + (i * itemSpacing) + (imgWidth / 2);
-            const signedDist = imgCenter - viewportCenter;
-            const dist = Math.abs(signedDist);
-            const normDist = Math.min(dist / viewportCenter, 1.0);
-
-            // CURVE: 74% size at center, 100% size at sides
-            const minScale = 0.74;
-            const maxScale = 1.0;
-            const scale = minScale + (normDist * (maxScale - minScale));
-
-            // Squeeze compensation tuned for tight 3px spacing (keeps images right together)
-            const shiftX = -Math.tanh(signedDist / 340) * 73;
-
-            img.style.transform = `translateX(${shiftX}px) scale(${scale})`;
+            const c = trackX + i * itemSpacing + imgWidth / 2;
+            const d = c - vc;
+            const scale = 0.74 + Math.min(Math.abs(d) / vc, 1) * 0.26;
+            const sx = -Math.tanh(d / 340) * 73;
+            img.style.transform       = `translateX(${sx}px) scale(${scale})`;
             img.style.transformOrigin = "center center";
         });
     }
 
-    // Auto-scroll loop
-    gsap.ticker.add(() => {
-        if (!isDragging) {
-            scrollPos += autoSpeed;
-            render();
-        }
-    });
+    gsap.ticker.add(() => { if (!isDragging) { scrollPos += 1.0; render(); } });
 
-    // Mouse wheel horizontal scroll
-    viewport.addEventListener('wheel', (e) => {
-        e.preventDefault(); 
+    viewport.addEventListener('wheel', e => {
+        e.preventDefault();
         scrollPos += (e.deltaY + e.deltaX) * 0.8;
         if (scrollPos < 0) scrollPos += singleSetWidth * 10;
         render();
     }, { passive: false });
 
-    // Mouse drag
-    track.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.clientX;
-        startScroll = scrollPos;
+    track.addEventListener('mousedown', e => {
+        isDragging = true; startX = e.clientX; startScroll = scrollPos;
         track.style.cursor = 'grabbing';
     });
-
-    window.addEventListener('mousemove', (e) => {
+    window.addEventListener('mousemove', e => {
         if (!isDragging) return;
-        const delta = e.clientX - startX;
-        scrollPos = startScroll - delta * 1.2;
+        scrollPos = startScroll - (e.clientX - startX) * 1.2;
         if (scrollPos < 0) scrollPos += singleSetWidth * 10;
         render();
     });
+    window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
 
-    window.addEventListener('mouseup', () => {
-        if (isDragging) {
-            isDragging = false;
-            track.style.cursor = 'grab';
-        }
-    });
-
-    // Mobile touch support
-    track.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        startScroll = scrollPos;
+    track.addEventListener('touchstart', e => {
+        isDragging = true; startX = e.touches[0].clientX; startScroll = scrollPos;
     }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
+    window.addEventListener('touchmove', e => {
         if (!isDragging) return;
-        const delta = e.touches[0].clientX - startX;
-        scrollPos = startScroll - delta * 1.2;
+        scrollPos = startScroll - (e.touches[0].clientX - startX) * 1.2;
         if (scrollPos < 0) scrollPos += singleSetWidth * 10;
         render();
     }, { passive: true });
-
-    window.addEventListener('touchend', () => {
-        isDragging = false;
-    });
-
+    window.addEventListener('touchend', () => { isDragging = false; });
     window.addEventListener('resize', render);
 });
 
-/* ── FAQ JS (added below — no carousel code touched) ── */
+/* ── FAQ ── */
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".faq-item").forEach((item) => {
-        const button = item.querySelector(".faq-item-btn");
-        const panel  = item.querySelector(".faq-item-panel");
-        const arrow  = item.querySelector(".faq-arrow");
-        const inner  = item.querySelector(".faq-item-inner");
-        if (!button || !panel || !arrow || !inner) return;
-
-        let isOpen = false;
-
-        function applyStyle(open) {
-            if (open) {
-                item.style.background  = "linear-gradient(to right, #2563eb, white)";
-                inner.style.background = "linear-gradient(to bottom right, #292929, #303030)";
-                arrow.style.transform  = "rotate(180deg)";
-            } else {
-                item.style.background  = "linear-gradient(to right, #123c70, #777)";
-                inner.style.background = "#000";
-                arrow.style.transform  = "rotate(0deg)";
-            }
-            button.setAttribute("aria-expanded", String(open));
-        }
-
-        applyStyle(false);
-
-        button.addEventListener("click", () => {
-            isOpen = !isOpen;
-            panel.style.gridTemplateRows = isOpen ? "1fr" : "0fr";
-            applyStyle(isOpen);
-        });
+    document.querySelectorAll(".faq-item").forEach(item => {
+        const btn   = item.querySelector(".faq-item-btn");
+        const panel = item.querySelector(".faq-item-panel");
+        const arrow = item.querySelector(".faq-arrow");
+        const inner = item.querySelector(".faq-item-inner");
+        if (!btn || !panel || !arrow || !inner) return;
+        let open = false;
+        const apply = o => {
+            item.style.background  = o ? "linear-gradient(to right,#2563eb,white)" : "linear-gradient(to right,#123c70,#777)";
+            inner.style.background = o ? "linear-gradient(to bottom right,#292929,#303030)" : "#000";
+            arrow.style.transform  = o ? "rotate(180deg)" : "rotate(0deg)";
+            btn.setAttribute("aria-expanded", String(o));
+        };
+        apply(false);
+        btn.addEventListener("click", () => { open = !open; panel.style.gridTemplateRows = open ? "1fr" : "0fr"; apply(open); });
     });
+});
+
+/* ── Team Webops Popup ── */
+document.addEventListener("DOMContentLoaded", () => {
+    const trigger = document.getElementById("webops-trigger");
+    const popup   = document.getElementById("webops-popup");
+    if (!trigger || !popup) return;
+    let t = null;
+    const show = () => { clearTimeout(t); popup.style.display = "flex"; };
+    const hide = () => { t = setTimeout(() => { popup.style.display = "none"; }, 150); };
+    trigger.addEventListener("mouseenter", show);
+    trigger.addEventListener("mouseleave", hide);
+    popup.addEventListener("mouseenter", show);
+    popup.addEventListener("mouseleave", hide);
 });
 </script>
