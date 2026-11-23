@@ -1,9 +1,15 @@
-<div class="team-details">{{ gn_m_form.as_p }}</div>
+<div class="team-details">
+    {% for field in gn_m_form %}
+        <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+    {% endfor %}
+</div>
 
 <hr />
 
 <h3>Leader Details</h3>
-{{ gn_m_leader_form.as_p }}
+{% for field in gn_m_leader_form %}
+    <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+{% endfor %}
 
 <hr />
 
@@ -19,7 +25,9 @@
             Member {{ forloop.counter }}
         </h3>
 
-        {{ gn_m_member_form.as_p }}
+        {% for field in gn_m_member_form %}
+            <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+        {% endfor %}
 
         <button type="button" class="delete-member">
             Delete
@@ -36,7 +44,9 @@
     <div class="member-form">
         <h3 class="member-heading">Member</h3>
 
-        {{ gn_m_member_formset.empty_form.as_p }}
+        {% for field in gn_m_member_formset.empty_form %}
+            <p>{{ field.label_tag }} {{ field }}</p>
+        {% endfor %}
 
         <button type="button" class="delete-member">
             Delete

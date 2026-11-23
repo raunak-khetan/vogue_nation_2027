@@ -1,16 +1,194 @@
-from django.shortcuts import render,redirect
-from django.db import transaction
-from .models import GN_MTeam, GN_MTeamLeader, GN_MMember
+import logging
+
+from django.contrib import messages
+from django.db import IntegrityError, transaction
+from django.forms import formset_factory
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
+from .models import (
+    SOD_Team,
+    SOD_Member_detail,
+    HCDTeam,
+    HCDTeamLeader,
+    HCDMember,
+    GN_MTeam,
+    GN_MTeamLeader,
+    GN_MMember,
+)
 from .forms import (
-    HC_D_form, HC_D_LeaderForm, HC_D_MemberFormSet,
-    GN_M_Form, GN_M_LeaderForm, GN_M_MemberFormSet,
+    BaseSODMemberFormSet,
+    SOD_MemberDetailForm,
+    SOD_TeamForm,
+    HC_D_form,
+    HC_D_LeaderForm,
+    HC_D_MemberFormSet,
+    GN_M_Form,
+    GN_M_LeaderForm,
+    GN_M_MemberFormSet,
 )
 
+logger = logging.getLogger(__name__)
 
+
+# States of Dress
+def _has_registered(email, team_name):
+    from .models import SOD_Member_detail, SOD_Team
+
+    email_clean = (email or "").strip()
+    email_taken = (
+        SOD_Team.objects.filter(lead_email__iexact=email_clean).exists()
+        or SOD_Member_detail.objects.filter(email__iexact=email_clean).exists()
+    )
+    team_taken  = SOD_Team.objects.filter(team_name__iexact=team_name).exists()
+    return email_taken, team_taken
+
+
+@transaction.atomic
+def _save_sod_registration(team_form, member_formset):
+    """All-or-nothing save for a SOD team and its members."""
+    team = team_form.save()
+
+    for member_form in member_formset:
+        cd = member_form.cleaned_data
+        if not cd or cd.get("DELETE", False):
+            continue
+        member = member_form.save(commit=False)
+        member.team = team
+        member.save()
+
+    return team
+
+
+def sod_section(request):
+    SOD_MemberFormSet = formset_factory(
+        SOD_MemberDetailForm,
+        formset=BaseSODMemberFormSet,
+        extra=0,
+        min_num=1,
+        validate_min=True,
+        can_delete=False,
+    )
+
+    is_submitted = (
+        request.method == "POST" and "sod_members-TOTAL_FORMS" in request.POST
+    )
+
+    if not is_submitted:
+        InitialFormSet = formset_factory(
+            SOD_MemberDetailForm,
+            formset=BaseSODMemberFormSet,
+            extra=1,
+            min_num=1,
+            validate_min=True,
+            can_delete=False,
+        )
+        context = {
+            "team_form": SOD_TeamForm(),
+            "member_formset": InitialFormSet(prefix="sod_members"),
+        }
+        return context, False
+
+    team_form      = SOD_TeamForm(request.POST)
+    member_formset = SOD_MemberFormSet(request.POST, prefix="sod_members")
+
+    for form in member_formset.forms:
+        form.empty_permitted = False
+
+    team_valid   = team_form.is_valid()
+    member_valid = member_formset.is_valid()
+    is_valid     = team_valid and member_valid
+
+    if is_valid:
+        from .models import SOD_Team
+
+        email_val = team_form.cleaned_data.get("lead_email", "")
+        team_name = team_form.cleaned_data.get("team_name", "")
+        email_taken, team_taken = _has_registered(email_val, team_name)
+
+        if email_taken:
+            team_form.add_error(
+                "lead_email",
+                "This email is already registered for States of Dress.",
+            )
+        if team_taken:
+            team_form.add_error(
+                "team_name",
+                "A team with this name is already registered.",
+            )
+
+        has_duplicate = email_taken or team_taken
+
+        lead_email = (email_val or "").strip().lower()
+        for member_form in member_formset.forms:
+            if not member_form.cleaned_data:
+                continue
+            m_email = (member_form.cleaned_data.get("email") or "").strip().lower()
+            if m_email and m_email == lead_email:
+                member_form.add_error(
+                    "email",
+                    "Team member email cannot be the same as the team leader's email.",
+                )
+                has_duplicate = True
+            elif m_email and SOD_Team.objects.filter(lead_email__iexact=m_email).exists():
+                member_form.add_error(
+                    "email",
+                    "This email is already registered as a team leader.",
+                )
+                has_duplicate = True
+
+        is_valid = not has_duplicate
+
+    context = {
+        "team_form": team_form,
+        "member_formset": member_formset,
+    }
+
+    if not is_valid:
+        return context, False
+
+    try:
+        _save_sod_registration(team_form, member_formset)
+    except IntegrityError:
+        logger.exception("IntegrityError during SOD registration.")
+        messages.error(
+            request,
+            "A database conflict occurred. Please review your details.",
+        )
+        return context, False
+    except Exception:
+        logger.exception("Unexpected error during SOD registration.")
+        messages.error(
+            request,
+            "Something went wrong on our end. Please try again in a moment.",
+        )
+        return context, False
+
+    messages.success(request, "Registration successful! You're all set for States of Dress.")
+    FreshFormSet = formset_factory(
+        SOD_MemberDetailForm,
+        formset=BaseSODMemberFormSet,
+        extra=1,
+        min_num=1,
+        validate_min=True,
+        can_delete=False,
+    )
+    fresh_context = {
+        "team_form": SOD_TeamForm(),
+        "member_formset": FreshFormSet(prefix="sod_members"),
+        "registration_success": True,
+    }
+    return fresh_context, True
+
+
+# Haute Couture
 def hc_d_section(request):
     valid = False
+    is_submitted = (
+        request.method == "POST" and "hcd_members-TOTAL_FORMS" in request.POST
+    )
 
-    if request.method == "POST":
+    if is_submitted:
         form = HC_D_form(request.POST, prefix="hcd")
         leader_form = HC_D_LeaderForm(request.POST, prefix="hcd_leader")
         member_form = HC_D_MemberFormSet(
@@ -35,7 +213,6 @@ def hc_d_section(request):
         valid3 = member_form.is_valid()
 
         if valid1 and valid2 and valid3:
-            valid = True
             team_data = form.cleaned_data
             leader_data = leader_form.cleaned_data
 
@@ -44,6 +221,25 @@ def hc_d_section(request):
                 for member in member_form
                 if member.cleaned_data
             ]
+
+            with transaction.atomic():
+                hcd_team = HCDTeam.objects.create(
+                    teamName=team_data["teamName"],
+                    submitPerformances=team_data["submitPerformances"],
+                )
+
+                HCDTeamLeader.objects.create(
+                    team=hcd_team,
+                    **leader_data,
+                )
+
+                for hcd_member_data in member_data:
+                    HCDMember.objects.create(
+                        team=hcd_team,
+                        **hcd_member_data,
+                    )
+
+            valid = True
 
     else:
         form = HC_D_form(prefix="hcd")
@@ -58,39 +254,27 @@ def hc_d_section(request):
     return context, valid
 
 
-
+# Glamour Nova
 def gn_m_section(request):
     valid = False
+    is_submitted = (
+        request.method == "POST" and "gn_m_members-TOTAL_FORMS" in request.POST
+    )
 
-    if request.method == "POST":
-        form = GN_M_Form(
-            request.POST,
-            prefix="gn_m_team"
-        )
-
-        leader_form = GN_M_LeaderForm(
-            request.POST,
-            prefix="gn_m_leader"
-        )
-
-        member_form = GN_M_MemberFormSet(
-            request.POST,
-            prefix="gn_m_members"
-        )
+    if is_submitted:
+        form = GN_M_Form(request.POST, prefix="gn_m_team")
+        leader_form = GN_M_LeaderForm(request.POST, prefix="gn_m_leader")
+        member_form = GN_M_MemberFormSet(request.POST, prefix="gn_m_members")
 
         valid1 = form.is_valid()
         valid2 = leader_form.is_valid()
 
         if valid2:
             member_form.leader_name = (
-                leader_form.cleaned_data["fullName"]
-                .strip()
-                .casefold()
+                leader_form.cleaned_data["fullName"].strip().casefold()
             )
             member_form.leader_email = (
-                leader_form.cleaned_data["email"]
-                .strip()
-                .casefold()
+                leader_form.cleaned_data["email"].strip().casefold()
             )
             member_form.leader_contact = (
                 leader_form.cleaned_data["contactNumber"].strip()
@@ -99,82 +283,63 @@ def gn_m_section(request):
         valid3 = member_form.is_valid()
 
         if valid1 and valid2 and valid3:
-            valid = True
-
             team_data = form.cleaned_data
             leader_data = leader_form.cleaned_data
 
-            member_data = [
-                member.cleaned_data
-                for member in member_form
-                if member.cleaned_data
-            ]
+            if GN_MTeam.objects.filter(teamName__iexact=team_data["teamName"]).exists():
+                form.add_error("teamName", "A team with this name is already registered.")
+            else:
+                with transaction.atomic():
+                    team = GN_MTeam.objects.create(**team_data)
+                    GN_MTeamLeader.objects.create(team=team, **leader_data)
+                    for m_form in member_form:
+                        if m_form.cleaned_data:
+                            GN_MMember.objects.create(team=team, **m_form.cleaned_data)
+                valid = True
 
     else:
         form = GN_M_Form(prefix="gn_m_team")
-
-        leader_form = GN_M_LeaderForm(
-            prefix="gn_m_leader"
-        )
-
-        member_form = GN_M_MemberFormSet(
-            prefix="gn_m_members"
-        )
+        leader_form = GN_M_LeaderForm(prefix="gn_m_leader")
+        member_form = GN_M_MemberFormSet(prefix="gn_m_members")
 
     context = {
         "gn_m_form": form,
         "gn_m_leader_form": leader_form,
         "gn_m_member_formset": member_form,
     }
-
     return context, valid
 
 
-
-REGISTRATION_SECTIONS = (
+# Section registry
+REGISTRATION_SECTIONS = [
+    sod_section,
     hc_d_section,
     gn_m_section,
-)
+]
 
 
-
+# Master registration view
 def registration(request):
-    context, valid = gn_m_section(request)
+    context = {}
+    section_results = []
 
-    if request.method == "POST" and valid:
-        form = context["gn_m_form"]
-        leader_form = context["gn_m_leader_form"]
-        member_formset = context["gn_m_member_formset"]
+    for section in REGISTRATION_SECTIONS:
+        section_context, section_valid = section(request)
+        context.update(section_context)
+        section_results.append(section_valid)
 
-        team_data = form.cleaned_data
-        leader_data = leader_form.cleaned_data
-
-        # Prevent duplicate team names.
-        if GN_MTeam.objects.filter(
-            teamName=team_data["teamName"]
-        ).exists():
-            form.add_error(
-                "teamName",
-                "A team with this name is already registered."
-            )
-        else:
-            # Save the team, leader and members together.
-            with transaction.atomic():
-                team = GN_MTeam.objects.create(**team_data)
-
-                GN_MTeamLeader.objects.create(
-                    team=team,
-                    **leader_data
-                )
-
-                for member_form in member_formset:
-                    if member_form.cleaned_data:
-                        GN_MMember.objects.create(
-                            team=team,
-                            **member_form.cleaned_data
-                        )
-
-            # Clear the submitted form after successful registration.
-            return redirect(request.path)
+    if request.method == "POST" and all(section_results):
+        pass
 
     return render(request, "core/registration.html", context)
+
+
+# Success view
+def success(request):
+    """Temporary success page — replace with a proper template when ready."""
+    return HttpResponse(
+        "<h1>Registration successful!</h1>"
+        "<p>You're registered for States of Dress. We'll be in touch.</p>"
+        "<a href='/forms/'>Back to forms</a>",
+        status=200,
+    )

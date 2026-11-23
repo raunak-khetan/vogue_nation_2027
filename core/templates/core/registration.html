@@ -1,31 +1,162 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vogue Nation 2027 — Registration</title>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}" />
+    <style>
+      /* Functional tab layout only — no custom colors */
+      .competition-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register Your Team</title>
+      .tab-btn {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+      }
 
-  <link rel="stylesheet" href="{% static 'core/style.css' %}" />
-</head>
+      .tab-btn.active {
+        font-weight: bold;
+      }
 
-<body>
-  <h1>Register Your Team</h1>
+      .competition-panel {
+        display: none;
+      }
 
-  <form method="POST">
-    {% csrf_token %}
+      .competition-panel.active {
+        display: block;
+      }
+    </style>
+  </head>
 
-    <!-- Section 1: Dipank (HCD) -->
-    <section class="registration-section">
-      <h2>Glamour Nova</h2>
-      {% include "core/section_GN.html" %}
-    </section>
+  <body>
+    <h1>Register Your Team</h1>
 
-    <hr style="margin: 2rem 0;" />
+    <!-- Tab navigation -->
+    <nav class="competition-nav" role="tablist">
+      <button
+        type="button"
+        class="tab-btn"
+        data-target="panel-gnm"
+        role="tab"
+        id="tab-gnm"
+      >
+        Glamour Nova
+      </button>
+      <button
+        type="button"
+        class="tab-btn"
+        data-target="panel-hcd"
+        role="tab"
+        id="tab-hcd"
+      >
+        Haute Couture
+      </button>
+      <button
+        type="button"
+        class="tab-btn active"
+        data-target="panel-sod"
+        role="tab"
+        id="tab-sod"
+      >
+        States of Dress
+      </button>
+    </nav>
 
-    <button type="submit" id="submit-all">Register</button>
-  </form>
-</body>
+    <!-- Glamour Nova -->
+    <div
+      id="panel-gnm"
+      class="competition-panel"
+      role="tabpanel"
+      aria-labelledby="tab-gnm"
+    >
+      <form method="POST" id="form-gnm" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="competition" value="gnm" />
 
+        {% include "core/section_GN.html" %}
+
+        <hr style="margin: 2rem 0;" />
+        <button type="submit" class="submit-btn" id="submit-gnm">Register for Glamour Nova</button>
+      </form>
+    </div>
+
+    <!-- Haute Couture -->
+    <div
+      id="panel-hcd"
+      class="competition-panel"
+      role="tabpanel"
+      aria-labelledby="tab-hcd"
+    >
+      <form method="POST" id="form-hcd" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="competition" value="hcd" />
+
+        {% include "core/section_hcd.html" %}
+
+        <hr style="margin: 2rem 0;" />
+        <button type="submit" class="submit-btn" id="submit-hcd">Register for Haute Couture</button>
+      </form>
+    </div>
+
+    <!-- States of Dress -->
+    <div
+      id="panel-sod"
+      class="competition-panel active"
+      role="tabpanel"
+      aria-labelledby="tab-sod"
+    >
+      <form method="POST" id="form-sod" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="competition" value="sod" />
+
+        {% include "core/section_sod.html" %}
+
+        <hr style="margin: 2rem 0;" />
+        <button type="submit" class="submit-btn" id="submit-sod">Register for States of Dress</button>
+      </form>
+    </div>
+
+    <script>
+      (function () {
+        const tabBtns = document.querySelectorAll(".tab-btn");
+        const panels = document.querySelectorAll(".competition-panel");
+
+        function activateTab(targetId) {
+          tabBtns.forEach((btn) => {
+            const isActive = btn.dataset.target === targetId;
+            btn.classList.toggle("active", isActive);
+            btn.setAttribute("aria-selected", isActive);
+          });
+
+          panels.forEach((panel) => {
+            const isActive = panel.id === targetId;
+            panel.classList.toggle("active", isActive);
+          });
+
+          try {
+            sessionStorage.setItem("vogue_active_tab", targetId);
+          } catch (e) {}
+        }
+
+        tabBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            activateTab(this.dataset.target);
+          });
+        });
+
+        // Restore active tab after reload or submission
+        try {
+          const savedTab = sessionStorage.getItem("vogue_active_tab");
+          if (savedTab && document.getElementById(savedTab)) {
+            activateTab(savedTab);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </body>
 </html>

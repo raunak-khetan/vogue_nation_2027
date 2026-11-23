@@ -2,6 +2,59 @@ from django.db import models
 from django.core.validators import RegexValidator
 
 
+# States of Dress
+GENDER_CHOICES = [
+    ('M', 'Male'),
+    ('F', 'Female'),
+    ('O', 'Others'),
+]
+
+
+class SOD_Team(models.Model):
+    COMPETITION = 'States of Dress'
+
+    team_name        = models.CharField(max_length=255, unique=True)
+    prev_performance = models.URLField(max_length=500, null=True, blank=True)
+    lead_name        = models.CharField(max_length=255)
+    lead_gender      = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    lead_email       = models.EmailField(unique=True)
+    lead_phone       = models.CharField(max_length=15)
+    lead_city        = models.CharField(max_length=255, null=True, blank=True)
+    lead_postal_code = models.CharField(max_length=6, null=True, blank=True)
+
+    def __str__(self):
+        return self.team_name
+
+    class Meta:
+        verbose_name        = 'States of Dress Team'
+        verbose_name_plural = 'States of Dress Teams'
+
+
+class SOD_Member_detail(models.Model):
+    COMPETITION = 'States of Dress'
+
+    team = models.ForeignKey(
+        SOD_Team,
+        related_name='members',
+        on_delete=models.CASCADE
+    )
+
+    name        = models.CharField(max_length=255)
+    gender      = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    email       = models.EmailField(unique=True)
+    phone       = models.CharField(max_length=15)
+    city        = models.CharField(max_length=255, null=True, blank=True)
+    postal_code = models.CharField(max_length=6, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name        = 'States of Dress Member'
+        verbose_name_plural = 'States of Dress Members'
+
+
+# Haute Couture
 class HCDTeam(models.Model):
     teamName = models.CharField(max_length=200, unique=True)
     submitPerformances = models.URLField()
@@ -9,6 +62,9 @@ class HCDTeam(models.Model):
     def __str__(self):
         return self.teamName
 
+    class Meta:
+        verbose_name = "HC Team"
+        verbose_name_plural = "HC Teams"
 
 class HCDTeamLeader(models.Model):
     GENDER_CHOICES = [
@@ -48,6 +104,9 @@ class HCDTeamLeader(models.Model):
     def __str__(self):
         return self.fullName
 
+    class Meta:
+        verbose_name = "HC Team Leader"
+        verbose_name_plural = "HC Team Leaders"
 
 class HCDMember(models.Model):
     GENDER_CHOICES = HCDTeamLeader.GENDER_CHOICES
@@ -82,14 +141,21 @@ class HCDMember(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "HC Member"
+        verbose_name_plural = "HC Members"
 
 
+# Glamour Nova
 class GN_MTeam(models.Model):
     teamName = models.CharField(max_length=200, unique=True)
     submitPerformances = models.URLField()
 
     def __str__(self):
         return self.teamName
+    
+    
 
 
 class GN_MTeamLeader(models.Model):
