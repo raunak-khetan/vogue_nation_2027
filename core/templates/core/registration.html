@@ -1,162 +1,188 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vogue Nation 2027 — Registration</title>
-    <link rel="stylesheet" href="{% static 'core/style.css' %}" />
-    <style>
-      /* Functional tab layout only — no custom colors */
-      .competition-nav {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .tab-btn {
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-      }
-
-      .tab-btn.active {
-        font-weight: bold;
-      }
-
-      .competition-panel {
-        display: none;
-      }
-
-      .competition-panel.active {
-        display: block;
-      }
-    </style>
-  </head>
-
-  <body>
-    <h1>Register Your Team</h1>
-
-    <!-- Tab navigation -->
-    <nav class="competition-nav" role="tablist">
-      <button
-        type="button"
-        class="tab-btn"
-        data-target="panel-gnm"
-        role="tab"
-        id="tab-gnm"
-      >
-        Glamour Nova
-      </button>
-      <button
-        type="button"
-        class="tab-btn"
-        data-target="panel-hcd"
-        role="tab"
-        id="tab-hcd"
-      >
-        Haute Couture
-      </button>
-      <button
-        type="button"
-        class="tab-btn active"
-        data-target="panel-sod"
-        role="tab"
-        id="tab-sod"
-      >
-        States of Dress
-      </button>
-    </nav>
-
-    <!-- Glamour Nova -->
-    <div
-      id="panel-gnm"
-      class="competition-panel"
-      role="tabpanel"
-      aria-labelledby="tab-gnm"
-    >
-      <form method="POST" id="form-gnm" novalidate>
-        {% csrf_token %}
-        <input type="hidden" name="competition" value="gnm" />
-
-        {% include "core/section_GN.html" %}
-
-        <hr style="margin: 2rem 0;" />
-        <button type="submit" class="submit-btn" id="submit-gnm">Register for Glamour Nova</button>
-      </form>
-    </div>
-
-    <!-- Haute Couture -->
-    <div
-      id="panel-hcd"
-      class="competition-panel"
-      role="tabpanel"
-      aria-labelledby="tab-hcd"
-    >
-      <form method="POST" id="form-hcd" novalidate>
-        {% csrf_token %}
-        <input type="hidden" name="competition" value="hcd" />
-
-        {% include "core/section_hcd.html" %}
-
-        <hr style="margin: 2rem 0;" />
-        <button type="submit" class="submit-btn" id="submit-hcd">Register for Haute Couture</button>
-      </form>
-    </div>
-
-    <!-- States of Dress -->
-    <div
-      id="panel-sod"
-      class="competition-panel active"
-      role="tabpanel"
-      aria-labelledby="tab-sod"
-    >
-      <form method="POST" id="form-sod" novalidate>
-        {% csrf_token %}
-        <input type="hidden" name="competition" value="sod" />
-
-        {% include "core/section_sod.html" %}
-
-        <hr style="margin: 2rem 0;" />
-        <button type="submit" class="submit-btn" id="submit-sod">Register for States of Dress</button>
-      </form>
-    </div>
-
-    <script>
-      (function () {
-        const tabBtns = document.querySelectorAll(".tab-btn");
-        const panels = document.querySelectorAll(".competition-panel");
-
-        function activateTab(targetId) {
-          tabBtns.forEach((btn) => {
-            const isActive = btn.dataset.target === targetId;
-            btn.classList.toggle("active", isActive);
-            btn.setAttribute("aria-selected", isActive);
-          });
-
-          panels.forEach((panel) => {
-            const isActive = panel.id === targetId;
-            panel.classList.toggle("active", isActive);
-          });
-
-          try {
-            sessionStorage.setItem("vogue_active_tab", targetId);
-          } catch (e) {}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vogue Nation 2027 — Registration</title>
+  
+  <!-- Google Fonts: Oranienbaum & Darker Grotesque -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&family=Oranienbaum&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            oranienbaum: ['Oranienbaum', 'serif'],
+            darker: ['"Darker Grotesque"', 'sans-serif'],
+          },
+          colors: {
+            brandDark: '#000000',
+            inputBg: '#424242',
+            inputBorder: '#4d4d4d',
+            inputFocusBorder: '#7d6339',
+            btnMuted: '#9e9e9e',
+            btnActive: '#e6e6e6',
+          },
+          boxShadow: {
+            'amber-glow': '0 0 0 1px #7d6339, 0 0 7px rgba(125, 99, 57, 0.4)',
+            'pill-glow': '0 2px 16px rgba(255, 255, 255, 0.25)',
+          }
         }
+      }
+    }
+  </script>
 
-        tabBtns.forEach((btn) => {
-          btn.addEventListener("click", function () {
-            activateTab(this.dataset.target);
-          });
-        });
+  <!-- Scoped Stylesheet -->
+  <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body class="vogue-registration-body min-h-screen bg-black text-white relative flex flex-col items-center px-4 pt-3 pb-8 sm:pt-4 sm:pb-12 selection:bg-[#7d6339] selection:text-white">
 
-        // Restore active tab after reload or submission
+  <!-- Top Navigation / Logo Header -->
+  <header class="w-full max-w-[820px] flex items-center justify-between mb-2 sm:mb-3 px-2 sm:px-4">
+    <a href="#" class="inline-block transition-opacity hover:opacity-80">
+      <img src="{% static 'core/vn-logo.png' %}" alt="Vogue Nation Logo" class="w-7 sm:w-9 h-auto object-contain">
+    </a>
+  </header>
+
+  <!-- Main Container: Exact 717px max-width layout -->
+  <main class="w-full max-w-[717px] flex flex-col items-center">
+    
+    <!-- Header Titles -->
+    <div class="text-center w-full mb-5 sm:mb-6">
+      <h2 class="font-oranienbaum text-[14px] sm:text-[16px] uppercase tracking-[0.24em] text-[#9a9a9a] mb-1">
+        VOGUE NATION
+      </h2>
+      <!-- REGISTRATION FORM: 335 x 46 design block -->
+      <div class="w-full sm:w-[335px] min-h-[46px] mx-auto flex items-center justify-center">
+        <h1 class="font-oranienbaum text-[28px] sm:text-[34px] uppercase tracking-[0.12em] text-[#eeeeee] leading-none text-center">
+          REGISTRATION FORM
+        </h1>
+      </div>
+      
+      <!-- Subtext / Description: Formatted into 3 lines -->
+      <p class="font-darker text-[14px] sm:text-[15.5px] leading-[1.3] text-[#787878] text-center max-w-[590px] mx-auto font-normal mt-3">
+        Non occaecat ut eu ullamco cupidatat deserunt incididunt laborum dolore sunt sint occaecat cillum<br class="hidden sm:inline">
+        Lorem eu. Tempor voluptate laboris enim excepteur ipsum ex incididunt quis labore et fugiat minim<br class="hidden sm:inline">
+        elit. Qui aliquo mollit et minim. Sit labore incididunt sint Lorem cillum occaecat est culpa irure amet.
+      </p>
+    </div>
+
+    <!-- Django Messages (Flash feedback) -->
+    {% if messages %}
+      <div class="w-full mb-6 space-y-2">
+        {% for message in messages %}
+          <div class="{% if message.tags == 'success' %}success-message-box{% else %}non-field-error-box{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Segmented Control Category Tabs (Responsive on mobile, 315x64 on desktop) -->
+    <div class="w-full flex justify-center mb-8 px-1 sm:px-0">
+      <div class="w-full max-w-full sm:w-auto inline-flex items-center rounded-xl bg-[#262626]/70 p-1 border border-[#cca43b]/40 shadow-sm" id="categoryGroup" role="tablist">
+        <button type="button" onclick="selectCategory('gnm')" id="tab-gnm" role="tab"
+          class="category-tab flex-1 sm:flex-none min-w-0 px-1.5 sm:px-7 py-2 h-[44px] sm:h-[52px] text-[20px] sm:text-[24px] font-darker font-normal rounded-lg text-[#222222] bg-[#9a9a9a] transition-all duration-200 flex items-center justify-center text-center leading-none">
+          Glamour Nova
+        </button>
+        <button type="button" onclick="selectCategory('hcd')" id="tab-hcd" role="tab"
+          class="category-tab flex-[1.4] sm:flex-none min-w-0 px-2 sm:px-7 h-[50px] sm:h-[64px] text-[26px] sm:text-[32px] sm:w-[315px] font-darker font-normal rounded-[10px] text-[#111111] bg-[#e6e6e6] border border-[#cca43b] shadow-[0_4px_16px_rgba(0,0,0,0.65),0_1px_8px_rgba(204,164,59,0.35)] scale-[1.01] sm:scale-[1.02] z-10 transition-all duration-200 flex items-center justify-center text-center leading-none">
+          Haute couture
+        </button>
+        <button type="button" onclick="selectCategory('sod')" id="tab-sod" role="tab"
+          class="category-tab flex-1 sm:flex-none min-w-0 px-1.5 sm:px-7 py-2 h-[44px] sm:h-[52px] text-[20px] sm:text-[24px] font-darker font-normal rounded-lg text-[#222222] bg-[#9a9a9a] transition-all duration-200 flex items-center justify-center text-center leading-none">
+          States of Dress
+        </button>
+      </div>
+    </div>
+
+    <!-- Competition 1: Glamour Nova Panel -->
+    <div id="panel-gnm" class="w-full hidden" role="tabpanel" aria-labelledby="tab-gnm">
+      <form method="POST" id="form-gnm" novalidate class="w-full space-y-6">
+        {% csrf_token %}
+        <input type="hidden" name="competition" value="gnm">
+        {% include "core/section_GN.html" %}
+      </form>
+    </div>
+
+    <!-- Competition 2: Haute Couture Panel -->
+    <div id="panel-hcd" class="w-full" role="tabpanel" aria-labelledby="tab-hcd">
+      <form method="POST" id="form-hcd" novalidate class="w-full space-y-6">
+        {% csrf_token %}
+        <input type="hidden" name="competition" value="hcd">
+        {% include "core/section_hcd.html" %}
+      </form>
+    </div>
+
+    <!-- Competition 3: States of Dress Panel -->
+    <div id="panel-sod" class="w-full hidden" role="tabpanel" aria-labelledby="tab-sod">
+      <form method="POST" id="form-sod" novalidate class="w-full space-y-6">
+        {% csrf_token %}
+        <input type="hidden" name="competition" value="sod">
+        {% include "core/section_sod.html" %}
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Tab Switching & Persistence Script -->
+  <script>
+    const activeTabClasses = "category-tab flex-[1.4] sm:flex-none min-w-0 px-2 sm:px-7 h-[50px] sm:h-[64px] text-[26px] sm:text-[32px] sm:w-[315px] font-darker font-normal rounded-[10px] text-[#111111] bg-[#e6e6e6] border border-[#cca43b] shadow-[0_4px_16px_rgba(0,0,0,0.65),0_1px_8px_rgba(204,164,59,0.35)] scale-[1.01] sm:scale-[1.02] z-10 transition-all duration-200 flex items-center justify-center text-center leading-none";
+    const inactiveTabClasses = "category-tab flex-1 sm:flex-none min-w-0 px-1.5 sm:px-7 py-2 h-[44px] sm:h-[52px] text-[20px] sm:text-[24px] font-darker font-normal rounded-lg text-[#222222] bg-[#9a9a9a] transition-all duration-200 flex items-center justify-center text-center leading-none";
+
+    const competitions = [
+      { id: 'gnm', tabId: 'tab-gnm', panelId: 'panel-gnm' },
+      { id: 'hcd', tabId: 'tab-hcd', panelId: 'panel-hcd' },
+      { id: 'sod', tabId: 'tab-sod', panelId: 'panel-sod' }
+    ];
+
+    function selectCategory(compKey) {
+      competitions.forEach(c => {
+        const tabBtn = document.getElementById(c.tabId);
+        const panel = document.getElementById(c.panelId);
+
+        if (c.id === compKey) {
+          if (tabBtn) tabBtn.className = activeTabClasses;
+          if (panel) panel.classList.remove('hidden');
+        } else {
+          if (tabBtn) tabBtn.className = inactiveTabClasses;
+          if (panel) panel.classList.add('hidden');
+        }
+      });
+
+      try {
+        sessionStorage.setItem('vogue_active_tab', compKey);
+      } catch (e) {}
+    }
+
+    // Determine initial active tab based on server-side errors/submission, or sessionStorage, or default to Haute Couture (hcd)
+    (function initTabs() {
+      let initialTab = 'hcd';
+
+      {% if request.GET.tab == 'gnm' or request.GET.competition == 'gnm' or request.POST.competition == 'gnm' or gn_m_form.errors or gn_m_leader_form.errors or gn_m_member_formset.errors %}
+        initialTab = 'gnm';
+      {% elif request.GET.tab == 'sod' or request.GET.competition == 'sod' or request.POST.competition == 'sod' or team_form.errors or member_formset.errors %}
+        initialTab = 'sod';
+      {% elif request.GET.tab == 'hcd' or request.GET.competition == 'hcd' or request.POST.competition == 'hcd' or hcd_form.errors or hcd_leader_form.errors or hcd_member_formset.errors %}
+        initialTab = 'hcd';
+      {% else %}
         try {
-          const savedTab = sessionStorage.getItem("vogue_active_tab");
-          if (savedTab && document.getElementById(savedTab)) {
-            activateTab(savedTab);
+          const stored = sessionStorage.getItem('vogue_active_tab');
+          if (stored && ['gnm', 'hcd', 'sod'].includes(stored)) {
+            initialTab = stored;
           }
         } catch (e) {}
-      })();
-    </script>
-  </body>
+      {% endif %}
+
+      selectCategory(initialTab);
+    })();
+  </script>
+
+</body>
 </html>

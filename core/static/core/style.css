@@ -1,5 +1,129 @@
-body{
-    background-color: rgb(24, 23, 23);
-    color: white;
+/* Vogue Nation Registration Scoped Styles */
+body.vogue-registration-body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Darker Grotesque', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
 
+/* Form input styling - exact 59px height & consistent styling */
+.form-input {
+    background-color: #424242;
+    border: 1px solid #4d4d4d;
+    color: #e2e2e2;
+    border-radius: 3px;
+    height: 59px;
+    transition: all 0.2s ease-in-out;
+    font-family: 'Darker Grotesque', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+}
+
+.form-input::placeholder {
+    color: #7b7b7b;
+    font-weight: 400;
+    opacity: 1;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #7d6339;
+    box-shadow: 0 0 0 1px #7d6339, 0 0 7px rgba(125, 99, 57, 0.4);
+    background-color: #464646;
+}
+
+/* Thin yellow border for team name and link submitting box */
+.form-input-yellow-border {
+    border-color: #cca43b;
+}
+
+.form-input-yellow-border:focus {
+    border-color: #e5b85c;
+    box-shadow: 0 0 0 1px #cca43b, 0 0 8px rgba(204, 164, 59, 0.4);
+}
+
+/* Custom styling for select dropdowns */
+select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239e9e9e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2em;
+    padding-right: 2.5rem;
+}
+
+select.form-input option {
+    background-color: #2b2b2b;
+    color: #ffffff;
+}
+
+.form-label {
+    font-family: 'Darker Grotesque', sans-serif;
+    color: #b5b5b5;
+    font-size: 1.18rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.45rem;
+    display: block;
+}
+
+.section-title {
+    font-family: 'Darker Grotesque', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    color: #929292;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Error and feedback text */
+.field-error-text {
+    font-family: 'Darker Grotesque', sans-serif;
+    color: #f87171;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-top: 0.35rem;
+}
+
+.non-field-error-box {
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-family: 'Darker Grotesque', sans-serif;
+    font-size: 1.05rem;
+}
+
+.success-message-box {
+    background-color: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    color: #86efac;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-family: 'Darker Grotesque', sans-serif;
+    font-size: 1.05rem;
+}
+
+/* Custom scrollbars scoped to registration page */
+body.vogue-registration-body::-webkit-scrollbar {
+    width: 6px;
+}
+body.vogue-registration-body::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+body.vogue-registration-body::-webkit-scrollbar-thumb {
+    background: #2f2f2f;
+    border-radius: 3px;
+}
+body.vogue-registration-body::-webkit-scrollbar-thumb:hover {
+    background: #444444;
 }
