@@ -39,46 +39,54 @@
 <!-- Main Wrapper -->
 <div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
-    <!-- SECTION 1: HEADER                                              -->
-    <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
-        <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
-            <h2 style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
-                Glimpses of&nbsp;&nbsp;VogueNation'26
-            </h2>
-        </div>
+   <!-- SECTION 1: HEADER                                              -->
+<div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
+    <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
+        <h2 style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
+            Glimpses of&nbsp;&nbsp;VogueNation'26
+        </h2>
+    </div>
+</div>
+
+
+<!-- SECTION 2: IMAGES -->
+
+<div class="carousel-viewport"
+     style="width: 100%; height: 412px; overflow: hidden; position: relative; box-sizing: border-box;">
+    <!-- Top concave curve -->
+    <svg style="position: absolute; top: -1px; left: 0; width: 100%; height: 75px; pointer-events: none; z-index: 10;"
+         viewBox="0 0 1440 75" preserveAspectRatio="none">
+        <path d="M0,0 Q720,150 1440,0 L1440,0 L0,0 Z" fill="#0B0B0B"></path>
+    </svg>
+
+    <div class="carousel-track"
+         style="display: flex; flex-direction: row; align-items: center; width: max-content; height: 100%; cursor: grab; user-select: none;">
+        <!-- Set 1 -->
+        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 1">
+        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 2">
+        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 3">
+        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 4">
+        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 5">
+        <!-- Set 2 -->
+        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 1">
+        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 2">
+        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 3">
+        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 4">
+        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 5">
+        <!-- Set 3 -->
+        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 1">
+        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 2">
+        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 3">
+        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 4">
+        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 5">
     </div>
 
-
-    <!-- SECTION 2: CAROUSEL                                            -->
-
-    <div class="carousel-viewport"
-         style="width: 100%; height: 412px; overflow: hidden; position: relative; box-sizing: border-box;">
-        <div class="carousel-track"
-             style="display: flex; flex-direction: row; align-items: center; width: max-content; height: 100%; cursor: grab; user-select: none;">
-            <!-- Set 1 -->
-            <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
-            <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
-            <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
-            <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
-            <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
-            <!-- Set 2 -->
-            <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
-            <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
-            <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
-            <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
-            <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
-            <!-- Set 3 -->
-            <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 1">
-            <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 2">
-            <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 3">
-            <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 4">
-            <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 3px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);" alt="Vogue 5">
-        </div>
-        <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 50px; pointer-events: none; z-index: 10;"
-             viewBox="0 0 1440 50" preserveAspectRatio="none">
-            <path d="M0,50 Q720,0 1440,50 L1440,50 L0,50 Z" fill="#0B0B0B"></path>
-        </svg>
-    </div>
+    <!-- Bottom concave curve -->
+    <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 75px; pointer-events: none; z-index: 10;"
+         viewBox="0 0 1440 75" preserveAspectRatio="none">
+        <path d="M0,75 Q720,-75 1440,75 L1440,75 L0,75 Z" fill="#0B0B0B"></path>
+    </svg>
+</div>
 
 
     <!-- SECTION 3: SPACER                                              -->
@@ -169,6 +177,8 @@
 
 <!-- SECTION 5: FOOTER                                              -->
 
+
+ 
 <footer id="main-footer"
         style="width: 100vw;
                min-height: 100vh;
@@ -181,32 +191,44 @@
                display: flex;
                flex-direction: column;
                justify-content: flex-end;">
+            
+   <!-- Top-left corner light (white, non-circular) -->
+<div style="position: absolute; top: 0; left: 0;
+            width: 500px; height: 350px;
+            background: radial-gradient(ellipse at top left, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 70%);
+            pointer-events: none; z-index: 0;"></div>
 
-    <!-- Contact + Nav — sits in lower portion, pushed up from brand text -->
+<!-- Top-right corner light (white, non-circular) -->
+<div style="position: absolute; top: 0; right: 0;
+            width: 500px; height: 350px;
+            background: radial-gradient(ellipse at top right, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 70%);
+            pointer-events: none; z-index: 0;"></div>
+
+    <!-- Contact + Nav  -->
     <div id="footer-inner-top">
 
         <!-- LEFT: Contact -->
         <div style="display: flex; flex-direction: column;">
-            <p style="font-family: Georgia, serif; font-size: 12px; letter-spacing: 2px; color: #777; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
-            <p style="font-family: Georgia, serif; font-size: clamp(24px, 3vw, 36px); font-weight: 400; color: #fff; margin: 0 0 2px 0; line-height: 1.1;">Name</p>
-            <p style="font-family: Georgia, serif; font-size: 14px; color: #777; margin: 0 0 28px 0;">Vogue Nation Convenor</p>
-            <p style="font-family: Georgia, serif; font-size: 14px; color: #bbb; margin: 0 0 5px 0;">Phone Number</p>
-            <p style="font-family: Georgia, serif; font-size: 14px; color: #bbb; margin: 0;">Email ID</p>
+            <p style="font-family: Georgia, serif; font-size: 25px; letter-spacing: 2px; color: #fff; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
+            <p style="font-family: Georgia, serif; font-size: 64px; font-weight: 400; color: #777; margin: 0 0 2px 0; line-height: 1.1;">Name</p>
+            <p style="font-family: Georgia, serif; font-size: 40px; color: #777; margin: 0 0 28px 0;">Joudi Warisa</p>
+            <p style="font-family: Georgia, serif; font-size: 32px; color: #bbb; margin: 0 0 5px 0;">8822501458</p>
+            <p style="font-family: Georgia, serif; font-size: 32px; color: #bbb; margin: 0;">vogue@alcheringa.co.in</p>
         </div>
 
         <!-- RIGHT: Nav -->
         <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
-            <a href="#" style="font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+            <a href="#" onclick="return false;" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
                onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                About <span style="font-size: 14px; transform: rotate(-45deg); display:inline-block;">↗</span>
+                About <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white;">↗</span>
             </a>
-            <a href="#faq-section" style="font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+            <a href="#faq-section" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
                onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                FAQs <span style="font-size: 14px; transform: rotate(-45deg); display:inline-block;">↗</span>
+                FAQs <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white">↗</span>
             </a>
-            <a href="#" style="font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+            <a href="#" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
                onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                Glimpses <span style="font-size: 14px; transform: rotate(-45deg); display:inline-block;">↗</span>
+                Glimpses <span style="font-size: 14px; transform: rotate(0deg); display:inline-block ; -webkit-text-stroke: 2px white">↗</span>
             </a>
         </div>
     </div>
@@ -218,12 +240,12 @@
 
     <!-- Bottom bar -->
     <div id="footer-bottom-bar">
-        <p style="font-family: Georgia, serif; font-size: 13px; color: #555; margin: 0;">2027 Aicheringa</p>
+        <p style="font-family: Georgia, serif; font-size: 24px; color: #555; margin: 0;">2027 Aicheringa</p>
 
-        <p style="font-family: Georgia, serif; font-size: 13px; color: #555; margin: 0;">
-            Designed By Team Creatives &nbsp; Developed By
-            <span id="webops-trigger" style="color: #999; cursor: default; position: relative; font-family: Georgia, serif; font-size: 13px;">
-                Team Webops
+        <p style="font-family: Georgia, serif; font-size: 24px; color: #555; margin: 0;">
+            Designed By Team Creatives &nbsp; Developed By 
+            <span id="webops-trigger" style="color: #999; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px;">
+                 Team Webops
                 <span id="webops-popup"
                       style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
                              background: #161616; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px;
@@ -236,16 +258,15 @@
                     <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Dipank</span>
                     <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Mritunjay</span>
                     <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Gowtham</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Divya Pillai</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Aditya Rao</span>
+                    
                 </span>
             </span>
         </p>
 
-        <p style="font-family: Georgia, serif; font-size: 13px; color: #555; margin: 0;">All Rights Reserved</p>
+        <p style="font-family: Georgia, serif; font-size: 24px; color: #555; margin: 0;">All Rights Reserved</p>
     </div>
 
-    <!-- Full-width "Vogue Nation" — hidden until font loads, then sized by JS -->
+    <!-- Full-width "Vogue Nation" -->
     <div style="width: 100%; overflow: hidden; line-height: 1; flex-shrink: 0;">
         <p id="footer-brand-text"
            style="font-family: 'Palace Script MT', 'Palace Script', cursive;
@@ -265,12 +286,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script>
-/* ─────────────────────────────────────────────
-   FIT "Vogue Nation" to full page width.
-   KEY FIX: wait for document.fonts.ready so
-   Palace Script MT is actually loaded before
-   we measure anything.
-───────────────────────────────────────────── */
+
 function fitBrandText() {
     const el = document.getElementById('footer-brand-text');
     if (!el) return;
@@ -292,7 +308,6 @@ function fitBrandText() {
     probe.textContent = 'Vogue Nation';
     document.body.appendChild(probe);
 
-    // Binary search the perfect px size
     let lo = 50, hi = 4000;
     for (let i = 0; i < 25; i++) {
         const mid = (lo + hi) >> 1;
@@ -303,24 +318,31 @@ function fitBrandText() {
     document.body.removeChild(probe);
 
     el.style.fontSize   = lo + 'px';
-    el.style.visibility = 'visible';   // reveal only after sizing
+    el.style.visibility = 'visible';   
 }
 
-// Wait for fonts, then fit — also re-fit on resize
+
 document.fonts.ready.then(fitBrandText);
 window.addEventListener('resize', () => document.fonts.ready.then(fitBrandText));
 
-/* ── Carousel ── */
+
 document.addEventListener("DOMContentLoaded", () => {
     const track    = document.querySelector('.carousel-track');
     const images   = document.querySelectorAll('.carousel-img');
     const viewport = document.querySelector('.carousel-viewport');
     if (!track || !viewport) return;
 
-    const imgWidth       = 280, gap = 3;
+    const imgWidth       = 280, gap = 12;
     const itemSpacing    = imgWidth + gap;
     const singleSetWidth = 5 * itemSpacing;
     let scrollPos = 0, isDragging = false, startX = 0, startScroll = 0;
+    let hoveredIdx = -1;
+    const hoverScales = Array.from(images, () => 1);
+
+    images.forEach((img, i) => {
+        img.addEventListener('mouseenter', () => { hoveredIdx = i; });
+        img.addEventListener('mouseleave', () => { if (hoveredIdx === i) hoveredIdx = -1; });
+    });
 
     function render() {
         const trackX = -(scrollPos % singleSetWidth);
@@ -329,14 +351,22 @@ document.addEventListener("DOMContentLoaded", () => {
         images.forEach((img, i) => {
             const c = trackX + i * itemSpacing + imgWidth / 2;
             const d = c - vc;
-            const scale = 0.74 + Math.min(Math.abs(d) / vc, 1) * 0.26;
-            const sx = -Math.tanh(d / 340) * 73;
-            img.style.transform       = `translateX(${sx}px) scale(${scale})`;
+            const scale = 0.85 + Math.min(Math.abs(d) / vc, 1) * 0.15;
+            const sx = -Math.tanh(d / 420) * 32;
+
+            const targetHover = (i === hoveredIdx && !isDragging) ? 1.07 : 1;
+            hoverScales[i] += (targetHover - hoverScales[i]) * 0.14;
+
+            img.style.transform       = `translateX(${sx}px) scale(${scale * hoverScales[i]})`;
             img.style.transformOrigin = "center center";
+            img.style.zIndex          = (i === hoveredIdx) ? 5 : 1;
         });
     }
 
-    gsap.ticker.add(() => { if (!isDragging) { scrollPos += 1.0; render(); } });
+    gsap.ticker.add(() => {
+        if (!isDragging) scrollPos += 1.0;
+        render();
+    });
 
     viewport.addEventListener('wheel', e => {
         e.preventDefault();
@@ -389,6 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => { open = !open; panel.style.gridTemplateRows = open ? "1fr" : "0fr"; apply(open); });
     });
 });
+
 
 /* ── Team Webops Popup ── */
 document.addEventListener("DOMContentLoaded", () => {
