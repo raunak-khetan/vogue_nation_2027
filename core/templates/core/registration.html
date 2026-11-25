@@ -60,7 +60,8 @@
 
     <!-- Header Titles -->
     <div class="text-center w-full mb-5 sm:mb-6">
-      <h2 class="font-oranienbaum font-normal text-[26px] sm:text-[32px] leading-none uppercase tracking-normal text-[#9a9a9a] mb-1">
+      <h2
+        class="font-oranienbaum font-normal text-[26px] sm:text-[32px] leading-none uppercase tracking-normal text-[#9a9a9a] mb-1">
         VOGUE NATION
       </h2>
       <!-- REGISTRATION FORM: 335 x 46 design block -->
@@ -73,11 +74,16 @@
 
       <!-- Subtext / Description Area -->
       <div id="competition-description" class="text-center max-w-[620px] mx-auto mt-3 px-2">
-        <p id="comp-subtitle" class="font-darker font-normal text-[18px] sm:text-[20px] leading-[100%] tracking-normal text-[#b5b5b5] mb-1.5">
-          {% if request.GET.tab == 'gnm' or request.GET.competition == 'gnm' or request.POST.competition == 'gnm' %}Online Fashion Design and Photoshoot Competition{% elif request.GET.tab == 'sod' or request.GET.competition == 'sod' or request.POST.competition == 'sod' %}Paper Dress Designing Competition{% else %}Fashion Designing Competition{% endif %}
+        <p id="comp-subtitle"
+          class="font-darker font-normal text-[18px] sm:text-[20px] leading-[100%] tracking-normal text-[#b5b5b5] mb-1.5">
+          Fashion Designing Competition
         </p>
-        <p id="comp-text" class="font-darker font-normal text-[18px] sm:text-[20px] leading-[100%] tracking-normal text-[#787878]">
-          {% if request.GET.tab == 'gnm' or request.GET.competition == 'gnm' or request.POST.competition == 'gnm' %}From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement.{% elif request.GET.tab == 'sod' or request.GET.competition == 'sod' or request.POST.competition == 'sod' %}Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story.{% else %}Where creativity meets elegance and imagination takes the form of fashion. This competition invites participants to showcase their designing skills, originality, and artistic vision through stunning outfits and captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and transform imagination into extraordinary fashion statements.{% endif %}
+        <p id="comp-text"
+          class="font-darker font-normal text-[18px] sm:text-[20px] leading-[100%] tracking-normal text-[#787878]">
+          Where creativity meets elegance and imagination takes the form of fashion. This competition invites
+          participants to showcase their designing skills, originality, and artistic vision through stunning outfits and
+          captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and
+          transform imagination into extraordinary fashion statements.
         </p>
       </div>
     </div>
