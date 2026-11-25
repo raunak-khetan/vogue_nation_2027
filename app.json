@@ -1,0 +1,19 @@
+{
+  "name": "voguenation",
+  "scripts": {
+    "predeploy": "python manage.py migrate --noinput && python manage.py collectstatic --noinput"
+  },
+  "healthchecks": {
+    "web": [
+      {
+        "type": "startup",
+        "name": "web check",
+        "path": "/",
+        "attempts": 3,
+        "timeout": 10,
+        "wait": 5
+      }
+    ]
+  }
+}
+
