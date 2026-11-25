@@ -35,8 +35,7 @@
       <button class="nav__link-btn" data-target="0.9">ABOUT</button>
       <button class="nav__link-btn" data-target="2.2">FAQ</button>
       <button class="nav__link-btn" data-target="2.2">GLIMPSES</button>
-      <a href="{% url 'registration' %}">CONTACT</a>
-      <a class="nav__mobile-register" href="{% url 'registration' %}">REGISTER</a>
+      <button class="nav__link-btn" data-target="contact">CONTACT</button>
     </nav>
     <a class="btn-register btn-register--sm" href="{% url 'registration' %}" aria-label="Register">
       <img class="btn-register__img btn-register__img--default" src="{% static 'core/assets/reg_button.svg' %}" alt="Register">
@@ -186,7 +185,7 @@
             <button class="detail__close" id="detailClose" aria-label="Close">&times;</button>
             
             <div class="detail__media">
-              <img class="detail__img" id="detailImg" src="{% static 'core/assets/card-detail.png' %}" alt="Competition Showcase">
+              <img class="detail__img" id="detailImg" src="{% static 'core/assets/card-1.png' %}" alt="Competition Showcase">
             </div>
 
             <div class="detail__body">
@@ -459,7 +458,7 @@
 
         <!-- RIGHT: Nav -->
         <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
-            <a href="#" onclick="return false;" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+            <a href="#" id="footerAboutLink" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
                onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
                 About <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white;">↗</span>
             </a>
@@ -467,7 +466,7 @@
                onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
                 FAQs <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white">↗</span>
             </a>
-            <a href="#" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+            <a href="#" id="footerGlimpsesLink" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
                onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
                 Glimpses <span style="font-size: 14px; transform: rotate(0deg); display:inline-block ; -webkit-text-stroke: 2px white">↗</span>
             </a>

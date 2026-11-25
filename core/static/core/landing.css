@@ -1353,28 +1353,23 @@ button {
     color: #000 !important;
   }
 
-  /* Page 1: Hero stage & spotlights */
-  .hero-bg {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
-
+  /* Page 1: Scale desktop 1440x900 stage & spotlights together so lights stay locked */
+  .hero-bg,
   .spotlights {
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 1440px !important;
+    max-width: none !important;
+    height: 900px !important;
+    max-height: none !important;
+    margin-left: -720px !important;
+    margin-top: -450px !important;
+    transform: scale(var(--s-cover, 1)) !important;
+    transform-origin: center center !important;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%) !important;
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%) !important;
   }
-
-  .beam-wrapper {
-    transform-origin: top center !important;
-    transform: scale(0.65) !important;
-  }
-  .beam-wrapper--1 { left: -50px !important; top: 70px !important; }
-  .beam-wrapper--2 { left: 8% !important; top: 70px !important; }
-  .beam-wrapper--3 { left: 50% !important; margin-left: -137px !important; top: 70px !important; }
-  .beam-wrapper--4 { left: 92% !important; margin-left: -275px !important; top: 70px !important; }
-  .beam-wrapper--5 { right: -50px !important; left: auto !important; top: 70px !important; }
 
   /* Page 1: Hero content centered */
   .hero__content {
@@ -1444,41 +1439,53 @@ button {
     height: 20px !important;
   }
 
-  /* Page 2: Stepped Cards Layout on Mobile Runway */
+  /* Page 2: Portrait cards_mobile_frames full-bleed background & stepped cards */
+  .scene--page2 .bg-canvas {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
   .cards-row {
     position: absolute !important;
     left: 50% !important;
-    top: 51% !important;
+    top: 52% !important;
     margin: 0 !important;
     transform: translate(-50%, -50%) !important;
-    width: min(340px, 92vw) !important;
-    height: 460px !important;
+    width: min(336px, 92vw) !important;
+    height: 410px !important;
     perspective: none !important;
   }
 
   .card--1 {
     left: 0 !important;
     top: 0 !important;
-    width: 220px !important;
-    height: 410px !important;
+    width: 204px !important;
+    height: 376px !important;
     border-radius: 18px !important;
     z-index: 3 !important;
   }
 
   .card--2 {
-    left: 65px !important;
-    top: 25px !important;
-    width: 190px !important;
-    height: 355px !important;
+    left: 88px !important;
+    top: 28px !important;
+    width: 184px !important;
+    height: 330px !important;
     border-radius: 16px !important;
     z-index: 2 !important;
   }
 
   .card--3 {
-    left: 125px !important;
-    top: 50px !important;
-    width: 160px !important;
-    height: 300px !important;
+    left: 168px !important;
+    top: 56px !important;
+    width: 164px !important;
+    height: 284px !important;
     border-radius: 14px !important;
     z-index: 1 !important;
   }

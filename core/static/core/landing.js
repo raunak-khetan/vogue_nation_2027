@@ -9,7 +9,11 @@
   // virtual canvas scaler
   const updateScale = () => {
     const scale = Math.min(window.innerWidth / 1440, window.innerHeight / 900);
+    const mobileStageScale = window.innerWidth <= 768
+      ? Math.max(0.60, Math.min(0.82, Math.min(window.innerWidth / 540, window.innerHeight / 1080)))
+      : Math.max(window.innerWidth / 1440, window.innerHeight / 900);
     document.documentElement.style.setProperty('--s', Math.max(0.48, Math.min(1.2, scale)));
+    document.documentElement.style.setProperty('--s-cover', mobileStageScale);
   };
   window.addEventListener('resize', updateScale);
   updateScale();
@@ -57,20 +61,23 @@
   const competitionData = [
     {
       name: 'Glamour Nova',
+      tab: 'gnm',
       subtitle: 'Online Fashion Design and Photoshoot Competition',
-      image: '/static/core/assets/card-detail.png',
+      image: '/static/core/assets/card-1.png',
       prize: '50k',
       text: "From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement."
     },
     {
       name: 'State of Dress',
+      tab: 'sod',
       subtitle: 'Paper Dress Designing Competition',
       image: '/static/core/assets/card-2.png',
-      prize: '40k',
+      prize: '50k',
       text: "Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story."
     },
     {
       name: 'Haute Couture',
+      tab: 'hcd',
       subtitle: 'Fashion Designing Competition',
       image: '/static/core/assets/card-3.png',
       prize: '50k',
@@ -78,13 +85,16 @@
     }
   ];
 
-  // cards scrubber setup
+  // cards scrubber setup (uses portrait cards_mobile_frames on mobile)
   let cardsScrub = null;
   if (window.createFrameScrubber && cardsCanvasVideo) {
+    const isMobileCards = window.innerWidth <= 768;
     cardsScrub = window.createFrameScrubber({
       canvas: cardsCanvasVideo,
-      frameCount: 240,
-      src: i => `/static/core/cards_frames/c_${String(i).padStart(4, '0')}.webp`,
+      frameCount: isMobileCards ? 86 : 240,
+      src: i => isMobileCards
+        ? `/static/core/cards_mobile_frames/c_${String(i).padStart(4, '0')}.webp`
+        : `/static/core/cards_frames/c_${String(i).padStart(4, '0')}.webp`,
       lerp: 0.08,
       onProgress: p => {
         onCardsScrubProgress(p);
@@ -243,6 +253,9 @@
 
   // page transitions
   function goToPage2(targetProgress = null, openModalIndex = null) {
+    if (lowerSections) {
+      lowerSections.classList.remove('is-active');
+    }
     if (currentState !== 'PAGE_2') {
       currentState = 'PAGE_2';
 
@@ -501,19 +514,35 @@
     btn.addEventListener('click', e => {
       e.preventDefault();
       const text = (btn.textContent || '').trim().toUpperCase();
-      if (text === 'ABOUT') {
-        goToPage1();
-      } else if (text === 'EVENTS') {
+      if (text === 'ABOUT' || text === 'EVENTS') {
         goToPage2(0.68);
       } else if (text === 'GLIMPSES') {
         goToLowerSections();
       } else if (text === 'FAQ') {
         goToLowerSections('#faq-section');
+      } else if (text === 'CONTACT') {
+        goToLowerSections('#main-footer');
       } else if (text === 'RULEBOOK') {
         goToPage2(0.68, 0); // Open Glamour Nova with rulebook
       }
     });
   });
+
+  // Footer navigation links inside contact section
+  const footerAboutLink = document.getElementById('footerAboutLink');
+  if (footerAboutLink) {
+    footerAboutLink.addEventListener('click', e => {
+      e.preventDefault();
+      goToPage2(0.68);
+    });
+  }
+  const footerGlimpsesLink = document.getElementById('footerGlimpsesLink');
+  if (footerGlimpsesLink) {
+    footerGlimpsesLink.addEventListener('click', e => {
+      e.preventDefault();
+      if (lowerSections) lowerSections.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
   if (navLogo) {
     navLogo.addEventListener('click', e => {
@@ -546,7 +575,7 @@
     });
   }
 
-  // hero spotlights hover
+  // hero spotlights hover (desktop) + tap toggle (mobile/touch)
   if (heroTitleBox && hero) {
     heroTitleBox.addEventListener('mouseenter', () => {
       hero.classList.add('is-lit');
@@ -554,6 +583,19 @@
 
     heroTitleBox.addEventListener('mouseleave', () => {
       hero.classList.remove('is-lit');
+    });
+
+    heroTitleBox.addEventListener('click', (e) => {
+      if (window.matchMedia('(hover: none)').matches || window.innerWidth <= 768) {
+        e.stopPropagation();
+        hero.classList.toggle('is-lit');
+      }
+    });
+
+    hero.addEventListener('click', (e) => {
+      if ((window.matchMedia('(hover: none)').matches || window.innerWidth <= 768) && !heroTitleBox.contains(e.target)) {
+        hero.classList.remove('is-lit');
+      }
     });
   }
 
@@ -569,6 +611,11 @@
     if (detailSubtitle) detailSubtitle.textContent = data.subtitle;
     if (detailText) detailText.textContent = data.text;
     if (detailPrize) detailPrize.textContent = data.prize;
+
+    const detailRegBtn = document.querySelector('.btn-register--detail');
+    if (detailRegBtn && data.tab) {
+      detailRegBtn.setAttribute('href', `/forms/?tab=${data.tab}`);
+    }
   }
 
   function openDetail(index) {
