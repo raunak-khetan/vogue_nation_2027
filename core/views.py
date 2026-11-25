@@ -344,5 +344,5 @@ def success(request):
         status=200,
     )
 
-def glimpses(request):
-    return render(request , 'core/section_glimpses.html')
+def landing(request):
+    return render(request , 'core/landing.html')
