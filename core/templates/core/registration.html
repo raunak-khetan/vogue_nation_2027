@@ -1,16 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vogue Nation 2027 — Registration</title>
-  
+
   <!-- Google Fonts: Oranienbaum & Darker Grotesque -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&family=Oranienbaum&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&family=Oranienbaum&display=swap"
+    rel="stylesheet">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -41,7 +44,9 @@
   <!-- Scoped Stylesheet -->
   <link rel="stylesheet" href="{% static 'core/style.css' %}">
 </head>
-<body class="vogue-registration-body min-h-screen bg-black text-white relative flex flex-col items-center px-4 pt-3 pb-8 sm:pt-4 sm:pb-12 selection:bg-[#7d6339] selection:text-white">
+
+<body
+  class="vogue-registration-body min-h-screen bg-black text-white relative flex flex-col items-center px-4 pt-3 pb-8 sm:pt-4 sm:pb-12 selection:bg-[#7d6339] selection:text-white">
 
   <!-- Top Navigation / Logo Header -->
   <header class="w-full max-w-[820px] flex items-center justify-between mb-2 sm:mb-3 px-2 sm:px-4">
@@ -52,41 +57,47 @@
 
   <!-- Main Container: Exact 717px max-width layout -->
   <main class="w-full max-w-[717px] flex flex-col items-center">
-    
+
     <!-- Header Titles -->
     <div class="text-center w-full mb-5 sm:mb-6">
-      <h2 class="font-oranienbaum text-[14px] sm:text-[16px] uppercase tracking-[0.24em] text-[#9a9a9a] mb-1">
+      <h2 class="font-oranienbaum font-normal text-[26px] sm:text-[32px] leading-none uppercase tracking-normal text-[#9a9a9a] mb-1">
         VOGUE NATION
       </h2>
       <!-- REGISTRATION FORM: 335 x 46 design block -->
       <div class="w-full sm:w-[335px] min-h-[46px] mx-auto flex items-center justify-center">
-        <h1 class="font-oranienbaum text-[28px] sm:text-[34px] uppercase tracking-[0.12em] text-[#eeeeee] leading-none text-center">
+        <h1
+          class="font-oranienbaum font-normal text-[32px] sm:text-[40px] uppercase tracking-normal text-[#eeeeee] leading-none text-center">
           REGISTRATION FORM
         </h1>
       </div>
-      
-      <!-- Subtext / Description: Formatted into 3 lines -->
-      <p class="font-darker text-[14px] sm:text-[15.5px] leading-[1.3] text-[#787878] text-center max-w-[590px] mx-auto font-normal mt-3">
-        Non occaecat ut eu ullamco cupidatat deserunt incididunt laborum dolore sunt sint occaecat cillum<br class="hidden sm:inline">
-        Lorem eu. Tempor voluptate laboris enim excepteur ipsum ex incididunt quis labore et fugiat minim<br class="hidden sm:inline">
-        elit. Qui aliquo mollit et minim. Sit labore incididunt sint Lorem cillum occaecat est culpa irure amet.
-      </p>
+
+      <!-- Subtext / Description Area -->
+      <div id="competition-description" class="text-center max-w-[620px] mx-auto mt-3 px-2">
+        <p id="comp-subtitle" class="font-darker font-normal text-[18px] sm:text-[20px] leading-[100%] tracking-normal text-[#b5b5b5] mb-1.5">
+          {% if request.GET.tab == 'gnm' or request.GET.competition == 'gnm' or request.POST.competition == 'gnm' %}Online Fashion Design and Photoshoot Competition{% elif request.GET.tab == 'sod' or request.GET.competition == 'sod' or request.POST.competition == 'sod' %}Paper Dress Designing Competition{% else %}Fashion Designing Competition{% endif %}
+        </p>
+        <p id="comp-text" class="font-darker font-normal text-[18px] sm:text-[20px] leading-[100%] tracking-normal text-[#787878]">
+          {% if request.GET.tab == 'gnm' or request.GET.competition == 'gnm' or request.POST.competition == 'gnm' %}From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement.{% elif request.GET.tab == 'sod' or request.GET.competition == 'sod' or request.POST.competition == 'sod' %}Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story.{% else %}Where creativity meets elegance and imagination takes the form of fashion. This competition invites participants to showcase their designing skills, originality, and artistic vision through stunning outfits and captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and transform imagination into extraordinary fashion statements.{% endif %}
+        </p>
+      </div>
     </div>
 
     <!-- Django Messages (Flash feedback) -->
     {% if messages %}
-      <div class="w-full mb-6 space-y-2">
-        {% for message in messages %}
-          <div class="{% if message.tags == 'success' %}success-message-box{% else %}non-field-error-box{% endif %}">
-            {{ message }}
-          </div>
-        {% endfor %}
+    <div class="w-full mb-6 space-y-2">
+      {% for message in messages %}
+      <div class="{% if message.tags == 'success' %}success-message-box{% else %}non-field-error-box{% endif %}">
+        {{ message }}
       </div>
+      {% endfor %}
+    </div>
     {% endif %}
 
     <!-- Segmented Control Category Tabs (Responsive on mobile, 315x64 on desktop) -->
     <div class="w-full flex justify-center mb-8 px-1 sm:px-0">
-      <div class="w-full max-w-full sm:w-auto inline-flex items-center rounded-xl bg-[#262626]/70 p-1 border border-[#cca43b]/40 shadow-sm" id="categoryGroup" role="tablist">
+      <div
+        class="w-full max-w-full sm:w-auto inline-flex items-center rounded-xl bg-[#262626]/70 p-1 border border-[#cca43b]/40 shadow-sm"
+        id="categoryGroup" role="tablist">
         <button type="button" onclick="selectCategory('gnm')" id="tab-gnm" role="tab"
           class="category-tab flex-1 sm:flex-none min-w-0 px-1.5 sm:px-7 py-2 h-[44px] sm:h-[52px] text-[20px] sm:text-[24px] font-darker font-normal rounded-lg text-[#222222] bg-[#9a9a9a] transition-all duration-200 flex items-center justify-center text-center leading-none">
           Glamour Nova
@@ -142,6 +153,21 @@
       { id: 'sod', tabId: 'tab-sod', panelId: 'panel-sod' }
     ];
 
+    const competitionDescriptions = {
+      hcd: {
+        subtitle: "Fashion Designing Competition",
+        text: "Where creativity meets elegance and imagination takes the form of fashion. This competition invites participants to showcase their designing skills, originality, and artistic vision through stunning outfits and captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and transform imagination into extraordinary fashion statements."
+      },
+      sod: {
+        subtitle: "Paper Dress Designing Competition",
+        text: "Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story."
+      },
+      gnm: {
+        subtitle: "Online Fashion Design and Photoshoot Competition",
+        text: "From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement."
+      }
+    };
+
     function selectCategory(compKey) {
       competitions.forEach(c => {
         const tabBtn = document.getElementById(c.tabId);
@@ -156,9 +182,17 @@
         }
       });
 
+      const desc = competitionDescriptions[compKey];
+      if (desc) {
+        const subtitleEl = document.getElementById('comp-subtitle');
+        const textEl = document.getElementById('comp-text');
+        if (subtitleEl) subtitleEl.textContent = desc.subtitle;
+        if (textEl) textEl.textContent = desc.text;
+      }
+
       try {
         sessionStorage.setItem('vogue_active_tab', compKey);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // Determine initial active tab based on server-side errors/submission, or sessionStorage, or default to Haute Couture (hcd)
@@ -166,18 +200,18 @@
       let initialTab = 'hcd';
 
       {% if request.GET.tab == 'gnm' or request.GET.competition == 'gnm' or request.POST.competition == 'gnm' or gn_m_form.errors or gn_m_leader_form.errors or gn_m_member_formset.errors %}
-        initialTab = 'gnm';
+      initialTab = 'gnm';
       {% elif request.GET.tab == 'sod' or request.GET.competition == 'sod' or request.POST.competition == 'sod' or team_form.errors or member_formset.errors %}
-        initialTab = 'sod';
+      initialTab = 'sod';
       {% elif request.GET.tab == 'hcd' or request.GET.competition == 'hcd' or request.POST.competition == 'hcd' or hcd_form.errors or hcd_leader_form.errors or hcd_member_formset.errors %}
-        initialTab = 'hcd';
+      initialTab = 'hcd';
       {% else %}
-        try {
-          const stored = sessionStorage.getItem('vogue_active_tab');
-          if (stored && ['gnm', 'hcd', 'sod'].includes(stored)) {
-            initialTab = stored;
-          }
-        } catch (e) {}
+      try {
+        const stored = sessionStorage.getItem('vogue_active_tab');
+        if (stored && ['gnm', 'hcd', 'sod'].includes(stored)) {
+          initialTab = stored;
+        }
+      } catch (e) { }
       {% endif %}
 
       selectCategory(initialTab);
@@ -185,4 +219,5 @@
   </script>
 
 </body>
+
 </html>
