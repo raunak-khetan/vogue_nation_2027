@@ -28,8 +28,9 @@
   const scrollHint = document.getElementById('scrollHint');
   const btnSkipIntro = document.getElementById('btnSkipIntro');
 
-  // Page 2 Elements
+  // Page 2 & Lower Elements
   const page2Scene = document.getElementById('page2Scene');
+  const lowerSections = document.getElementById('lowerSections');
   const cardsCanvasVideo = document.getElementById('cardsCanvasVideo');
   const cardsCanvas = document.getElementById('cardsCanvas');
   const cardsHeader = document.getElementById('cardsHeader');
@@ -275,6 +276,7 @@
     currentState = 'PAGE_1';
 
     if (isDetailOpen) closeDetail();
+    if (lowerSections) lowerSections.classList.remove('is-active');
 
     // Reveal Navbar on Page 1 Hero
     if (mainNav) {
@@ -296,8 +298,56 @@
     }
   }
 
+  function goToLowerSections(targetSelector = null) {
+    if (isDetailOpen) closeDetail();
+    currentState = 'LOWER_PAGE';
+
+    if (mainNav) {
+      mainNav.classList.remove('is-visible');
+    }
+    if (page1Scene) {
+      page1Scene.classList.add('is-exited');
+    }
+    if (page2Scene) {
+      page2Scene.classList.add('is-active');
+    }
+    if (cardsScrub) {
+      cardsScrub.setProgress(1);
+    }
+    if (lowerSections) {
+      lowerSections.classList.add('is-active');
+      if (targetSelector) {
+        const el = lowerSections.querySelector(targetSelector);
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 150);
+        }
+      } else {
+        lowerSections.scrollTop = 0;
+      }
+    }
+  }
+
+  function backFromLowerToPage2() {
+    if (currentState !== 'LOWER_PAGE') return;
+    currentState = 'PAGE_2';
+    if (lowerSections) {
+      lowerSections.classList.remove('is-active');
+    }
+    if (cardsScrub) {
+      cardsScrub.setProgress(0.94);
+    }
+  }
+
   // wheel & scroll interceptor
   window.addEventListener('wheel', e => {
+    if (currentState === 'LOWER_PAGE') {
+      if (lowerSections && lowerSections.scrollTop <= 2 && e.deltaY < -5) {
+        e.preventDefault();
+        backFromLowerToPage2();
+      }
+      return;
+    }
+
     e.preventDefault();
     if (isDetailOpen) return;
 
@@ -332,6 +382,12 @@
         return;
       }
 
+      // If at end of Page 2 (p >= 0.99) and user scrolls down -> enter Glimpses / FAQ / Footer
+      if (p >= 0.99 && e.deltaY > 5) {
+        goToLowerSections();
+        return;
+      }
+
       // Symmetrical smooth scroll scrubbing for forward and backward
       const clampedDelta = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 80);
       const scrubDelta = clampedDelta / 2400;
@@ -350,6 +406,13 @@
     const y = e.touches[0].clientY;
     const deltaY = touchStartY - y;
     touchStartY = y;
+
+    if (currentState === 'LOWER_PAGE') {
+      if (lowerSections && lowerSections.scrollTop <= 2 && deltaY < -15) {
+        backFromLowerToPage2();
+      }
+      return;
+    }
 
     if (currentState === 'CURTAIN') {
       startRunwayVideo();
@@ -374,6 +437,10 @@
       const p = cardsScrub.getProgress();
       if (p <= 0.02 && deltaY < 0) {
         goToPage1();
+        return;
+      }
+      if (p >= 0.99 && deltaY > 8) {
+        goToLowerSections();
         return;
       }
 
@@ -436,8 +503,12 @@
       const text = (btn.textContent || '').trim().toUpperCase();
       if (text === 'ABOUT') {
         goToPage1();
-      } else if (text === 'EVENTS' || text === 'FAQ' || text === 'GLIMPSES') {
+      } else if (text === 'EVENTS') {
         goToPage2(0.68);
+      } else if (text === 'GLIMPSES') {
+        goToLowerSections();
+      } else if (text === 'FAQ') {
+        goToLowerSections('#faq-section');
       } else if (text === 'RULEBOOK') {
         goToPage2(0.68, 0); // Open Glamour Nova with rulebook
       }
@@ -658,6 +729,19 @@
         setTimeout(() => { window.location.href = targetUrl; }, 380);
       }
     });
+  });
+
+  // Reset slider & register buttons when returning via browser Back (bfcache)
+  window.addEventListener('pageshow', () => {
+    if (heroSlider) {
+      heroSlider.classList.remove('is-sliding');
+      const pill = heroSlider.querySelector('.btn-register__pill');
+      if (pill) {
+        pill.style.transition = 'none';
+        pill.style.left = '';
+      }
+    }
+    document.querySelectorAll('.btn-register').forEach(btn => btn.classList.remove('is-sliding'));
   });
 })();
 //gowtham-end

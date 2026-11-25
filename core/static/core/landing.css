@@ -287,6 +287,30 @@ button {
   background: var(--bg-dark);
 }
 
+/* Lower scrollable sections (Glimpses, FAQ, Footer) */
+.lower-sections {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  background: #0B0B0B;
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(40px);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lower-sections.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
 .scene {
   position: absolute;
   inset: 0;
