@@ -14,3 +14,6 @@ staticfiles/
 dist/
 build/
 node_modules/
+
+# Tailwind source file — compiled output is tailwind.css, not input.css
+core/static/core/input.css
