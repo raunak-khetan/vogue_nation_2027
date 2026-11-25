@@ -1,0 +1,64 @@
+/*-gowtham: local font definitions-*/
+@font-face {
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/core/fonts/darker_grotesque_400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/static/core/fonts/darker_grotesque_500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/static/core/fonts/darker_grotesque_600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/static/core/fonts/darker_grotesque_700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Darker Grotesque';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/static/core/fonts/darker_grotesque_800.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Italiana';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/core/fonts/italiana_400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Oranienbaum';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/core/fonts/oranienbaum_400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pinyon Script';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/core/fonts/pinyon_script_400.woff2') format('woff2');
+}

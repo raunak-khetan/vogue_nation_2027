@@ -343,3 +343,60 @@ def success(request):
         "<a href='/forms/'>Back to forms</a>",
         status=200,
     )
+
+def landing(request):
+    return render(request, "core/landing.html")
+
+
+def video_stream(request, filename):
+    import os, re
+    from django.conf import settings
+    from django.http import StreamingHttpResponse
+    safe_filename = os.path.basename(filename)
+    file_path = os.path.join(settings.BASE_DIR, 'core', 'static', 'core', 'assets', safe_filename)
+    if not os.path.exists(file_path):
+        return HttpResponse(status=404)
+
+    file_size = os.path.getsize(file_path)
+    range_header = request.META.get('HTTP_RANGE', '').strip()
+    range_match = re.match(r'bytes=(\d+)-(\d*)', range_header)
+
+    if range_match:
+        start = int(range_match.group(1))
+        end = int(range_match.group(2)) if range_match.group(2) else file_size - 1
+        end = min(end, file_size - 1)
+        length = end - start + 1
+
+        def file_iterator(fp, offset, length, chunk_size=65536):
+            with open(fp, 'rb') as f:
+                f.seek(offset)
+                rem = length
+                while rem > 0:
+                    c = f.read(min(chunk_size, rem))
+                    if not c:
+                        break
+                    rem -= len(c)
+                    yield c
+
+        response = StreamingHttpResponse(
+            file_iterator(file_path, start, length),
+            status=206,
+            content_type='video/mp4'
+        )
+        response['Content-Range'] = f'bytes {start}-{end}/{file_size}'
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Length'] = str(length)
+        return response
+    else:
+        def full_iterator(fp, chunk_size=65536):
+            with open(fp, 'rb') as f:
+                while True:
+                    c = f.read(chunk_size)
+                    if not c:
+                        break
+                    yield c
+
+        response = StreamingHttpResponse(full_iterator(file_path), content_type='video/mp4')
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Length'] = str(file_size)
+        return response
