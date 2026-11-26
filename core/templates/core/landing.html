@@ -45,6 +45,14 @@
       white-space: normal !important;
     }
 
+    {% comment %} black background in mbile version {% endcomment %}
+
+    #main-wrapper,
+    #glimpses-header-wrap,
+    #section-spacer {
+      background-color: #000000 !important;
+    }
+
     /* Hide desktop carousel, show mobile stacked cards */
     .carousel-viewport { display: none !important; }
     #mobile-card-stack {
@@ -82,13 +90,13 @@
     .faq-item-panel p { padding: 0 18px 18px !important; font-size: 13px !important; line-height: 20px !important; }
 
     /* Footer */
-    #main-footer { min-height: auto !important; padding-top: 56px !important; }
+    #main-footer { min-height: auto !important; padding-top: 220px !important; }
     #footer-inner-top { flex-direction: column; align-items: center; gap: 28px; padding: 24px 28px 28px; }
     #footer-contact-col { align-items: center !important; text-align: center; width: 100%; }
-    #footer-contact-label { font-size: 14px !important; margin-bottom: 14px !important; letter-spacing: 1.5px !important; }
-    #footer-contact-name { font-size: 32px !important; margin-bottom: 4px !important; }
-    #footer-contact-role { font-size: 18px !important; margin-bottom: 18px !important; }
-    #footer-contact-phone, #footer-contact-email { font-size: 16px !important; }
+    #footer-contact-label { font-size: 25px !important; margin-bottom: 34px !important; letter-spacing: 1.5px !important; }
+    #footer-contact-name { font-size: 60px !important; margin-bottom: 4px !important; }
+    #footer-contact-role { font-size: 35px !important; margin-bottom: 32px !important; }
+    #footer-contact-phone, #footer-contact-email { font-size: 32px !important; }
 
     .mobile-links-divider { display: block; width: 100%; height: 1px; background: rgba(255,255,255,0.12); }
     .mobile-links-wrapper {
@@ -101,12 +109,12 @@
     .mobile-links-label {
       display: block;
       font-family: Georgia, serif;
-      font-size: 15px;
-      color: #9A9A9A;
-      padding-top: 4px;
+      font-size: 25px;
+      color: #B6B6B6;
+      padding-top: 44px;
     }
     #footer-nav-links { align-items: flex-end !important; gap: 10px !important; padding-top: 0 !important; }
-    #footer-nav-links a { font-size: 16px !important; }
+    #footer-nav-links a { font-size: 25px !important; }
 
     #footer-bottom-bar { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 16px 28px 20px; }
     #footer-bottom-bar p, #footer-bottom-bar span { font-size: 13px !important; }
@@ -120,7 +128,7 @@
 </style>
 
 <!-- Main Wrapper -->
-<div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
+<div  id="main-wrapper" style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
    <!-- SECTION 1: HEADER                                              -->
 <div id="glimpses-header-wrap" style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
@@ -283,12 +291,11 @@
 <!-- SECTION 5: FOOTER                                              -->
 
 
- 
-<footer id="main-footer"
+ <footer id="main-footer"
         style="width: 100vw;
                min-height: 100vh;
                margin-left: calc(50% - 50vw);
-               background: radial-gradient(ellipse at 55% 10%, #1c1c35 0%, #0e0e0e 50%, #000 100%);
+               background: radial-gradient(ellipse at 55% 10%, #241c0a 0%, #0e0e0e 50%, #000 100%);
                position: relative;
                overflow: hidden;
                user-select: none;
@@ -297,16 +304,16 @@
                flex-direction: column;
                justify-content: flex-end;">
             
-   <!-- Top-left corner light (white, non-circular) -->
-<div style="position: absolute; top: 0; left: 0;
-            width: 500px; height: 350px;
-            background: radial-gradient(ellipse at top left, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 70%);
-            pointer-events: none; z-index: 0;"></div>
-
-<!-- Top-right corner light (white, non-circular) -->
+  <!-- Top-right corner light (golden yellow, non-circular) -->
 <div style="position: absolute; top: 0; right: 0;
             width: 500px; height: 350px;
-            background: radial-gradient(ellipse at top right, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 70%);
+            background: radial-gradient(ellipse at top right, rgba(212,175,55,0.22) 0%, rgba(212,175,55,0.08) 40%, transparent 70%);
+            pointer-events: none; z-index: 0;"></div>
+
+<!-- Bottom-left corner light (golden yellow, non-circular) -->
+<div style="position: absolute; bottom: 0; left: 0;
+            width: 500px; height: 350px;
+            background: radial-gradient(ellipse at bottom left, rgba(212,175,55,0.22) 0%, rgba(212,175,55,0.08) 40%, transparent 70%);
             pointer-events: none; z-index: 0;"></div>
 
     <!-- Contact + Nav  -->
@@ -365,12 +372,12 @@
                              padding: 16px 22px; min-width: 190px; display: none; flex-direction: column; gap: 9px;
                              box-shadow: 0 12px 40px rgba(0,0,0,0.9); z-index: 999; white-space: nowrap;">
                     <span style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #161616; border-right: 1px solid rgba(255,255,255,0.13); border-bottom: 1px solid rgba(255,255,255,0.13);"></span>
-                    <span style="font-family: Georgia, serif; font-size: 10px; letter-spacing: 1.5px; color: #555; text-transform: uppercase; margin-bottom: 2px;">Team Members</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Raunak-Head</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Amaan-Head</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Dipank</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Mritunjay</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Gowtham</span>
+                    <span style="font-family: Georgia, serif; font-size: 15px; letter-spacing: 1.5px; color: #555; text-transform: uppercase; margin-bottom: 2px;">Team Members</span>
+                    <span style="font-family: Georgia, serif; font-size: 16px; color: #ccc;">Raunak-Head</span>
+                    <span style="font-family: Georgia, serif; font-size: 16px; color: #ccc;">Amaan-Head</span>
+                    <span style="font-family: Georgia, serif; font-size: 16px; color: #ccc;">Dipank</span>
+                    <span style="font-family: Georgia, serif; font-size: 16px; color: #ccc;">Mritunjay</span>
+                    <span style="font-family: Georgia, serif; font-size: 16px; color: #ccc;">Gowtham</span>
                     
                 </span>
             </span>
