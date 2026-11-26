@@ -1,7 +1,9 @@
+<!--gowtham-start-->
 {% load static %}
 <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
 <link rel="stylesheet" href="{% static 'core/style.css' %}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
   #footer-inner-top {
     display: flex;
@@ -138,6 +140,7 @@
         </h2>
     </div>
 </div>
+
 
 
 <!-- SECTION 2: IMAGES (WEB CAROUSEL) -->
@@ -403,8 +406,6 @@
 </footer>
 
 <!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
 <script>
 
 function fitBrandText() {
@@ -612,3 +613,16 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.addEventListener("mouseleave", hide);
 });
 </script>
+  </div>
+
+  <!-- GSAP Core for 60fps animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Frame Scrubber -->
+  <script src="{% static 'core/scrub.js' %}"></script>
+
+  <!-- Core Controller Script -->
+  <script src="{% static 'core/landing.js' %}"></script>
+</body>
+</html>
+<!--gowtham-end-->

@@ -5,6 +5,7 @@ from django.db import IntegrityError, transaction
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from .models import (
     SOD_Team,
@@ -222,24 +223,38 @@ def hc_d_section(request):
                 if member.cleaned_data
             ]
 
-            with transaction.atomic():
-                hcd_team = HCDTeam.objects.create(
-                    teamName=team_data["teamName"],
-                    submitPerformances=team_data["submitPerformances"],
-                )
+            if HCDTeam.objects.filter(teamName__iexact=team_data["teamName"]).exists():
+                form.add_error("teamName", "A team with this name is already registered.")
+            else:
+                try:
+                    with transaction.atomic():
+                        hcd_team = HCDTeam.objects.create(
+                            teamName=team_data["teamName"],
+                            submitPerformances=team_data["submitPerformances"],
+                        )
 
-                HCDTeamLeader.objects.create(
-                    team=hcd_team,
-                    **leader_data,
-                )
+                        HCDTeamLeader.objects.create(
+                            team=hcd_team,
+                            **leader_data,
+                        )
 
-                for hcd_member_data in member_data:
-                    HCDMember.objects.create(
-                        team=hcd_team,
-                        **hcd_member_data,
-                    )
+                        for hcd_member_data in member_data:
+                            HCDMember.objects.create(
+                                team=hcd_team,
+                                **hcd_member_data,
+                            )
 
-            valid = True
+                    valid = True
+                    messages.success(request, "Registration successful! You're all set for Haute Couture.")
+                    form = HC_D_form(prefix="hcd")
+                    leader_form = HC_D_LeaderForm(prefix="hcd_leader")
+                    member_form = HC_D_MemberFormSet(prefix="hcd_members")
+                except IntegrityError:
+                    logger.exception("IntegrityError during HCD registration.")
+                    messages.error(request, "A database conflict occurred. Please review your details.")
+                except Exception:
+                    logger.exception("Unexpected error during HCD registration.")
+                    messages.error(request, "Something went wrong on our end. Please try again in a moment.")
 
     else:
         form = HC_D_form(prefix="hcd")
@@ -289,13 +304,24 @@ def gn_m_section(request):
             if GN_MTeam.objects.filter(teamName__iexact=team_data["teamName"]).exists():
                 form.add_error("teamName", "A team with this name is already registered.")
             else:
-                with transaction.atomic():
-                    team = GN_MTeam.objects.create(**team_data)
-                    GN_MTeamLeader.objects.create(team=team, **leader_data)
-                    for m_form in member_form:
-                        if m_form.cleaned_data:
-                            GN_MMember.objects.create(team=team, **m_form.cleaned_data)
-                valid = True
+                try:
+                    with transaction.atomic():
+                        team = GN_MTeam.objects.create(**team_data)
+                        GN_MTeamLeader.objects.create(team=team, **leader_data)
+                        for m_form in member_form:
+                            if m_form.cleaned_data:
+                                GN_MMember.objects.create(team=team, **m_form.cleaned_data)
+                    valid = True
+                    messages.success(request, "Registration successful! You're all set for Glamour Nova.")
+                    form = GN_M_Form(prefix="gn_m_team")
+                    leader_form = GN_M_LeaderForm(prefix="gn_m_leader")
+                    member_form = GN_M_MemberFormSet(prefix="gn_m_members")
+                except IntegrityError:
+                    logger.exception("IntegrityError during GN registration.")
+                    messages.error(request, "A database conflict occurred. Please review your details.")
+                except Exception:
+                    logger.exception("Unexpected error during GN registration.")
+                    messages.error(request, "Something went wrong on our end. Please try again in a moment.")
 
     else:
         form = GN_M_Form(prefix="gn_m_team")
@@ -321,15 +347,27 @@ REGISTRATION_SECTIONS = [
 # Master registration view
 def registration(request):
     context = {}
-    section_results = []
+    successful_section = False
 
     for section in REGISTRATION_SECTIONS:
         section_context, section_valid = section(request)
         context.update(section_context)
-        section_results.append(section_valid)
+        if section_valid:
+            successful_section = True
 
-    if request.method == "POST" and all(section_results):
-        pass
+    if request.method == "POST" and successful_section:
+        comp = request.POST.get("competition", "")
+        if not comp:
+            if "sod_members-TOTAL_FORMS" in request.POST:
+                comp = "sod"
+            elif "hcd_members-TOTAL_FORMS" in request.POST:
+                comp = "hcd"
+            elif "gn_m_members-TOTAL_FORMS" in request.POST:
+                comp = "gnm"
+        redirect_url = reverse("registration")
+        if comp:
+            redirect_url += f"?tab={comp}"
+        return redirect(redirect_url)
 
     return render(request, "core/registration.html", context)
 
@@ -345,4 +383,58 @@ def success(request):
     )
 
 def landing(request):
-    return render(request , 'core/landing.html')
+    return render(request, "core/landing.html")
+
+
+def video_stream(request, filename):
+    import os, re
+    from django.conf import settings
+    from django.http import StreamingHttpResponse
+    safe_filename = os.path.basename(filename)
+    file_path = os.path.join(settings.BASE_DIR, 'core', 'static', 'core', 'assets', safe_filename)
+    if not os.path.exists(file_path):
+        return HttpResponse(status=404)
+
+    file_size = os.path.getsize(file_path)
+    range_header = request.META.get('HTTP_RANGE', '').strip()
+    range_match = re.match(r'bytes=(\d+)-(\d*)', range_header)
+
+    if range_match:
+        start = int(range_match.group(1))
+        end = int(range_match.group(2)) if range_match.group(2) else file_size - 1
+        end = min(end, file_size - 1)
+        length = end - start + 1
+
+        def file_iterator(fp, offset, length, chunk_size=65536):
+            with open(fp, 'rb') as f:
+                f.seek(offset)
+                rem = length
+                while rem > 0:
+                    c = f.read(min(chunk_size, rem))
+                    if not c:
+                        break
+                    rem -= len(c)
+                    yield c
+
+        response = StreamingHttpResponse(
+            file_iterator(file_path, start, length),
+            status=206,
+            content_type='video/mp4'
+        )
+        response['Content-Range'] = f'bytes {start}-{end}/{file_size}'
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Length'] = str(length)
+        return response
+    else:
+        def full_iterator(fp, chunk_size=65536):
+            with open(fp, 'rb') as f:
+                while True:
+                    c = f.read(chunk_size)
+                    if not c:
+                        break
+                    yield c
+
+        response = StreamingHttpResponse(full_iterator(file_path), content_type='video/mp4')
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Length'] = str(file_size)
+        return response

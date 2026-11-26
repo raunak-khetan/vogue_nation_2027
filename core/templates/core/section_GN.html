@@ -1,110 +1,505 @@
-<div class="team-details">
-    {% for field in gn_m_form %}
-        <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
+{% if gn_m_form.non_field_errors %}
+  <div class="non-field-error-box">
+    {% for error in gn_m_form.non_field_errors %}
+      <p>{{ error }}</p>
     {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Team Name (717 x 59) -->
+<div>
+  <label for="{{ gn_m_form.teamName.id_for_label }}" class="form-label">Team name</label>
+  <input 
+    type="text" 
+    id="{{ gn_m_form.teamName.id_for_label }}" 
+    name="{{ gn_m_form.teamName.html_name }}" 
+    value="{{ gn_m_form.teamName.value|default_if_none:'' }}" 
+    placeholder="Type Here" 
+    class="form-input form-input-yellow-border w-full"
+    required
+  >
+  {% for error in gn_m_form.teamName.errors %}
+    <div class="field-error-text">{{ error }}</div>
+  {% endfor %}
 </div>
 
-<hr />
+<!-- Submit your performance(s) (717 x 59) -->
+<div>
+  <label for="{{ gn_m_form.submitPerformances.id_for_label }}" class="form-label">Submit your performance(s)</label>
+  <input 
+    type="url" 
+    id="{{ gn_m_form.submitPerformances.id_for_label }}" 
+    name="{{ gn_m_form.submitPerformances.html_name }}" 
+    value="{{ gn_m_form.submitPerformances.value|default_if_none:'' }}" 
+    placeholder="Type Here" 
+    class="form-input form-input-yellow-border w-full"
+    required
+  >
+  {% for error in gn_m_form.submitPerformances.errors %}
+    <div class="field-error-text">{{ error }}</div>
+  {% endfor %}
+</div>
 
-<h3>Leader Details</h3>
-{% for field in gn_m_leader_form %}
-    <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
-{% endfor %}
+<!-- LEADER DETAILS Section Header -->
+<div class="pt-2 pb-1">
+  <div class="flex items-center gap-3">
+    <span class="section-title">LEADER DETAILS</span>
+    <div class="flex-grow border-b border-[#2d2d2d]"></div>
+  </div>
+</div>
 
-<hr />
+{% if gn_m_leader_form.non_field_errors %}
+  <div class="non-field-error-box">
+    {% for error in gn_m_leader_form.non_field_errors %}
+      <p>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
 
-<h3>Member Details</h3>
+<!-- Leader: Full Name (717 x 59) -->
+<div>
+  <label for="{{ gn_m_leader_form.fullName.id_for_label }}" class="form-label">Full name</label>
+  <input 
+    type="text" 
+    id="{{ gn_m_leader_form.fullName.id_for_label }}" 
+    name="{{ gn_m_leader_form.fullName.html_name }}" 
+    value="{{ gn_m_leader_form.fullName.value|default_if_none:'' }}" 
+    placeholder="Type Here" 
+    class="form-input w-full"
+    required
+  >
+  {% for error in gn_m_leader_form.fullName.errors %}
+    <div class="field-error-text">{{ error }}</div>
+  {% endfor %}
+</div>
 
+<!-- Leader: Gender & Postal Code (Two 349 x 59 inputs with 19px gap) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-[19px]">
+  <div>
+    <label for="{{ gn_m_leader_form.gender.id_for_label }}" class="form-label">Gender</label>
+    <select 
+      id="{{ gn_m_leader_form.gender.id_for_label }}" 
+      name="{{ gn_m_leader_form.gender.html_name }}" 
+      class="form-input w-full"
+      required
+    >
+      {% for val, text in gn_m_leader_form.gender.field.choices %}
+        <option value="{{ val }}" {% if gn_m_leader_form.gender.value == val %}selected{% endif %}>{{ text }}</option>
+      {% endfor %}
+    </select>
+    {% for error in gn_m_leader_form.gender.errors %}
+      <div class="field-error-text">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <div>
+    <label for="{{ gn_m_leader_form.postalCode.id_for_label }}" class="form-label">Postal Code</label>
+    <input 
+      type="text" 
+      id="{{ gn_m_leader_form.postalCode.id_for_label }}" 
+      name="{{ gn_m_leader_form.postalCode.html_name }}" 
+      value="{{ gn_m_leader_form.postalCode.value|default_if_none:'' }}" 
+      placeholder="Type Here" 
+      class="form-input w-full"
+      maxlength="6"
+      required
+    >
+    {% for error in gn_m_leader_form.postalCode.errors %}
+      <div class="field-error-text">{{ error }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Leader: Contact No. & Email Address (Two 349 x 59 inputs with 19px gap) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-[19px]">
+  <div>
+    <label for="{{ gn_m_leader_form.contactNumber.id_for_label }}" class="form-label">Contact No.</label>
+    <input 
+      type="tel" 
+      id="{{ gn_m_leader_form.contactNumber.id_for_label }}" 
+      name="{{ gn_m_leader_form.contactNumber.html_name }}" 
+      value="{{ gn_m_leader_form.contactNumber.value|default_if_none:'' }}" 
+      placeholder="Type Here" 
+      class="form-input w-full"
+      maxlength="10"
+      required
+    >
+    {% for error in gn_m_leader_form.contactNumber.errors %}
+      <div class="field-error-text">{{ error }}</div>
+    {% endfor %}
+  </div>
+  <div>
+    <label for="{{ gn_m_leader_form.email.id_for_label }}" class="form-label">Email Address</label>
+    <input 
+      type="email" 
+      id="{{ gn_m_leader_form.email.id_for_label }}" 
+      name="{{ gn_m_leader_form.email.html_name }}" 
+      value="{{ gn_m_leader_form.email.value|default_if_none:'' }}" 
+      placeholder="Type Here" 
+      class="form-input w-full"
+      required
+    >
+    {% for error in gn_m_leader_form.email.errors %}
+      <div class="field-error-text">{{ error }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Leader: Your City (717 x 59) -->
+<div>
+  <label for="{{ gn_m_leader_form.cityName.id_for_label }}" class="form-label">Your City</label>
+  <input 
+    type="text" 
+    id="{{ gn_m_leader_form.cityName.id_for_label }}" 
+    name="{{ gn_m_leader_form.cityName.html_name }}" 
+    value="{{ gn_m_leader_form.cityName.value|default_if_none:'' }}" 
+    placeholder="Type Here" 
+    class="form-input w-full"
+    required
+  >
+  {% for error in gn_m_leader_form.cityName.errors %}
+    <div class="field-error-text">{{ error }}</div>
+  {% endfor %}
+</div>
+
+<!-- MEMBER DETAILS Section -->
 {{ gn_m_member_formset.management_form }}
-{{ gn_m_member_formset.non_form_errors }}
 
-<div id="gn_m_members_container">
-    {% for gn_m_member_form in gn_m_member_formset %}
-    <div class="member-form">
-        <h3 class="member-heading">
-            Member {{ forloop.counter }}
-        </h3>
-
-        {% for field in gn_m_member_form %}
-            <p>{{ field.label_tag }} {{ field }}{% if field.errors %}{{ field.errors }}{% endif %}</p>
-        {% endfor %}
-
-        <button type="button" class="delete-member">
-            Delete
-        </button>
-    </div>
+{% if gn_m_member_formset.non_form_errors %}
+  <div class="non-field-error-box">
+    {% for error in gn_m_member_formset.non_form_errors %}
+      <p>{{ error }}</p>
     {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Dynamic Members Container -->
+<div id="gn_m_members_container" class="space-y-6">
+  {% for member_form in gn_m_member_formset %}
+  <div class="gn-member-block space-y-6 pt-2" id="gn_m-member-{{ forloop.counter }}">
+    
+    <!-- Member Header -->
+    <div class="pt-3 pb-1">
+      <div class="flex items-center justify-between gap-2 sm:gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 flex-grow min-w-0">
+          <span class="section-title gn-member-heading truncate">MEMBER {{ forloop.counter }} DETAILS</span>
+          <div class="flex-grow border-b border-[#2d2d2d]"></div>
+        </div>
+        <button 
+          type="button" 
+          onclick="removeGNMember(this)" 
+          class="delete-gn-member flex-shrink-0 text-[13px] sm:text-[14px] text-red-400 hover:text-red-300 font-darker uppercase tracking-wider px-2 py-0.5 border border-red-500/30 rounded hover:border-red-500 transition {% if forloop.first and gn_m_member_formset|length == 1 %}hidden{% endif %}"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+
+    {% if member_form.non_field_errors %}
+      <div class="non-field-error-box">
+        {% for error in member_form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Member: Full Name (717 x 59) -->
+    <div>
+      <label for="{{ member_form.name.id_for_label }}" class="form-label">Full name</label>
+      <input 
+        type="text" 
+        id="{{ member_form.name.id_for_label }}" 
+        name="{{ member_form.name.html_name }}" 
+        value="{{ member_form.name.value|default_if_none:'' }}" 
+        placeholder="Type Here" 
+        class="form-input w-full"
+        required
+      >
+      {% for error in member_form.name.errors %}
+        <div class="field-error-text">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Member: Gender & Postal Code (Two 349 x 59 inputs with 19px gap) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-[19px]">
+      <div>
+        <label for="{{ member_form.gender.id_for_label }}" class="form-label">Gender</label>
+        <select 
+          id="{{ member_form.gender.id_for_label }}" 
+          name="{{ member_form.gender.html_name }}" 
+          class="form-input w-full"
+          required
+        >
+          {% for val, text in member_form.gender.field.choices %}
+            <option value="{{ val }}" {% if member_form.gender.value == val %}selected{% endif %}>{{ text }}</option>
+          {% endfor %}
+        </select>
+        {% for error in member_form.gender.errors %}
+          <div class="field-error-text">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        <label for="{{ member_form.postalCode.id_for_label }}" class="form-label">Postal Code</label>
+        <input 
+          type="text" 
+          id="{{ member_form.postalCode.id_for_label }}" 
+          name="{{ member_form.postalCode.html_name }}" 
+          value="{{ member_form.postalCode.value|default_if_none:'' }}" 
+          placeholder="Type Here" 
+          class="form-input w-full"
+          maxlength="6"
+          required
+        >
+        {% for error in member_form.postalCode.errors %}
+          <div class="field-error-text">{{ error }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Member: Contact No. & Email Address (Two 349 x 59 inputs with 19px gap) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-[19px]">
+      <div>
+        <label for="{{ member_form.contactNumber.id_for_label }}" class="form-label">Contact No.</label>
+        <input 
+          type="tel" 
+          id="{{ member_form.contactNumber.id_for_label }}" 
+          name="{{ member_form.contactNumber.html_name }}" 
+          value="{{ member_form.contactNumber.value|default_if_none:'' }}" 
+          placeholder="Type Here" 
+          class="form-input w-full"
+          maxlength="10"
+          required
+        >
+        {% for error in member_form.contactNumber.errors %}
+          <div class="field-error-text">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        <label for="{{ member_form.email.id_for_label }}" class="form-label">Email Address</label>
+        <input 
+          type="email" 
+          id="{{ member_form.email.id_for_label }}" 
+          name="{{ member_form.email.html_name }}" 
+          value="{{ member_form.email.value|default_if_none:'' }}" 
+          placeholder="Type Here" 
+          class="form-input w-full"
+          required
+        >
+        {% for error in member_form.email.errors %}
+          <div class="field-error-text">{{ error }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Member: Your City (717 x 59) -->
+    <div>
+      <label for="{{ member_form.cityName.id_for_label }}" class="form-label">Your City</label>
+      <input 
+        type="text" 
+        id="{{ member_form.cityName.id_for_label }}" 
+        name="{{ member_form.cityName.html_name }}" 
+        value="{{ member_form.cityName.value|default_if_none:'' }}" 
+        placeholder="Type Here" 
+        class="form-input w-full"
+        required
+      >
+      {% for error in member_form.cityName.errors %}
+        <div class="field-error-text">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+  </div>
+  {% endfor %}
 </div>
 
-<button type="button" id="gn_m_add_member">
-    Add Member
-</button>
+<!-- Action Buttons -->
+<div class="pt-4 space-y-3.5">
+  <!-- Add Member Button (717 x 54) -->
+  <button 
+    type="button" 
+    id="gn_m_add_member"
+    class="w-full h-[54px] bg-black border border-[#3e3e3e] hover:border-[#666666] hover:bg-[#0c0c0c] text-[#dedede] font-darker text-[17px] font-semibold tracking-wide rounded-[3px] transition-colors flex items-center justify-center gap-1.5"
+  >
+    <span>Add Member</span>
+    <span class="text-xl leading-none">+</span>
+  </button>
 
+  <!-- Submit Button (717 x 56) -->
+  <button 
+    type="submit" 
+    id="submit-gnm"
+    class="w-full h-[56px] bg-[#a4a4a4] hover:bg-[#bcbcbc] active:bg-[#909090] text-[#0d0d0d] font-darker text-[18px] font-bold uppercase tracking-[0.08em] rounded-[2px] transition-colors shadow-sm flex items-center justify-center"
+  >
+    SUBMIT
+  </button>
+</div>
+
+<!-- Empty Form Template for Dynamic Clones -->
 <template id="gn_m_empty_form_template">
-    <div class="member-form">
-        <h3 class="member-heading">Member</h3>
-
-        {% for field in gn_m_member_formset.empty_form %}
-            <p>{{ field.label_tag }} {{ field }}</p>
-        {% endfor %}
-
-        <button type="button" class="delete-member">
-            Delete
+  <div class="gn-member-block space-y-6 pt-2" id="gn_m-member-__prefix_num__">
+    <div class="pt-3 pb-1">
+      <div class="flex items-center justify-between gap-2 sm:gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 flex-grow min-w-0">
+          <span class="section-title gn-member-heading truncate">MEMBER DETAILS</span>
+          <div class="flex-grow border-b border-[#2d2d2d]"></div>
+        </div>
+        <button 
+          type="button" 
+          onclick="removeGNMember(this)" 
+          class="delete-gn-member flex-shrink-0 text-[13px] sm:text-[14px] text-red-400 hover:text-red-300 font-darker uppercase tracking-wider px-2 py-0.5 border border-red-500/30 rounded hover:border-red-500 transition"
+        >
+          Remove
         </button>
+      </div>
     </div>
+
+    <div>
+      <label for="id_gn_m_members-__prefix__-name" class="form-label">Full name</label>
+      <input 
+        type="text" 
+        id="id_gn_m_members-__prefix__-name" 
+        name="gn_m_members-__prefix__-name" 
+        placeholder="Type Here" 
+        class="form-input w-full"
+        required
+      >
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-[19px]">
+      <div>
+        <label for="id_gn_m_members-__prefix__-gender" class="form-label">Gender</label>
+        <select 
+          id="id_gn_m_members-__prefix__-gender" 
+          name="gn_m_members-__prefix__-gender" 
+          class="form-input w-full"
+          required
+        >
+          {% for val, text in gn_m_member_formset.empty_form.gender.field.choices %}
+            <option value="{{ val }}">{{ text }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="id_gn_m_members-__prefix__-postalCode" class="form-label">Postal Code</label>
+        <input 
+          type="text" 
+          id="id_gn_m_members-__prefix__-postalCode" 
+          name="gn_m_members-__prefix__-postalCode" 
+          placeholder="Type Here" 
+          class="form-input w-full"
+          maxlength="6"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-[19px]">
+      <div>
+        <label for="id_gn_m_members-__prefix__-contactNumber" class="form-label">Contact No.</label>
+        <input 
+          type="tel" 
+          id="id_gn_m_members-__prefix__-contactNumber" 
+          name="gn_m_members-__prefix__-contactNumber" 
+          placeholder="Type Here" 
+          class="form-input w-full"
+          maxlength="10"
+          required
+        >
+      </div>
+      <div>
+        <label for="id_gn_m_members-__prefix__-email" class="form-label">Email Address</label>
+        <input 
+          type="email" 
+          id="id_gn_m_members-__prefix__-email" 
+          name="gn_m_members-__prefix__-email" 
+          placeholder="Type Here" 
+          class="form-input w-full"
+          required
+        >
+      </div>
+    </div>
+
+    <div>
+      <label for="id_gn_m_members-__prefix__-cityName" class="form-label">Your City</label>
+      <input 
+        type="text" 
+        id="id_gn_m_members-__prefix__-cityName" 
+        name="gn_m_members-__prefix__-cityName" 
+        placeholder="Type Here" 
+        class="form-input w-full"
+        required
+      >
+    </div>
+  </div>
 </template>
 
 <script>
-    const gnMAddButton = document.getElementById("gn_m_add_member");
-    const gnMMembersContainer = document.getElementById(
-        "gn_m_members_container"
-    );
-    const gnMEmptyFormTemplate = document.getElementById(
-        "gn_m_empty_form_template"
-    );
+  (function () {
+    const wordList = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN", "TWENTY"];
+    const container = document.getElementById("gn_m_members_container");
+    const addBtn = document.getElementById("gn_m_add_member");
+    const template = document.getElementById("gn_m_empty_form_template");
+    const totalForms = document.getElementById("id_gn_m_members-TOTAL_FORMS");
 
-    const gnMTotalForms = document.getElementById(
-        "id_gn_m_members-TOTAL_FORMS"
-    );
+    function reindexGNMembers() {
+      const blocks = container.querySelectorAll(".gn-member-block");
 
-    function updateGNMemberHeadings() {
-        const members =
-            gnMMembersContainer.querySelectorAll(".member-form");
+      blocks.forEach((block, i) => {
+        block.id = `gn_m-member-${i + 1}`;
 
-        members.forEach((member, index) => {
-            member.querySelector(".member-heading").textContent =
-                `Member ${index + 1}`;
+        // Re-index all attributes with gn_m_members
+        block.querySelectorAll("[name]").forEach(el => {
+          el.name = el.name.replace(/gn_m_members-\d+-/, `gn_m_members-${i}-`);
+          el.id = el.id.replace(/id_gn_m_members-\d+-/, `id_gn_m_members-${i}-`);
         });
+
+        block.querySelectorAll("label[for]").forEach(lbl => {
+          lbl.setAttribute("for", lbl.getAttribute("for").replace(/id_gn_m_members-\d+-/, `id_gn_m_members-${i}-`));
+        });
+
+        // Update heading text
+        const word = wordList[i] || (i + 1);
+        const heading = block.querySelector(".gn-member-heading");
+        if (heading) {
+          heading.textContent = `MEMBER ${word} DETAILS`;
+        }
+
+        // Toggle Remove button for first member
+        const removeBtn = block.querySelector(".delete-gn-member");
+        if (removeBtn) {
+          if (blocks.length === 1) {
+            removeBtn.classList.add("hidden");
+          } else {
+            removeBtn.classList.remove("hidden");
+          }
+        }
+      });
+
+      totalForms.value = blocks.length;
     }
 
-    gnMAddButton.addEventListener("click", function () {
-        const index = Number(gnMTotalForms.value);
+    window.removeGNMember = function (btn) {
+      const blocks = container.querySelectorAll(".gn-member-block");
+      if (blocks.length <= 1) {
+        alert("At least one member is required.");
+        return;
+      }
+      btn.closest(".gn-member-block").remove();
+      reindexGNMembers();
+    };
 
-        const html = gnMEmptyFormTemplate.innerHTML.replace(
-            /__prefix__/g,
-            index
-        );
+    if (addBtn && template && totalForms) {
+      addBtn.addEventListener("click", function () {
+        const nextIndex = container.querySelectorAll(".gn-member-block").length;
+        let html = template.innerHTML
+          .replace(/__prefix__/g, nextIndex)
+          .replace(/__prefix_num__/g, nextIndex + 1);
 
-        gnMMembersContainer.insertAdjacentHTML("beforeend", html);
+        container.insertAdjacentHTML("beforeend", html);
+        reindexGNMembers();
+      });
+    }
 
-        gnMTotalForms.value = index + 1;
-
-        updateGNMemberHeadings();
-    });
-
-    gnMMembersContainer.addEventListener("click", function (event) {
-        if (event.target.classList.contains("delete-member")) {
-            const members =
-                gnMMembersContainer.querySelectorAll(".member-form");
-
-            if (members.length <= 1) {
-                alert("At least one member is required.");
-                return;
-            }
-
-            event.target.closest(".member-form").remove();
-
-            updateGNMemberHeadings();
-        }
-    });
+    // Initial heading & button alignment
+    reindexGNMembers();
+  })();
 </script>
