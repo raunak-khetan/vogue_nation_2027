@@ -1,7 +1,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
 <link rel="stylesheet" href="{% static 'core/style.css' %}">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   #footer-inner-top {
     display: flex;
@@ -23,14 +23,97 @@
   }
   #footer-divider { padding: 0 80px; box-sizing: border-box; width: 100%; }
 
+  /* Desktop defaults for mobile-only elements */
+  #mobile-card-stack { display: none; }
+  .mobile-links-divider { display: none; }
+  .mobile-links-label { display: none; }
+  .mobile-br { display: none; }
+
   @media (max-width: 768px) {
-    #footer-inner-top { flex-direction: column; gap: 36px; padding: 48px 28px 32px; }
-    #footer-nav-links { align-items: flex-start !important; }
-    #footer-bottom-bar { flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px 28px 20px; }
+    /* Header */
+    #glimpses-header-wrap { padding-top: 48px !important; padding-bottom: 24px !important; }
+   .desktop-spaces { display: none; }
+    .mobile-br { display: inline; }
+    #glimpses-header-box {
+      height: auto !important;
+      max-width: 100% !important;
+      padding: 0 12px;
+    }
+    #glimpses-heading {
+      font-size: clamp(46px, 14vw, 64px) !important;
+      line-height: 1.08 !important;
+      white-space: normal !important;
+    }
+
+    /* Hide desktop carousel, show mobile stacked cards */
+    .carousel-viewport { display: none !important; }
+    #mobile-card-stack {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 264px;
+      max-width: 78vw;
+      height: 396px;
+      margin: 24px auto 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.8);
+      transform-origin: center center;
+      will-change: transform, opacity;
+    }
+
+    /* Spacer */
+    #section-spacer { height: 72px !important; }
+
+    /* FAQ */
+    #faq-section { min-height: auto !important; padding-top: 40px !important; padding-bottom: 56px !important; }
+    #faq-heading { font-size: clamp(28px, 7.5vw, 38px) !important; letter-spacing: -1px !important; margin-bottom: 32px !important; line-height: 1.15; padding: 0 16px; }
+    #faq-container { width: 90vw !important; gap: 14px !important; }
+    .faq-item-btn { min-height: 58px !important; padding: 14px 18px !important; font-size: 14px !important; gap: 12px !important; }
+    .faq-item-panel p { padding: 0 18px 18px !important; font-size: 13px !important; line-height: 20px !important; }
+
+    /* Footer */
+    #main-footer { min-height: auto !important; padding-top: 56px !important; }
+    #footer-inner-top { flex-direction: column; align-items: center; gap: 28px; padding: 24px 28px 28px; }
+    #footer-contact-col { align-items: center !important; text-align: center; width: 100%; }
+    #footer-contact-label { font-size: 14px !important; margin-bottom: 14px !important; letter-spacing: 1.5px !important; }
+    #footer-contact-name { font-size: 32px !important; margin-bottom: 4px !important; }
+    #footer-contact-role { font-size: 18px !important; margin-bottom: 18px !important; }
+    #footer-contact-phone, #footer-contact-email { font-size: 16px !important; }
+
+    .mobile-links-divider { display: block; width: 100%; height: 1px; background: rgba(255,255,255,0.12); }
+    .mobile-links-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      padding: 4px 0;
+    }
+    .mobile-links-label {
+      display: block;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      color: #9A9A9A;
+      padding-top: 4px;
+    }
+    #footer-nav-links { align-items: flex-end !important; gap: 10px !important; padding-top: 0 !important; }
+    #footer-nav-links a { font-size: 16px !important; }
+
+    #footer-bottom-bar { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 16px 28px 20px; }
+    #footer-bottom-bar p, #footer-bottom-bar span { font-size: 13px !important; }
     #footer-divider { padding: 0 28px; }
   }
   @media (max-width: 480px) {
-    #footer-inner-top { padding: 36px 20px 24px; }
+    #footer-inner-top { padding: 20px 20px 24px; }
     #footer-bottom-bar { padding: 14px 20px 16px; }
     #footer-divider { padding: 0 20px; }
   }
@@ -40,16 +123,16 @@
 <div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
    <!-- SECTION 1: HEADER                                              -->
-<div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
-    <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
-        <h2 style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
-            Glimpses of&nbsp;&nbsp;VogueNation'26
+<div id="glimpses-header-wrap" style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
+    <div id="glimpses-header-box" style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
+        <h2 id="glimpses-heading" style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
+            Glimpses of<span class="desktop-spaces">&nbsp;&nbsp;</span><br class="mobile-br">VogueNation'26
         </h2>
     </div>
 </div>
 
 
-<!-- SECTION 2: IMAGES -->
+<!-- SECTION 2: IMAGES (WEB CAROUSEL) -->
 
 <div class="carousel-viewport"
      style="width: 100%; height: 412px; overflow: hidden; position: relative; box-sizing: border-box;">
@@ -88,10 +171,19 @@
     </svg>
 </div>
 
+<!-- SECTION 2 (MOBILE): STACKED CLICKABLE CARDS -->
+<div id="mobile-card-stack">
+    <img src="{% static 'core/images/glimpses/photo1.png' %}" class="mobile-card" alt="Vogue 1">
+    <img src="{% static 'core/images/glimpses/photo2.png' %}" class="mobile-card" alt="Vogue 2">
+    <img src="{% static 'core/images/glimpses/photo3.png' %}" class="mobile-card" alt="Vogue 3">
+    <img src="{% static 'core/images/glimpses/photo4.png' %}" class="mobile-card" alt="Vogue 4">
+    <img src="{% static 'core/images/glimpses/photo5.png' %}" class="mobile-card" alt="Vogue 5">
+</div>
+
 
     <!-- SECTION 3: SPACER                                              -->
 
-    <div style="width: 100%; height: 250px; background-color: #0B0B0B;"></div>
+    <div id="section-spacer" style="width: 100%; height: 250px; background-color: #0B0B0B;"></div>
 </div>
 
 
@@ -101,7 +193,7 @@
          style="width: 100vw; min-height: 100vh; margin-left: calc(50% - 50vw);
                 background-color: #000; padding-top: 112px; padding-bottom: 64px;
                 user-select: none; box-sizing: border-box;">
-    <h1 style="text-align: center; font-size: clamp(28px, 5vw, 52px); font-weight: 400; letter-spacing: -2px; margin-bottom: 55px; font-family: Georgia, serif; color: #fff;">
+    <h1 id="faq-heading" style="text-align: center; font-size: clamp(28px, 5vw, 52px); font-weight: 400; letter-spacing: -2px; margin-bottom: 55px; font-family: Georgia, serif; color: #fff;">
         Frequently Asked Questions
     </h1>
     <div id="faq-container" style="width: 800px; max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
@@ -184,9 +276,6 @@
             </div>
         </div>
 
-
-
-
     </div>
 </section>
 
@@ -224,28 +313,33 @@
     <div id="footer-inner-top">
 
         <!-- LEFT: Contact -->
-        <div style="display: flex; flex-direction: column;">
-            <p style="font-family: Georgia, serif; font-size: 25px; letter-spacing: 2px; color: #B6B6B6; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
-            <p style="font-family: Georgia, serif; font-size: 64px; font-weight: 400; color:#676767; margin: 0 0 2px 0; line-height: 1.1;">Joudi Warisa</p>
-            <p style="font-family: Georgia, serif; font-size: 40px; color: #676767; margin: 0 0 28px 0;">Vogue Nation Convenor</p>
-            <p style="font-family: Georgia, serif; font-size: 32px; color: #FFFFFF; margin: 0 0 5px 0;">8822501458</p>
-            <p style="font-family: Georgia, serif; font-size: 32px; color: #FFFFFF; margin: 0;">vogue@alcheringa.co.in</p>
+        <div id="footer-contact-col" style="display: flex; flex-direction: column;">
+            <p id="footer-contact-label" style="font-family: Georgia, serif; font-size: 25px; letter-spacing: 2px; color: #B6B6B6; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
+            <p id="footer-contact-name" style="font-family: Georgia, serif; font-size: 64px; font-weight: 400; color:#676767; margin: 0 0 2px 0; line-height: 1.1;">Joudi Warisa</p>
+            <p id="footer-contact-role" style="font-family: Georgia, serif; font-size: 40px; color: #676767; margin: 0 0 28px 0;">Vogue Nation Convenor</p>
+            <p id="footer-contact-phone" style="font-family: Georgia, serif; font-size: 32px; color: #FFFFFF; margin: 0 0 5px 0;">8822501458</p>
+            <p id="footer-contact-email" style="font-family: Georgia, serif; font-size: 32px; color: #FFFFFF; margin: 0;">vogue@alcheringa.co.in</p>
         </div>
 
+        <div class="mobile-links-divider"></div>
+
         <!-- RIGHT: Nav -->
-        <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
-            <a href="#" onclick="return false;" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
-               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                About <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white;">↗</span>
-            </a>
-            <a href="#faq-section" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
-               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                FAQs <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white">↗</span>
-            </a>
-            <a href="#" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
-               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                Glimpses <span style="font-size: 14px; transform: rotate(0deg); display:inline-block ; -webkit-text-stroke: 2px white">↗</span>
-            </a>
+        <div class="mobile-links-wrapper">
+            <span class="mobile-links-label">Links</span>
+            <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
+                <a href="#" onclick="return false;" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+                   onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                    About <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white;">↗</span>
+                </a>
+                <a href="#faq-section" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+                   onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                    FAQs <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white">↗</span>
+                </a>
+                <a href="#" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+                   onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                    Glimpses <span style="font-size: 14px; transform: rotate(0deg); display:inline-block ; -webkit-text-stroke: 2px white">↗</span>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -417,6 +511,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
     window.addEventListener('touchend', () => { isDragging = false; });
     window.addEventListener('resize', render);
+});
+
+/* ── Mobile Stacked Cards ── */
+document.addEventListener("DOMContentLoaded", () => {
+    const stack = document.getElementById("mobile-card-stack");
+    if (!stack) return;
+    const cards = Array.from(stack.querySelectorAll(".mobile-card"));
+    if (!cards.length) return;
+
+    const restAngles = [-2, -5, -8, -11, -14];
+    let order = cards.map((_, i) => i);
+    let isAnimating = false;
+
+    function layoutCards(animate) {
+        order.forEach((cardIdx, pos) => {
+            const card = cards[cardIdx];
+            const angle = restAngles[pos % restAngles.length];
+            const scale = 1 - pos * 0.015;
+            const yOff  = pos * 3;
+            card.style.zIndex = cards.length - pos;
+            if (animate) {
+                gsap.to(card, {
+                    rotation: angle,
+                    scale: scale,
+                    y: yOff,
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.42,
+                    ease: "power3.out"
+                });
+            } else {
+                gsap.set(card, { rotation: angle, scale: scale, y: yOff, x: 0, opacity: 1 });
+            }
+        });
+    }
+
+    layoutCards(false);
+
+    stack.addEventListener("click", () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        const topCard = cards[order[0]];
+
+        gsap.to(topCard, {
+            y: -48,
+            scale: 1.07,
+            rotation: -6,
+            opacity: 0.85,
+            duration: 0.22,
+            ease: "power2.out",
+            onComplete: () => {
+                order.push(order.shift());
+                layoutCards(true);
+                setTimeout(() => { isAnimating = false; }, 380);
+            }
+        });
+    });
 });
 
 /* ── FAQ ── */
