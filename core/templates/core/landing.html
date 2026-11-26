@@ -226,128 +226,7 @@
 
   <!-- Glimpses, FAQ & Footer (Dipank) -->
   <div class="lower-sections" id="lowerSections">
-<style>
-  #footer-inner-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 60px 80px 40px;
-    box-sizing: border-box;
-    width: 100%;
-  }
-  #footer-bottom-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 80px 28px;
-    box-sizing: border-box;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  #footer-divider { padding: 0 80px; box-sizing: border-box; width: 100%; }
 
-  /* Desktop defaults for mobile-only elements */
-  #mobile-card-stack { display: none; }
-  .mobile-links-divider { display: none; }
-  .mobile-links-label { display: none; }
-  .mobile-br { display: none; }
-
-  @media (max-width: 768px) {
-    /* Header */
-    #glimpses-header-wrap { padding-top: 48px !important; padding-bottom: 24px !important; }
-    .desktop-spaces { display: none; }
-    .mobile-br { display: inline; }
-    #glimpses-header-box {
-      height: auto !important;
-      max-width: 100% !important;
-      padding: 0 12px;
-    }
-    #glimpses-heading {
-      font-size: clamp(46px, 14vw, 64px) !important;
-      line-height: 1.08 !important;
-      white-space: normal !important;
-    }
-
-    #main-wrapper,
-    #glimpses-header-wrap,
-    #section-spacer {
-      background-color: #000000 !important;
-    }
-
-    /* Hide desktop carousel, show mobile stacked cards */
-    .carousel-viewport { display: none !important; }
-    #mobile-card-stack {
-      display: flex !important;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      width: 264px;
-      max-width: 78vw;
-      height: 396px;
-      margin: 24px auto 12px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .mobile-card {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 6px;
-      box-shadow: 0 14px 32px rgba(0,0,0,0.8);
-      transform-origin: center center;
-      will-change: transform, opacity;
-    }
-
-    /* Spacer */
-    #section-spacer { height: 72px !important; }
-
-    /* FAQ */
-    #faq-section { min-height: auto !important; padding-top: 40px !important; padding-bottom: 56px !important; }
-    #faq-heading { font-size: clamp(28px, 7.5vw, 38px) !important; letter-spacing: -1px !important; margin-bottom: 32px !important; line-height: 1.15; padding: 0 16px; }
-    #faq-container { width: 90vw !important; gap: 14px !important; }
-    .faq-item-btn { min-height: 58px !important; padding: 14px 18px !important; font-size: 14px !important; gap: 12px !important; }
-    .faq-item-panel p { padding: 0 18px 18px !important; font-size: 13px !important; line-height: 20px !important; }
-
-    /* Footer */
-    #main-footer { min-height: auto !important; padding-top: 220px !important; }
-    #footer-inner-top { flex-direction: column; align-items: center; gap: 28px; padding: 24px 28px 28px; }
-    #footer-contact-col { align-items: center !important; text-align: center; width: 100%; }
-    #footer-contact-label { font-size: 25px !important; margin-bottom: 34px !important; letter-spacing: 1.5px !important; }
-    #footer-contact-name { font-size: 60px !important; margin-bottom: 4px !important; }
-    #footer-contact-role { font-size: 35px !important; margin-bottom: 32px !important; }
-    #footer-contact-phone, #footer-contact-email { font-size: 32px !important; }
-
-    .mobile-links-divider { display: block; width: 100%; height: 1px; background: rgba(255,255,255,0.12); }
-    .mobile-links-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      width: 100%;
-      padding: 4px 0;
-    }
-    .mobile-links-label {
-      display: block;
-      font-family: Georgia, serif;
-      font-size: 25px;
-      color: #B6B6B6;
-      padding-top: 44px;
-    }
-    #footer-nav-links { align-items: flex-end !important; gap: 10px !important; padding-top: 0 !important; }
-    #footer-nav-links a { font-size: 25px !important; }
-
-    #footer-bottom-bar { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 16px 28px 20px; }
-    #footer-bottom-bar p, #footer-bottom-bar span { font-size: 13px !important; }
-    #footer-divider { padding: 0 28px; }
-  }
-  @media (max-width: 480px) {
-    #footer-inner-top { padding: 20px 20px 24px; }
-    #footer-bottom-bar { padding: 14px 20px 16px; }
-    #footer-divider { padding: 0 20px; }
-  }
-</style>
 
 <!-- Main Wrapper -->
 <div id="main-wrapper" style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
@@ -431,12 +310,12 @@
         <!-- FAQ 1 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
             <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
+                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
                     <span>Can I participate in more than one module?</span>
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Participation in multiple modules depends on the competition rules. Please refer to the module guidelines for eligibility and participation details.</p></div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Participation in multiple modules depends on the competition rules. Please refer to the module guidelines for eligibility and participation details.</p></div>
                 </div>
             </div>
         </div>
@@ -444,12 +323,12 @@
         <!-- FAQ 2 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
             <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
+                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
                     <span>Do I need prior modelling or fashion show experience to participate?</span>
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Not necessarily! If you have a passion for fashion, creativity, and the runway, Vogue Nation is an opportunity to showcase your talent.</p></div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Not necessarily! If you have a passion for fashion, creativity, and the runway, Vogue Nation is an opportunity to showcase your talent.</p></div>
                 </div>
             </div>
         </div>
@@ -457,12 +336,12 @@
         <!-- FAQ 3 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
             <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
+                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
                     <span>What are the rules and judging criteria for the competition?</span>
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Each module has its own guidelines and judging criteria. Participants should review the respective rulebook for details about creativity, styling, presentation, and other evaluation parameters.</p></div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Each module has its own guidelines and judging criteria. Participants should review the respective rulebook for details about creativity, styling, presentation, and other evaluation parameters.</p></div>
                 </div>
             </div>
         </div>
@@ -470,12 +349,12 @@
         <!-- FAQ 4 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
             <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
+                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
                     <span>What should I do after completing my registration?</span>
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Keep an eye on your registered email address and the official Alcheringa communication channels for registration confirmation, schedules, and further instructions.</p></div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Keep an eye on your registered email address and the official Alcheringa communication channels for registration confirmation, schedules, and further instructions.</p></div>
                 </div>
             </div>
         </div>
@@ -483,12 +362,12 @@
         <!-- FAQ 5 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
             <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
+                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
                     <span>Will participants receive certificates?</span>
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Yes , every participant will receive participation certificate.</p></div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Yes , every participant will receive participation certificate.</p></div>
                 </div>
             </div>
         </div>
@@ -496,12 +375,12 @@
         <!-- FAQ 6 -->
         <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
             <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
+                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
                     <span>Where can I find updates about Vogue Nation?</span>
                     <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
                 </button>
                 <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Keep checking the official Alcheringa website, social media pages, and messages from the Vogue Nation organising team for announcements and schedule updates.</p></div>
+                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Keep checking the official Alcheringa website, social media pages, and messages from the Vogue Nation organising team for announcements and schedule updates.</p></div>
                 </div>
             </div>
         </div>
@@ -583,10 +462,10 @@
 
         <p style="font-family: Georgia, serif; font-size: 24px; color: #9A9A9A; margin: 0;">
             Designed By 
-            <span style="color:#9A9A9A ; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px;">Team Creatives</span>
+            <span style="color:#FFFFFF ; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px; font-weight: 800;">Team Creatives</span>
             
              &nbsp; Developed By 
-            <span id="webops-trigger" style="color: #9A9A9A; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px;">
+            <span id="webops-trigger" style="color: #FFFFFF; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px; font-weight: 800;">
                  Team Webops
                 <span id="webops-popup"
                       style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
@@ -624,216 +503,6 @@
     </div>
 </footer>
 
-<!-- GSAP -->
-<script>
-
-function fitBrandText() {
-    const el = document.getElementById('footer-brand-text');
-    if (!el) return;
-
-    const targetW = document.documentElement.clientWidth;
-
-    // Use an off-screen measuring span with the same font
-    const probe = document.createElement('span');
-    probe.style.cssText = [
-        "font-family:'Palace Script MT','Palace Script',cursive",
-        "white-space:nowrap",
-        "position:fixed",
-        "top:-9999px",
-        "left:-9999px",
-        "visibility:hidden",
-        "line-height:1",
-        "letter-spacing:0px"
-    ].join(';');
-    probe.textContent = 'Vogue Nation';
-    document.body.appendChild(probe);
-
-    let lo = 50, hi = 4000;
-    for (let i = 0; i < 25; i++) {
-        const mid = (lo + hi) >> 1;
-        probe.style.fontSize = mid + 'px';
-        (probe.getBoundingClientRect().width <= targetW) ? lo = mid : hi = mid;
-    }
-
-    document.body.removeChild(probe);
-
-    el.style.fontSize   = lo + 'px';
-    el.style.visibility = 'visible';   
-}
-
-
-document.fonts.ready.then(fitBrandText);
-window.addEventListener('resize', () => document.fonts.ready.then(fitBrandText));
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const track    = document.querySelector('.carousel-track');
-    const images   = document.querySelectorAll('.carousel-img');
-    const viewport = document.querySelector('.carousel-viewport');
-    if (!track || !viewport) return;
-
-    const imgWidth       = 280, gap = 12;
-    const itemSpacing    = imgWidth + gap;
-    const singleSetWidth = 5 * itemSpacing;
-    let scrollPos = 0, isDragging = false, startX = 0, startScroll = 0;
-    let hoveredIdx = -1;
-    const hoverScales = Array.from(images, () => 1);
-
-    images.forEach((img, i) => {
-        img.addEventListener('mouseenter', () => { hoveredIdx = i; });
-        img.addEventListener('mouseleave', () => { if (hoveredIdx === i) hoveredIdx = -1; });
-    });
-
-    function render() {
-        const trackX = -(scrollPos % singleSetWidth);
-        track.style.transform = `translateX(${trackX}px)`;
-        const vc = window.innerWidth / 2;
-        images.forEach((img, i) => {
-            const c = trackX + i * itemSpacing + imgWidth / 2;
-            const d = c - vc;
-            const scale = 0.85 + Math.min(Math.abs(d) / vc, 1) * 0.15;
-            const sx = -Math.tanh(d / 420) * 32;
-
-            const targetHover = (i === hoveredIdx && !isDragging) ? 1.07 : 1;
-            hoverScales[i] += (targetHover - hoverScales[i]) * 0.14;
-
-            img.style.transform       = `translateX(${sx}px) scale(${scale * hoverScales[i]})`;
-            img.style.transformOrigin = "center center";
-            img.style.zIndex          = (i === hoveredIdx) ? 5 : 1;
-        });
-    }
-
-    gsap.ticker.add(() => {
-        if (!isDragging) scrollPos += 1.0;
-        render();
-    });
-
-    viewport.addEventListener('wheel', e => {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            e.preventDefault();
-            scrollPos += e.deltaX * 0.8;
-            if (scrollPos < 0) scrollPos += singleSetWidth * 10;
-            render();
-        }
-    }, { passive: false });
-
-    track.addEventListener('mousedown', e => {
-        isDragging = true; startX = e.clientX; startScroll = scrollPos;
-        track.style.cursor = 'grabbing';
-    });
-    window.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        scrollPos = startScroll - (e.clientX - startX) * 1.2;
-        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
-        render();
-    });
-    window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
-
-    track.addEventListener('touchstart', e => {
-        isDragging = true; startX = e.touches[0].clientX; startScroll = scrollPos;
-    }, { passive: true });
-    window.addEventListener('touchmove', e => {
-        if (!isDragging) return;
-        scrollPos = startScroll - (e.touches[0].clientX - startX) * 1.2;
-        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
-        render();
-    }, { passive: true });
-    window.addEventListener('touchend', () => { isDragging = false; });
-    window.addEventListener('resize', render);
-});
-
-/* ── Mobile Stacked Cards ── */
-document.addEventListener("DOMContentLoaded", () => {
-    const stack = document.getElementById("mobile-card-stack");
-    if (!stack) return;
-    const cards = Array.from(stack.querySelectorAll(".mobile-card"));
-    if (!cards.length) return;
-
-    const restAngles = [-2, -5, -8, -11, -14];
-    let order = cards.map((_, i) => i);
-    let isAnimating = false;
-
-    function layoutCards(animate) {
-        order.forEach((cardIdx, pos) => {
-            const card = cards[cardIdx];
-            const angle = restAngles[pos % restAngles.length];
-            const scale = 1 - pos * 0.015;
-            const yOff  = pos * 3;
-            card.style.zIndex = cards.length - pos;
-            if (animate) {
-                gsap.to(card, {
-                    rotation: angle,
-                    scale: scale,
-                    y: yOff,
-                    x: 0,
-                    opacity: 1,
-                    duration: 0.42,
-                    ease: "power3.out"
-                });
-            } else {
-                gsap.set(card, { rotation: angle, scale: scale, y: yOff, x: 0, opacity: 1 });
-            }
-        });
-    }
-
-    layoutCards(false);
-
-    stack.addEventListener("click", () => {
-        if (isAnimating) return;
-        isAnimating = true;
-        const topCard = cards[order[0]];
-
-        gsap.to(topCard, {
-            y: -48,
-            scale: 1.07,
-            rotation: -6,
-            opacity: 0.85,
-            duration: 0.22,
-            ease: "power2.out",
-            onComplete: () => {
-                order.push(order.shift());
-                layoutCards(true);
-                setTimeout(() => { isAnimating = false; }, 380);
-            }
-        });
-    });
-});
-
-/* ── FAQ ── */
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".faq-item").forEach(item => {
-        const btn   = item.querySelector(".faq-item-btn");
-        const panel = item.querySelector(".faq-item-panel");
-        const arrow = item.querySelector(".faq-arrow");
-        const inner = item.querySelector(".faq-item-inner");
-        if (!btn || !panel || !arrow || !inner) return;
-        let open = false;
-        const apply = o => {
-            item.style.background  = o ? "linear-gradient(to left,#d4af37,white)" : "linear-gradient(to left,#644E0C,#353535)";
-            inner.style.background = o ? "linear-gradient(to bottom right,#292929,#303030)" : "#000";
-            arrow.style.transform  = o ? "rotate(180deg)" : "rotate(0deg)";
-            btn.setAttribute("aria-expanded", String(o));
-        };
-        apply(false);
-        btn.addEventListener("click", () => { open = !open; panel.style.gridTemplateRows = open ? "1fr" : "0fr"; apply(open); });
-    });
-});
-
-
-/* ── Team Webops Popup ── */
-document.addEventListener("DOMContentLoaded", () => {
-    const trigger = document.getElementById("webops-trigger");
-    const popup   = document.getElementById("webops-popup");
-    if (!trigger || !popup) return;
-    let t = null;
-    const show = () => { clearTimeout(t); popup.style.display = "flex"; };
-    const hide = () => { t = setTimeout(() => { popup.style.display = "none"; }, 150); };
-    trigger.addEventListener("mouseenter", show);
-    trigger.addEventListener("mouseleave", hide);
-    popup.addEventListener("mouseenter", show);
-    popup.addEventListener("mouseleave", hide);
-});
-</script>
   </div>
 
   <!-- GSAP Core for 60fps animations -->
