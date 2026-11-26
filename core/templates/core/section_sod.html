@@ -23,23 +23,6 @@
   {% endfor %}
 </div>
 
-<!-- Submit your performance(s) (717 x 59) -->
-<div>
-  <label for="{{ team_form.prev_performance.id_for_label }}" class="form-label">Submit your performance(s)</label>
-  <input 
-    type="url" 
-    id="{{ team_form.prev_performance.id_for_label }}" 
-    name="{{ team_form.prev_performance.html_name }}" 
-    value="{{ team_form.prev_performance.value|default_if_none:'' }}" 
-    placeholder="Type Here" 
-    class="form-input form-input-yellow-border w-full"
-    required
-  >
-  {% for error in team_form.prev_performance.errors %}
-    <div class="field-error-text">{{ error }}</div>
-  {% endfor %}
-</div>
-
 <!-- LEADER DETAILS Section Header -->
 <div class="pt-2 pb-1">
   <div class="flex items-center gap-3">

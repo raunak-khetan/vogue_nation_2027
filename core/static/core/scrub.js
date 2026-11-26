@@ -16,6 +16,7 @@ window.createFrameScrubber = function ({
   frameCount,
   src,
   lerp = 0.08,       // lower = floatier, higher = snappier
+  mapProgress = null, // optional scroll-progress -> frame-progress mapper
   onProgress = null, // called with eased progress 0..1
   onLoad = null      // called with loaded fraction 0..1
 }) {
@@ -61,8 +62,11 @@ window.createFrameScrubber = function ({
 
   // ---- Draw two neighbouring frames with a crossfade ----
   function draw() {
-    const f = Math.floor(current);
-    const t = current - f;
+    const rawP = current / (frameCount - 1);
+    const mappedP = mapProgress ? Math.min(1, Math.max(0, mapProgress(rawP))) : rawP;
+    const mappedFrame = mappedP * (frameCount - 1);
+    const f = Math.floor(mappedFrame);
+    const t = mappedFrame - f;
     const a = images[f];
     const b = images[Math.min(f + 1, frameCount - 1)];
     if (!a || !a.complete || !a.naturalWidth) return;

@@ -8,7 +8,7 @@
   <title>Vogue Nation | Alcheringa 2027</title>
   
   <!-- Local & Google Fonts: Darker Grotesque, Italiana, Oranienbaum, Pinyon Script -->
-  <link rel="stylesheet" href="{% static 'core/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'core/fonts.css' %}?v=7">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&family=Italiana&family=Oranienbaum&family=Pinyon+Script&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
   <link rel="stylesheet" href="{% static 'core/style.css' %}">
-  <link rel="stylesheet" href="{% static 'core/landing.css' %}">
+  <link rel="stylesheet" href="{% static 'core/landing.css' %}?v=22">
 </head>
 <body>
 
@@ -33,8 +33,8 @@
     </button>
     <nav class="nav__links" id="navLinks">
       <button class="nav__link-btn" data-target="0.9">ABOUT</button>
-      <button class="nav__link-btn" data-target="2.2">FAQ</button>
       <button class="nav__link-btn" data-target="2.2">GLIMPSES</button>
+      <button class="nav__link-btn" data-target="2.2">FAQ</button>
       <button class="nav__link-btn" data-target="contact">CONTACT</button>
     </nav>
     <a class="btn-register btn-register--sm" href="{% url 'registration' %}" aria-label="Register">
@@ -54,23 +54,21 @@
           <span class="intro-curtain__sub">ALCHERINGA 2027 &bull; FASHION SHOWDOWN</span>
           <h1 class="intro-curtain__brand">VOGUE NATION</h1>
           <div class="intro-curtain__cue">
-            <div class="intro-curtain__mouse">
-              <div class="intro-curtain__wheel"></div>
-            </div>
-            <span class="intro-curtain__text">SCROLL DOWN TO WALK THE RUNWAY</span>
-            <div class="intro-curtain__arrow">
-              <svg viewBox="0 0 24 24" width="22" height="22">
-                <path d="M12 4v16m0 0l-6-6m6 6l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <button type="button" class="intro-curtain__enter" id="btnEnterRunway">
+              <span>ENTER THE RUNWAY</span>
+              <svg class="intro-curtain__enter-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path d="M5 12h14m-6-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </div>
+            </button>
+            <span class="intro-curtain__text">CLICK OR PRESS ENTER</span>
           </div>
         </div>
       </div>
 
       <!-- 2. Scroll-Controlled Runway Video (Streamed with HTTP 206) -->
-      <video class="bg-video" id="introVideo" src="/video/intro.mp4" muted playsinline webkit-playsinline preload="auto"></video>
+      <video class="bg-video" id="introVideo" src="/video/intro.mp4" playsinline webkit-playsinline preload="auto"></video>
       <div class="video-overlay" id="introOverlay"></div>
-      <button class="btn-skip-intro" id="btnSkipIntro">PRESS ENTER TO SKIP &rarr;</button>
+      <button type="button" class="btn-skip-intro" id="btnSkipIntro" aria-label="Skip intro video">SKIP INTRO &rarr;</button>
 
       <!-- 3. Flare & "The Runway is calling you" Transition -->
       <div class="runway-container" id="runwayContainer">
@@ -138,12 +136,10 @@
           <!-- Card 1: Glamour Nova (Front) -->
           <article class="card card--1" data-name="Glamour Nova" data-index="0" id="card0">
             <div class="card__glass">
-              <img class="card__photo" src="{% static 'core/assets/card-1.png' %}" alt="Glamour Nova">
+              <img class="card__photo" src="{% static 'core/assets/card-1-card.png' %}?v=14" alt="Glamour Nova">
               <div class="card__gradient"></div>
               <div class="card__info">
-                <span class="card__badge">HAUTE ARENA</span>
                 <h3 class="card__name">Glamour<br>Nova</h3>
-                <span class="card__action">VIEW DETAILS &rarr;</span>
               </div>
             </div>
             <div class="card__shadow"></div>
@@ -152,12 +148,10 @@
           <!-- Card 2: State of Dress (Middle) -->
           <article class="card card--2" data-name="State of Dress" data-index="1" id="card1">
             <div class="card__glass">
-              <img class="card__photo" src="{% static 'core/assets/card-2.png' %}" alt="State of Dress">
+              <img class="card__photo" src="{% static 'core/assets/card-2-card.png' %}?v=14" alt="State of Dress">
               <div class="card__gradient"></div>
               <div class="card__info">
-                <span class="card__badge">ETHNIC RUNWAY</span>
                 <h3 class="card__name">State of<br>Dress</h3>
-                <span class="card__action">VIEW DETAILS &rarr;</span>
               </div>
             </div>
             <div class="card__shadow"></div>
@@ -166,12 +160,10 @@
           <!-- Card 3: Haute Couture (Back) -->
           <article class="card card--3" data-name="Haute Couture" data-index="2" id="card2">
             <div class="card__glass">
-              <img class="card__photo" src="{% static 'core/assets/card-3.png' %}" alt="Haute Couture">
+              <img class="card__photo" src="{% static 'core/assets/card-3-card.png' %}?v=14" alt="Haute Couture">
               <div class="card__gradient"></div>
               <div class="card__info">
-                <span class="card__badge">HIGH COUTURE</span>
                 <h3 class="card__name">Haute<br>Couture</h3>
-                <span class="card__action">VIEW DETAILS &rarr;</span>
               </div>
             </div>
             <div class="card__shadow"></div>
@@ -185,18 +177,17 @@
             <button class="detail__close" id="detailClose" aria-label="Close">&times;</button>
             
             <div class="detail__media">
-              <img class="detail__img" id="detailImg" src="{% static 'core/assets/card-1.png' %}" alt="Competition Showcase">
+              <img class="detail__img" id="detailImg" src="{% static 'core/assets/card-1-detail.png' %}" alt="Competition Showcase">
             </div>
 
             <div class="detail__body">
               <h3 class="detail__title" id="detailTitle">Glamour Nova</h3>
-              <p class="detail__subtitle" id="detailSubtitle">Online Fashion Design and Photoshoot Competition</p>
               <p class="detail__text" id="detailText">
                 From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement.
               </p>
               
               <div class="detail__meta">
-                <a class="detail__rulebook" id="detailRulebook" href="{% url 'registration' %}" target="_blank">Rulebook</a>
+                <a class="detail__rulebook" id="detailRulebook" href="{% static 'core/rulebooks/glamour nova.pdf' %}" target="_blank">Rulebook</a>
                 <a class="btn-register btn-register--detail" href="{% url 'registration' %}" aria-label="Register">
                   <img class="btn-register__img btn-register__img--default" src="{% static 'core/assets/reg_button.svg' %}" alt="Register">
                   <img class="btn-register__img btn-register__img--hover" src="{% static 'core/assets/reg_button_hover.svg' %}" alt="Register">
@@ -264,7 +255,7 @@
 <div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
    <!-- SECTION 1: HEADER                                              -->
-<div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
+<div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 120px; padding-bottom: 30px; box-sizing: border-box;">
     <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
         <h2 style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
             Glimpses of&nbsp;&nbsp;VogueNation'26
@@ -682,10 +673,10 @@ document.addEventListener("DOMContentLoaded", () => {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
   <!-- Frame Scrubber -->
-  <script src="{% static 'core/scrub.js' %}"></script>
+  <script src="{% static 'core/scrub.js' %}?v=6"></script>
 
   <!-- Core Controller Script -->
-  <script src="{% static 'core/landing.js' %}"></script>
+  <script src="{% static 'core/landing.js' %}?v=22"></script>
 </body>
 </html>
 <!--gowtham-end-->

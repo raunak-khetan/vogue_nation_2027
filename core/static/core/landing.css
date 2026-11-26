@@ -11,10 +11,10 @@
   --bg-stage: #080808;
   --color-gold: #c1a58a;
   --color-gold-border: #c58550;
-  --font-serif: 'Oranienbaum', 'Italiana', 'Cinzel', 'Playfair Display', Georgia, serif;
-  --font-script: 'Pinyon Script', 'Brush Script MT', cursive;
-  --font-runway: 'Italiana', 'Oranienbaum', 'Cinzel', serif;
-  --font-body: 'Darker Grotesque', 'Montserrat', 'Segoe UI', sans-serif;
+  --font-serif: 'Oranienbaum', Georgia, serif;
+  --font-script: 'Palace Script MT', cursive;
+  --font-runway: 'Oranienbaum', Georgia, serif;
+  --font-body: 'Darker Grotesque', sans-serif;
   --s: 1; /* Dynamic design-to-viewport scale factor */
 }
 
@@ -301,14 +301,11 @@ button {
   z-index: 40;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(40px);
-  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .lower-sections.is-active {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
 }
 
 .scene {
@@ -388,24 +385,25 @@ button {
 
 /* Skip Intro Button */
 .btn-skip-intro {
-  position: absolute;
-  bottom: 32px;
-  right: 48px;
-  z-index: 35;
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 45;
   font-family: var(--font-serif);
   font-size: 14px;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 10px 22px;
-  border-radius: 28px;
+  letter-spacing: 2.5px;
+  color: #fff;
+  background: rgba(10, 10, 10, 0.78);
+  border: 1px solid rgba(193, 165, 138, 0.55);
+  padding: 11px 24px;
+  border-radius: 999px;
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(193, 165, 138, 0.14);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease, background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+  transition: opacity 0.35s ease, background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn-skip-intro.is-visible {
@@ -414,9 +412,9 @@ button {
 }
 
 .btn-skip-intro:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(193, 165, 138, 0.2);
   border-color: var(--color-gold);
-  color: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 0 24px rgba(193, 165, 138, 0.3);
   transform: translateX(3px);
 }
 
@@ -466,56 +464,70 @@ button {
 }
 
 .intro-curtain__cue {
-  margin-top: 24px;
+  margin-top: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
-.intro-curtain__mouse {
-  width: 24px;
-  height: 38px;
-  border: 2px solid rgba(255, 255, 255, 0.65);
-  border-radius: 19px;
-  position: relative;
-  display: flex;
+.intro-curtain__enter {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  padding-top: 6px;
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.2);
+  gap: 12px;
+  padding: 15px 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(193, 165, 138, 0.6);
+  background: radial-gradient(circle at center, rgba(193, 165, 138, 0.14) 0%, rgba(15, 15, 15, 0.85) 100%);
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 28px rgba(193, 165, 138, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
-.intro-curtain__wheel {
-  width: 4px;
-  height: 8px;
-  background: var(--color-gold);
-  border-radius: 2px;
-  animation: mouseScroll 2s infinite cubic-bezier(0.65, 0, 0.35, 1);
+.intro-curtain__enter:hover,
+.intro-curtain:hover .intro-curtain__enter {
+  border-color: var(--color-gold);
+  background: radial-gradient(circle at center, rgba(193, 165, 138, 0.26) 0%, rgba(20, 20, 20, 0.92) 100%);
+  box-shadow: 0 0 38px rgba(193, 165, 138, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px) scale(1.02);
 }
 
-@keyframes mouseScroll {
-  0% { opacity: 0; transform: translateY(0); }
-  30% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(12px); }
+.intro-curtain__enter:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.intro-curtain__enter-icon {
+  color: var(--color-gold);
+  transition: transform 0.25s ease;
+}
+
+.intro-curtain__enter:hover .intro-curtain__enter-icon,
+.intro-curtain:hover .intro-curtain__enter-icon {
+  transform: translateX(4px);
+}
+
+.intro-curtain__enter.is-nudged {
+  animation: enterPulse 0.45s ease;
+}
+
+@keyframes enterPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); box-shadow: 0 0 40px rgba(193, 165, 138, 0.45); }
 }
 
 .intro-curtain__text {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 3px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.65);
   text-transform: uppercase;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-.intro-curtain__arrow {
-  color: var(--color-gold);
-  animation: arrowBounce 1.8s infinite ease-in-out;
-}
-
-@keyframes arrowBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
 }
 
 /* 2. "The Runway is calling you" Text & Radiant Flare */
@@ -770,15 +782,14 @@ button {
   display: none !important;
 }
 
-/* 3D Perspective Cards Container (Exact Figma Frame 345 on Desktop - 108) */
+/* 3D Perspective Cards Container (Exact Figma 1440x900 Canvas) */
 .cards-row {
   position: absolute;
-  left: 471px;
-  top: 238px;
-  width: 697px;
-  height: 537px;
+  inset: 0;
+  width: 1440px;
+  height: 900px;
   z-index: 15;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 /* Individual Card */
@@ -796,20 +807,25 @@ button {
   height: 100%;
   border-radius: inherit;
   overflow: hidden;
-  background: #141211;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  perspective: 720px;
+  perspective-origin: 50% 50%;
 }
 
 .card__photo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   display: block;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card__gradient {
   position: absolute;
-  inset: 0;
+  inset: 7px 6px;
+  border-radius: 14px;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 40%, transparent 75%);
   pointer-events: none;
 }
@@ -820,11 +836,13 @@ button {
   bottom: 26px;
   right: 20px;
   z-index: 5;
+  transform: rotateY(-20deg);
+  transform-origin: center center;
 }
 
 .card__badge {
   display: inline-block;
-  font-family: var(--font-body);
+  font-family: 'Darker Grotesque', sans-serif;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -834,11 +852,11 @@ button {
 }
 
 .card__name {
-  font-family: var(--font-serif);
-  font-size: 34px;
+  font-family: 'Oranienbaum', Georgia, serif;
+  font-size: 64px;
   font-weight: 400;
-  line-height: 1.05;
-  color: #fff;
+  line-height: 1.02;
+  color: #FFFFFF;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
 }
 
@@ -860,94 +878,94 @@ button {
   transform: translateX(4px);
 }
 
-/* Card Geometry (exact Figma Frame 345 on Desktop - 108) */
+/* Card Geometry (symmetric bottom & top perspective stepping matching design) */
 .card--1 {
-  left: 0;
-  top: 0;
-  width: 295px;
-  height: 537px;
+  left: 440px;
+  top: 138px;
+  width: 344px;
+  height: 616px;
   border-radius: 22px;
   z-index: 3;
 }
 
-.card--1 .card__glass {
-  border: 3px solid #1e88ff;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(30, 136, 255, 0.45);
+.card--1 .card__gradient {
+  -webkit-mask-image: url('/static/core/assets/card-1-card.png?v=14');
+  mask-image: url('/static/core/assets/card-1-card.png?v=14');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.card--1 .card__info {
+  left: 26px;
+  bottom: 42px;
+  right: 16px;
 }
 
 .card--2 {
-  left: 276px;
-  top: 32px;
-  width: 247px;
-  height: 450px;
-  border-radius: 19px;
+  left: 742px;
+  top: 184px;
+  width: 282px;
+  height: 500px;
+  border-radius: 20px;
   z-index: 2;
 }
 
-.card--2 .card__glass {
-  border: 2.5px solid #1e88ff;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.75), 0 0 16px rgba(30, 136, 255, 0.4);
+.card--2 .card__gradient {
+  -webkit-mask-image: url('/static/core/assets/card-2-card.png?v=14');
+  mask-image: url('/static/core/assets/card-2-card.png?v=14');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .card--2 .card__info {
-  left: 28px;
+  left: 50px;
+  bottom: 34px;
+  right: 12px;
 }
 
 .card--2 .card__name {
-  font-size: 28px;
-}
-
-.card--2 .card__badge {
-  font-size: 12px;
-}
-
-.card--2 .card__action {
-  font-size: 12px;
+  font-size: 48px;
+  line-height: 1.02;
 }
 
 .card--3 {
-  left: 508px;
-  top: 74px;
-  width: 189px;
-  height: 345px;
-  border-radius: 16px;
+  left: 984px;
+  top: 232px;
+  width: 226px;
+  height: 382px;
+  border-radius: 18px;
   z-index: 1;
 }
 
-.card--3 .card__glass {
-  border: 2px solid #1e88ff;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.75), 0 0 12px rgba(30, 136, 255, 0.35);
+.card--3 .card__gradient {
+  -webkit-mask-image: url('/static/core/assets/card-3-card.png?v=14');
+  mask-image: url('/static/core/assets/card-3-card.png?v=14');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .card--3 .card__info {
-  left: 24px;
+  left: 48px;
+  bottom: 24px;
+  right: 10px;
 }
 
 .card--3 .card__name {
-  font-size: 22px;
+  font-size: 38px;
+  line-height: 1.02;
 }
 
-.card--3 .card__badge {
-  font-size: 11px;
-}
-
-.card--3 .card__action {
-  font-size: 11px;
-}
-
-/* Subtle Hover States */
-.card:hover {
-  transform: translateY(-8px) scale(1.02) !important;
-  z-index: 10 !important;
+/* Clean Hover State (no photo rise/cutoff or border glitch) */
+.card__glass {
+  transition: filter 0.25s ease;
 }
 
 .card:hover .card__glass {
-  border-color: #529eff;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.85), 0 0 26px rgba(60, 150, 255, 0.6);
+  filter: brightness(1.08);
 }
 
 .card:hover .card__photo {
-  transform: scale(1.04);
+  transform: none;
 }
 
 /* Contact Shadow under cards on the runway floor */
@@ -1000,8 +1018,8 @@ button {
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(197, 133, 80, 0.2);
   display: flex;
   align-items: center;
-  padding: 46px 56px;
-  overflow: hidden;
+  padding: 46px 52px 46px 46px;
+  overflow: visible;
   transform: scale(0.94);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 2;
@@ -1037,7 +1055,7 @@ button {
 
 /* Detail Left Side (Image) */
 .detail__media {
-  width: 346px;
+  width: 280px;
   height: 525px;
   flex-shrink: 0;
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -1050,13 +1068,16 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
 }
 
 /* Detail Right Side (Text & Meta) */
 .detail__body {
   flex: 1;
-  padding-left: 56px;
+  min-width: 0;
+  padding-left: 48px;
+  padding-right: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1064,17 +1085,24 @@ button {
 }
 
 .detail__title {
-  font-family: var(--font-script);
-  font-size: 130px;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  font-family: 'Palace Script MT', 'Palace Script', cursive;
+  font-size: 164px;
   font-weight: 400;
-  line-height: 1;
+  font-style: normal;
+  line-height: 0.86;
+  letter-spacing: 0;
   white-space: nowrap;
-  background: linear-gradient(181deg, #ffffff 26%, #8b5a2b 121%);
+  background: linear-gradient(187.7deg, #FFFFFF 25.91%, #8B5A2B 121.18%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  margin-top: -15px;
-  margin-bottom: 10px;
+  -webkit-text-fill-color: transparent;
+  padding: 0 14px 0 0;
+  margin-top: 0;
+  margin-bottom: 18px;
 }
 
 .detail__subtitle {
@@ -1088,15 +1116,15 @@ button {
 }
 
 .detail__text {
-  width: 580px;
+  width: 100%;
   max-width: 100%;
-  font-family: var(--font-body);
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 28px;
-  letter-spacing: -0.2px;
+  font-family: 'Darker Grotesque', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: -0.1px;
   color: rgba(255, 255, 255, 0.92);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .detail__meta {
@@ -1106,8 +1134,9 @@ button {
 }
 
 .detail__rulebook {
-  font-family: var(--font-body);
+  font-family: 'Darker Grotesque', sans-serif;
   font-size: 24px;
+  font-weight: 500;
   text-decoration: underline;
   color: #fff;
   transition: color 0.25s ease;
@@ -1149,20 +1178,21 @@ button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(20, 18, 17, 0.85);
+  border: 1px solid rgba(193, 165, 138, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
   z-index: 10;
 }
 
 .detail__arrow:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(193, 165, 138, 0.18);
+  border-color: var(--color-gold);
   transform: translateY(-50%) scale(1.08);
 }
 
@@ -1227,6 +1257,13 @@ button {
 
 @media (max-width: 768px) {
   /* mobile layout tuning */
+  .btn-skip-intro {
+    bottom: max(22px, env(safe-area-inset-bottom));
+    right: 18px;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
   .canvas {
     width: 100vw !important;
     height: 100vh !important;
@@ -1353,7 +1390,7 @@ button {
     color: #000 !important;
   }
 
-  /* Page 1: Scale desktop 1440x900 stage & spotlights together so lights stay locked */
+  /* Page 1: Scale desktop 1440x900 stage & spotlights together to fill mobile height */
   .hero-bg,
   .spotlights {
     position: absolute !important;
@@ -1367,15 +1404,15 @@ button {
     margin-top: -450px !important;
     transform: scale(var(--s-cover, 1)) !important;
     transform-origin: center center !important;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%) !important;
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%) !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
   }
 
   /* Page 1: Hero content centered */
   .hero__content {
     position: absolute !important;
     left: 50% !important;
-    top: 50% !important;
+    top: 52% !important;
     transform: translate(-50%, -50%) !important;
     width: 90vw !important;
     max-width: 400px !important;
@@ -1439,15 +1476,16 @@ button {
     height: 20px !important;
   }
 
-  /* Page 2: Portrait cards_mobile_frames full-bleed background & stepped cards */
+  /* Page 2: Portrait cards_mobile_frames cropped/scaled to runway & cards seated on ramp */
   .scene--page2 .bg-canvas {
     position: absolute !important;
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    transform: none !important;
+    transform: scale(1.16) !important;
+    transform-origin: center 62% !important;
     object-fit: cover !important;
-    object-position: center center !important;
+    object-position: center 70% !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
   }
@@ -1455,76 +1493,75 @@ button {
   .cards-row {
     position: absolute !important;
     left: 50% !important;
-    top: 52% !important;
+    top: 59% !important;
     margin: 0 !important;
     transform: translate(-50%, -50%) !important;
-    width: min(336px, 92vw) !important;
-    height: 410px !important;
+    width: 356px !important;
+    height: 324px !important;
     perspective: none !important;
+  }
+
+  .card__glass {
+    perspective: 450px !important;
   }
 
   .card--1 {
     left: 0 !important;
     top: 0 !important;
-    width: 204px !important;
-    height: 376px !important;
-    border-radius: 18px !important;
+    width: 176px !important;
+    height: 315px !important;
+    border-radius: 16px !important;
     z-index: 3 !important;
   }
 
   .card--2 {
-    left: 88px !important;
-    top: 28px !important;
-    width: 184px !important;
-    height: 330px !important;
+    left: 136px !important;
+    top: 24px !important;
+    width: 145px !important;
+    height: 255px !important;
     border-radius: 16px !important;
     z-index: 2 !important;
   }
 
+  .card--2 .card__info {
+    left: 46px !important;
+    right: 8px !important;
+  }
+
   .card--3 {
-    left: 168px !important;
-    top: 56px !important;
-    width: 164px !important;
-    height: 284px !important;
+    left: 240px !important;
+    top: 48px !important;
+    width: 116px !important;
+    height: 195px !important;
     border-radius: 14px !important;
     z-index: 1 !important;
   }
 
-  .card__info {
-    left: 14px !important;
-    bottom: 18px !important;
-    right: 12px !important;
+  .card--3 .card__info {
+    left: 42px !important;
+    right: 6px !important;
+    bottom: 14px !important;
   }
 
-  .card--1 .card__badge {
-    font-size: 10px !important;
-    letter-spacing: 1px !important;
+  .card__info {
+    left: 14px !important;
+    bottom: 22px !important;
+    right: 10px !important;
   }
 
   .card--1 .card__name {
-    font-size: 24px !important;
-    line-height: 1.05 !important;
-  }
-
-  .card--1 .card__action {
-    font-size: 11px !important;
-    margin-top: 4px !important;
+    font-size: 32px !important;
+    line-height: 1.02 !important;
   }
 
   .card--2 .card__name {
-    font-size: 20px !important;
-  }
-  .card--2 .card__badge,
-  .card--2 .card__action {
-    font-size: 10px !important;
+    font-size: 25px !important;
+    line-height: 1.02 !important;
   }
 
   .card--3 .card__name {
-    font-size: 17px !important;
-  }
-  .card--3 .card__badge,
-  .card--3 .card__action {
-    font-size: 9px !important;
+    font-size: 20px !important;
+    line-height: 1.02 !important;
   }
 
   /* Page 2: Mobile Detail Modal Card (Exact match to uploaded design) */
@@ -1539,7 +1576,7 @@ button {
     max-height: 92vh !important;
     flex-direction: column !important;
     align-items: center !important;
-    padding: 20px 20px 24px !important;
+    padding: 18px 18px 24px !important;
     border-radius: 28px !important;
     border: 1px solid transparent !important;
     background:
@@ -1562,10 +1599,10 @@ button {
 
   .detail__media {
     width: 100% !important;
-    height: 310px !important;
+    height: 375px !important;
     flex-shrink: 0 !important;
-    border-radius: 18px !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+    border-radius: 15px !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
     overflow: hidden !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85) !important;
     margin: 0 auto 16px !important;
@@ -1576,6 +1613,32 @@ button {
     height: 100% !important;
     object-fit: cover !important;
     object-position: top center !important;
+  }
+
+  .detail__arrow {
+    display: flex !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: transparent !important;
+    border: none !important;
+    opacity: 0.78 !important;
+    z-index: 15 !important;
+  }
+
+  .detail__arrow img {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .detail__arrow--prev {
+    left: 2px !important;
+  }
+
+  .detail__arrow--next {
+    right: 2px !important;
   }
 
   .detail__body {
@@ -1589,17 +1652,17 @@ button {
   }
 
   .detail__title {
-    font-family: var(--font-script) !important;
-    font-size: 52px !important;
+    font-family: 'Palace Script MT', 'Pinyon Script', cursive !important;
+    font-size: clamp(50px, 14vw, 64px) !important;
     font-weight: 400 !important;
-    line-height: 1.05 !important;
-    background: linear-gradient(181deg, #ffffff 15%, #c58550 100%) !important;
+    line-height: 0.9 !important;
+    background: linear-gradient(187.7deg, #FFFFFF 25.91%, #8B5A2B 121.18%) !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
     color: transparent !important;
-    margin: 0 0 8px 0 !important;
+    margin: 0 0 10px 0 !important;
     text-align: center !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
   }
 
   .detail__subtitle {
@@ -1609,11 +1672,11 @@ button {
   .detail__text {
     width: 100% !important;
     max-width: 320px !important;
-    font-family: var(--font-body) !important;
-    font-size: 15px !important;
-    font-weight: 400 !important;
+    font-family: 'Darker Grotesque', sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
     line-height: 1.35 !important;
-    color: rgba(255, 255, 255, 0.88) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
     text-align: center !important;
     margin: 0 auto 12px !important;
   }

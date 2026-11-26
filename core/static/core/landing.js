@@ -10,7 +10,7 @@
   const updateScale = () => {
     const scale = Math.min(window.innerWidth / 1440, window.innerHeight / 900);
     const mobileStageScale = window.innerWidth <= 768
-      ? Math.max(0.60, Math.min(0.82, Math.min(window.innerWidth / 540, window.innerHeight / 1080)))
+      ? Math.max(0.88, window.innerHeight / 900)
       : Math.max(window.innerWidth / 1440, window.innerHeight / 900);
     document.documentElement.style.setProperty('--s', Math.max(0.48, Math.min(1.2, scale)));
     document.documentElement.style.setProperty('--s-cover', mobileStageScale);
@@ -25,6 +25,7 @@
   // Page 1 Elements
   const page1Scene = document.getElementById('page1Scene');
   const introCurtain = document.getElementById('introCurtain');
+  const btnEnterRunway = document.getElementById('btnEnterRunway');
   const introVideo = document.getElementById('introVideo');
   const runwayContainer = document.getElementById('runwayContainer');
   const hero = document.getElementById('hero');
@@ -51,7 +52,6 @@
   const detailClose = document.getElementById('detailClose');
   const detailImg = document.getElementById('detailImg');
   const detailTitle = document.getElementById('detailTitle');
-  const detailSubtitle = document.getElementById('detailSubtitle');
   const detailText = document.getElementById('detailText');
   const detailPrize = document.getElementById('detailPrize');
   const detailPrev = document.getElementById('detailPrev');
@@ -62,24 +62,24 @@
     {
       name: 'Glamour Nova',
       tab: 'gnm',
-      subtitle: 'Online Fashion Design and Photoshoot Competition',
-      image: '/static/core/assets/card-1.png',
+      image: '/static/core/assets/card-1-detail.png',
+      rulebook: '/static/core/rulebooks/glamour%20nova.pdf',
       prize: '50k',
       text: "From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement."
     },
     {
       name: 'State of Dress',
       tab: 'sod',
-      subtitle: 'Paper Dress Designing Competition',
-      image: '/static/core/assets/card-2.png',
+      image: '/static/core/assets/card-2-detail.png',
+      rulebook: '/static/core/rulebooks/state%20of%20dress.pdf',
       prize: '50k',
       text: "Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story."
     },
     {
       name: 'Haute Couture',
       tab: 'hcd',
-      subtitle: 'Fashion Designing Competition',
       image: '/static/core/assets/card-3.png',
+      rulebook: '/static/core/rulebooks/haute%20couture.pdf',
       prize: '50k',
       text: "Where creativity meets elegance and imagination takes the form of fashion. This competition invites participants to showcase their designing skills, originality, and artistic vision through stunning outfits and captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and transform imagination into extraordinary fashion statements."
     }
@@ -113,46 +113,30 @@
       }
     }
 
-    // 2. Staggered Card Drop-In & Exit Dispersal
-    if (p <= 0.80) {
-      // Entrance & Resting phase: cards drop straight down onto the runway floor
-      cardElements.forEach((card, idx) => {
-        const startP = 0.06 + idx * 0.10;
-        const endP = startP + 0.28;
-        const rawDrop = clamp((p - startP) / (endP - startP), 0, 1);
-        const easedDrop = 1 - Math.pow(1 - rawDrop, 3);
+    // 2. Staggered Card Drop-In across animation (stays visible at end and into Page 3)
+    cardElements.forEach((card, idx) => {
+      const startP = 0.10 + idx * 0.18;
+      const endP = startP + 0.36;
+      const rawDrop = clamp((p - startP) / (endP - startP), 0, 1);
+      const easedDrop = 1 - Math.pow(1 - rawDrop, 3);
 
-        const dropStart = window.innerWidth <= 768 ? -420 : -750;
-        const translateY = lerp(dropStart, 0, easedDrop);
+      const dropStart = window.innerWidth <= 768 ? -420 : -750;
+      const translateY = lerp(dropStart, 0, easedDrop);
 
-        card.style.opacity = String(easedDrop);
-        card.style.transform = `translateY(${translateY}px)`;
-      });
+      card.style.opacity = String(easedDrop);
+      card.style.transform = `translateY(${translateY}px)`;
+    });
 
-      if (cardsHeader) {
-        cardsHeader.style.display = 'none';
-      }
-    } else {
-      // Exit Dispersal: removing cards from place when scrolling past Page 2
-      const exitP = clamp((p - 0.80) / 0.20, 0, 1);
-      const easedExit = exitP * exitP * (3 - 2 * exitP);
-      const exitDist = window.innerWidth <= 768 ? -240 : -380;
+    if (cardsHeader) {
+      cardsHeader.style.display = 'none';
+    }
 
-      cardElements.forEach((card, idx) => {
-        const factor = idx + 1;
-        const translateY = lerp(0, exitDist * factor, easedExit);
-        const alpha = lerp(1, 0, easedExit);
-
-        card.style.transform = `translateY(${translateY}px)`;
-        card.style.opacity = String(alpha);
-      });
-
-      if (cardsHeader) {
-        cardsHeader.style.display = 'none';
-      }
-
-      if (exitP > 0.15 && isDetailOpen) {
-        closeDetail();
+    // 3. Navbar hidden during Page 2 animation, revealed at end of animation
+    if (mainNav && currentState === 'PAGE_2') {
+      if (p >= 0.96 && !isDetailOpen) {
+        mainNav.classList.add('is-visible');
+      } else {
+        mainNav.classList.remove('is-visible');
       }
     }
   }
@@ -162,8 +146,16 @@
   let isTransitioning = false;
   let isDetailOpen = false;
   let hasVideoLanded = false;
+  let unmuteHandler = null;
 
   // stage 1 runway video
+  function nudgeEnterBtn() {
+    if (!btnEnterRunway) return;
+    btnEnterRunway.classList.remove('is-nudged');
+    void btnEnterRunway.offsetWidth;
+    btnEnterRunway.classList.add('is-nudged');
+  }
+
   function startRunwayVideo() {
     if (currentState !== 'CURTAIN') return;
     currentState = 'RUNWAY_PLAYING';
@@ -181,14 +173,36 @@
       btnSkipIntro.classList.add('is-visible');
     }
 
-    // Play runway video at native 60fps (no frame drops)
+    // Play runway video at native 60fps with audio (fallback to muted only if browser blocks it)
     if (introVideo) {
-      introVideo.muted = true;
-      introVideo.currentTime = 0;
+      introVideo.muted = false;
+      introVideo.volume = 1;
+      if (introVideo.currentTime > 0) introVideo.currentTime = 0;
       const playPromise = introVideo.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          landOnHero();
+          if (hasVideoLanded || currentState !== 'RUNWAY_PLAYING') return;
+          introVideo.muted = true;
+          introVideo.play().catch(() => landOnHero());
+          unmuteHandler = e => {
+            if (btnSkipIntro && e.target && btnSkipIntro.contains(e.target)) return;
+            window.removeEventListener('click', unmuteHandler);
+            unmuteHandler = null;
+            if (introVideo && currentState === 'RUNWAY_PLAYING' && !hasVideoLanded) {
+              introVideo.muted = false;
+              introVideo.volume = 1;
+              const p = introVideo.play();
+              if (p !== undefined) {
+                p.catch(() => {
+                  if (introVideo && currentState === 'RUNWAY_PLAYING' && !hasVideoLanded) {
+                    introVideo.muted = true;
+                    introVideo.play().catch(() => {});
+                  }
+                });
+              }
+            }
+          };
+          window.addEventListener('click', unmuteHandler);
         });
       }
 
@@ -209,6 +223,15 @@
     if (hasVideoLanded) return;
     hasVideoLanded = true;
     currentState = 'PAGE_1';
+
+    if (unmuteHandler) {
+      window.removeEventListener('click', unmuteHandler);
+      unmuteHandler = null;
+    }
+
+    if (introVideo) {
+      introVideo.muted = true;
+    }
 
     if (btnSkipIntro) {
       btnSkipIntro.classList.remove('is-visible');
@@ -316,7 +339,7 @@
     currentState = 'LOWER_PAGE';
 
     if (mainNav) {
-      mainNav.classList.remove('is-visible');
+      mainNav.classList.add('is-visible');
     }
     if (page1Scene) {
       page1Scene.classList.add('is-exited');
@@ -332,7 +355,7 @@
       if (targetSelector) {
         const el = lowerSections.querySelector(targetSelector);
         if (el) {
-          setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 150);
+          setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 60);
         }
       } else {
         lowerSections.scrollTop = 0;
@@ -345,9 +368,13 @@
     currentState = 'PAGE_2';
     if (lowerSections) {
       lowerSections.classList.remove('is-active');
+      lowerSections.scrollTop = 0;
     }
     if (cardsScrub) {
-      cardsScrub.setProgress(0.94);
+      cardsScrub.setProgress(1);
+    }
+    if (mainNav && !isDetailOpen) {
+      mainNav.classList.add('is-visible');
     }
   }
 
@@ -365,7 +392,7 @@
     if (isDetailOpen) return;
 
     if (currentState === 'CURTAIN') {
-      startRunwayVideo();
+      nudgeEnterBtn();
       return;
     }
 
@@ -395,7 +422,7 @@
         return;
       }
 
-      // If at end of Page 2 (p >= 0.99) and user scrolls down -> enter Glimpses / FAQ / Footer
+      // If at end of Page 2 (p >= 0.99) and user scrolls down -> go to lower sections
       if (p >= 0.99 && e.deltaY > 5) {
         goToLowerSections();
         return;
@@ -428,7 +455,7 @@
     }
 
     if (currentState === 'CURTAIN') {
-      startRunwayVideo();
+      nudgeEnterBtn();
       return;
     }
 
@@ -464,6 +491,7 @@
 
   // Keyboard navigation
   window.addEventListener('keydown', e => {
+    if (e.repeat) return;
     if (isDetailOpen) {
       if (e.key === 'Escape') closeDetail();
       if (e.key === 'ArrowLeft') showCompetition(currentCardIndex - 1);
@@ -476,7 +504,7 @@
       e.preventDefault();
       if (currentState === 'CURTAIN') startRunwayVideo();
       else if (currentState === 'RUNWAY_PLAYING') landOnHero();
-      else if (currentState === 'PAGE_1') goToPage2(0.65);
+      else if (currentState === 'PAGE_1') goToPage2(1);
       return;
     }
 
@@ -496,16 +524,25 @@
     }
   });
 
-  // Clicking initial curtain starts video
+  // Clicking Enter button or curtain starts video with audio
+  if (btnEnterRunway) {
+    btnEnterRunway.addEventListener('click', e => {
+      e.stopPropagation();
+      startRunwayVideo();
+    });
+  }
   if (introCurtain) {
-    introCurtain.addEventListener('click', startRunwayVideo);
+    introCurtain.addEventListener('click', e => {
+      e.stopPropagation();
+      startRunwayVideo();
+    });
   }
 
   // Scroll hint on Hero stage clicks straight to Page 2
   if (scrollHint) {
     scrollHint.addEventListener('click', e => {
       e.stopPropagation();
-      goToPage2(0.65);
+      goToPage2(1);
     });
   }
 
@@ -515,7 +552,7 @@
       e.preventDefault();
       const text = (btn.textContent || '').trim().toUpperCase();
       if (text === 'ABOUT' || text === 'EVENTS') {
-        goToPage2(0.68);
+        goToPage2(1);
       } else if (text === 'GLIMPSES') {
         goToLowerSections();
       } else if (text === 'FAQ') {
@@ -523,7 +560,7 @@
       } else if (text === 'CONTACT') {
         goToLowerSections('#main-footer');
       } else if (text === 'RULEBOOK') {
-        goToPage2(0.68, 0); // Open Glamour Nova with rulebook
+        goToPage2(1, 0); // Open Glamour Nova with rulebook
       }
     });
   });
@@ -533,7 +570,7 @@
   if (footerAboutLink) {
     footerAboutLink.addEventListener('click', e => {
       e.preventDefault();
-      goToPage2(0.68);
+      goToPage2(1);
     });
   }
   const footerGlimpsesLink = document.getElementById('footerGlimpsesLink');
@@ -608,13 +645,16 @@
 
     if (detailImg) detailImg.src = data.image;
     if (detailTitle) detailTitle.textContent = data.name;
-    if (detailSubtitle) detailSubtitle.textContent = data.subtitle;
     if (detailText) detailText.textContent = data.text;
     if (detailPrize) detailPrize.textContent = data.prize;
 
     const detailRegBtn = document.querySelector('.btn-register--detail');
     if (detailRegBtn && data.tab) {
       detailRegBtn.setAttribute('href', `/forms/?tab=${data.tab}`);
+    }
+    const detailRulebook = document.getElementById('detailRulebook');
+    if (detailRulebook && data.rulebook) {
+      detailRulebook.setAttribute('href', data.rulebook);
     }
   }
 
@@ -625,6 +665,9 @@
       detailModal.setAttribute('aria-hidden', 'false');
       isDetailOpen = true;
     }
+    if (mainNav) {
+      mainNav.classList.remove('is-visible');
+    }
   }
 
   function closeDetail() {
@@ -632,6 +675,12 @@
       detailModal.classList.remove('is-open');
       detailModal.setAttribute('aria-hidden', 'true');
       isDetailOpen = false;
+    }
+    if (mainNav) {
+      const animDone = currentState === 'PAGE_1'
+        || currentState === 'LOWER_PAGE'
+        || (currentState === 'PAGE_2' && cardsScrub && cardsScrub.getEasedProgress() >= 0.96);
+      if (animDone) mainNav.classList.add('is-visible');
     }
   }
 
