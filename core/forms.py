@@ -20,7 +20,6 @@ class SOD_TeamForm(forms.ModelForm):
         model = SOD_Team
         fields = [
             'team_name',
-            'prev_performance',
             'lead_name',
             'lead_gender',
             'lead_email',
@@ -30,7 +29,6 @@ class SOD_TeamForm(forms.ModelForm):
         ]
         widgets = {
             'team_name': forms.TextInput(attrs={'placeholder': 'Enter Team Name'}),
-            'prev_performance': forms.URLInput(attrs={'placeholder': 'https://...'}),
             'lead_name': forms.TextInput(attrs={'placeholder': 'Full Name of Team Leader'}),
             'lead_gender': forms.Select(),
             'lead_email': forms.EmailInput(attrs={'placeholder': 'Team Leader Email'}),
@@ -38,6 +36,10 @@ class SOD_TeamForm(forms.ModelForm):
             'lead_city': forms.TextInput(attrs={'placeholder': 'Type Here'}),
             'lead_postal_code': forms.TextInput(attrs={'placeholder': '6-digit PIN code', 'maxlength': '6'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['lead_postal_code'].required = True
 
     def clean_lead_phone(self):
         phone = self.cleaned_data.get('lead_phone', '')
@@ -48,10 +50,11 @@ class SOD_TeamForm(forms.ModelForm):
 
     def clean_lead_postal_code(self):
         code = (self.cleaned_data.get('lead_postal_code') or '').strip()
-        if code:
-            if not code.isdigit() or len(code) != 6:
-                raise forms.ValidationError('Enter a valid 6-digit postal code.')
-        return code or None
+        if not code:
+            raise forms.ValidationError('Postal code is required.')
+        if not code.isdigit() or len(code) != 6:
+            raise forms.ValidationError('Enter a valid 6-digit postal code.')
+        return code
 
     def clean_team_name(self):
         name = self.cleaned_data.get('team_name', '')
@@ -84,6 +87,10 @@ class SOD_MemberDetailForm(forms.ModelForm):
             'postal_code': forms.TextInput(attrs={'placeholder': '6-digit PIN code', 'maxlength': '6'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['postal_code'].required = True
+
     def clean_phone(self):
         phone = self.cleaned_data.get('phone', '')
         if phone:
@@ -97,10 +104,11 @@ class SOD_MemberDetailForm(forms.ModelForm):
 
     def clean_postal_code(self):
         code = (self.cleaned_data.get('postal_code') or '').strip()
-        if code:
-            if not code.isdigit() or len(code) != 6:
-                raise forms.ValidationError('Enter a valid 6-digit postal code.')
-        return code or None
+        if not code:
+            raise forms.ValidationError('Postal code is required.')
+        if not code.isdigit() or len(code) != 6:
+            raise forms.ValidationError('Enter a valid 6-digit postal code.')
+        return code
 
 
 class BaseSODMemberFormSet(forms.BaseFormSet):

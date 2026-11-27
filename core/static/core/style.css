@@ -3,6 +3,7 @@ body {
     color: white;
 }
 
+
 @font-face {
     font-family: "Palace Script";
     src: url("./fonts/Palscri.ttf") format("truetype");
@@ -199,3 +200,4 @@ body.vogue-registration-body::-webkit-scrollbar-thumb {
 body.vogue-registration-body::-webkit-scrollbar-thumb:hover {
     background: #444444;
 }
+

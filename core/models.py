@@ -14,7 +14,6 @@ class SOD_Team(models.Model):
     COMPETITION = 'States of Dress'
 
     team_name        = models.CharField(max_length=255, unique=True)
-    prev_performance = models.URLField(max_length=500, null=True, blank=True)
     lead_name        = models.CharField(max_length=255)
     lead_gender      = models.CharField(max_length=1, choices=GENDER_CHOICES)
     lead_email       = models.EmailField(unique=True)

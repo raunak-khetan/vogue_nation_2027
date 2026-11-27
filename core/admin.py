@@ -85,7 +85,7 @@ class SOD_TeamAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Team Info', {
-            'fields': ('team_name', 'prev_performance'),
+            'fields': ('team_name',),
         }),
         ('Leader Details', {
             'fields': (

@@ -16,6 +16,7 @@ window.createFrameScrubber = function ({
   frameCount,
   src,
   lerp = 0.08,       // lower = floatier, higher = snappier
+  mapProgress = null, // optional scroll-progress -> frame-progress mapper
   onProgress = null, // called with eased progress 0..1
   onLoad = null      // called with loaded fraction 0..1
 }) {
@@ -26,13 +27,16 @@ window.createFrameScrubber = function ({
   let target = 0;    // target frame position (float)
   let rafId = null;
   let sized = false;
+  let destroyed = false;
 
   // ---- Preload: first frame first, then the rest ----
   function load(i) {
     return new Promise(resolve => {
+      if (destroyed) { resolve(); return; }
       const img = new Image();
       img.decoding = 'async';
       img.onload = img.onerror = () => {
+        if (destroyed) { resolve(); return; }
         loaded++;
         if (onLoad) onLoad(loaded / frameCount);
         if (!sized && img.naturalWidth) {
@@ -48,12 +52,13 @@ window.createFrameScrubber = function ({
   }
 
   const ready = load(0).then(() => {
+    if (destroyed) return;
     draw();
     // Load the rest in small batches so the first paint isn't blocked
     const rest = [];
     for (let i = 1; i < frameCount; i++) rest.push(i);
     return (async () => {
-      while (rest.length) {
+      while (rest.length && !destroyed) {
         await Promise.all(rest.splice(0, 12).map(load));
       }
     })();
@@ -61,8 +66,11 @@ window.createFrameScrubber = function ({
 
   // ---- Draw two neighbouring frames with a crossfade ----
   function draw() {
-    const f = Math.floor(current);
-    const t = current - f;
+    const rawP = current / (frameCount - 1);
+    const mappedP = mapProgress ? Math.min(1, Math.max(0, mapProgress(rawP))) : rawP;
+    const mappedFrame = mappedP * (frameCount - 1);
+    const f = Math.floor(mappedFrame);
+    const t = mappedFrame - f;
     const a = images[f];
     const b = images[Math.min(f + 1, frameCount - 1)];
     if (!a || !a.complete || !a.naturalWidth) return;
@@ -109,6 +117,13 @@ window.createFrameScrubber = function ({
     reset() {
       current = target = 0;
       draw();
+    },
+    destroy() {
+      destroyed = true;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     }
   };
 };

@@ -9,7 +9,11 @@
   // virtual canvas scaler
   const updateScale = () => {
     const scale = Math.min(window.innerWidth / 1440, window.innerHeight / 900);
+    const mobileStageScale = window.innerWidth <= 768
+      ? Math.max(0.88, window.innerHeight / 900)
+      : Math.max(window.innerWidth / 1440, window.innerHeight / 900);
     document.documentElement.style.setProperty('--s', Math.max(0.48, Math.min(1.2, scale)));
+    document.documentElement.style.setProperty('--s-cover', mobileStageScale);
   };
   window.addEventListener('resize', updateScale);
   updateScale();
@@ -21,6 +25,7 @@
   // Page 1 Elements
   const page1Scene = document.getElementById('page1Scene');
   const introCurtain = document.getElementById('introCurtain');
+  const btnEnterRunway = document.getElementById('btnEnterRunway');
   const introVideo = document.getElementById('introVideo');
   const runwayContainer = document.getElementById('runwayContainer');
   const hero = document.getElementById('hero');
@@ -47,7 +52,6 @@
   const detailClose = document.getElementById('detailClose');
   const detailImg = document.getElementById('detailImg');
   const detailTitle = document.getElementById('detailTitle');
-  const detailSubtitle = document.getElementById('detailSubtitle');
   const detailText = document.getElementById('detailText');
   const detailPrize = document.getElementById('detailPrize');
   const detailPrev = document.getElementById('detailPrev');
@@ -57,40 +61,59 @@
   const competitionData = [
     {
       name: 'Glamour Nova',
-      subtitle: 'Online Fashion Design and Photoshoot Competition',
-      image: '/static/core/assets/card-detail.png',
+      tab: 'gnm',
+      image: '/static/core/assets/card-1-detail.png',
+      rulebook: '/static/core/rulebooks/glamour%20nova.pdf',
       prize: '50k',
       text: "From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement."
     },
     {
       name: 'State of Dress',
-      subtitle: 'Paper Dress Designing Competition',
-      image: '/static/core/assets/card-2.png',
-      prize: '40k',
+      tab: 'sod',
+      image: '/static/core/assets/card-2-detail.png',
+      rulebook: '/static/core/rulebooks/state%20of%20dress.pdf',
+      prize: '50k',
       text: "Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story."
     },
     {
       name: 'Haute Couture',
-      subtitle: 'Fashion Designing Competition',
+      tab: 'hcd',
       image: '/static/core/assets/card-3.png',
+      rulebook: '/static/core/rulebooks/haute%20couture.pdf',
       prize: '50k',
       text: "Where creativity meets elegance and imagination takes the form of fashion. This competition invites participants to showcase their designing skills, originality, and artistic vision through stunning outfits and captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and transform imagination into extraordinary fashion statements."
     }
   ];
 
-  // cards scrubber setup
+  // cards scrubber setup (dynamically switches between desktop & mobile portrait frames on resize)
   let cardsScrub = null;
-  if (window.createFrameScrubber && cardsCanvasVideo) {
+  let isMobileCards = null;
+  function setupCardsScrubber() {
+    if (!window.createFrameScrubber || !cardsCanvasVideo) return;
+    const nextMobile = window.innerWidth <= 768;
+    if (nextMobile === isMobileCards && cardsScrub) return;
+
+    const prevP = cardsScrub ? cardsScrub.getProgress() : 0;
+    if (cardsScrub && cardsScrub.destroy) cardsScrub.destroy();
+    isMobileCards = nextMobile;
+
     cardsScrub = window.createFrameScrubber({
       canvas: cardsCanvasVideo,
-      frameCount: 240,
-      src: i => `/static/core/cards_frames/c_${String(i).padStart(4, '0')}.webp`,
+      frameCount: isMobileCards ? 86 : 240,
+      src: i => isMobileCards
+        ? `/static/core/cards_mobile_frames/c_${String(i).padStart(4, '0')}.webp`
+        : `/static/core/cards_frames/c_${String(i).padStart(4, '0')}.webp`,
       lerp: 0.08,
       onProgress: p => {
         onCardsScrubProgress(p);
       }
     });
+    if (prevP > 0) {
+      cardsScrub.setProgress(prevP);
+    }
   }
+  setupCardsScrubber();
+  window.addEventListener('resize', setupCardsScrubber);
 
   // cards scrub progress
   function onCardsScrubProgress(p) {
@@ -103,46 +126,30 @@
       }
     }
 
-    // 2. Staggered Card Drop-In & Exit Dispersal
-    if (p <= 0.80) {
-      // Entrance & Resting phase: cards drop straight down onto the runway floor
-      cardElements.forEach((card, idx) => {
-        const startP = 0.06 + idx * 0.10;
-        const endP = startP + 0.28;
-        const rawDrop = clamp((p - startP) / (endP - startP), 0, 1);
-        const easedDrop = 1 - Math.pow(1 - rawDrop, 3);
+    // 2. Staggered Card Drop-In across animation (stays visible at end and into Page 3)
+    cardElements.forEach((card, idx) => {
+      const startP = 0.10 + idx * 0.18;
+      const endP = startP + 0.36;
+      const rawDrop = clamp((p - startP) / (endP - startP), 0, 1);
+      const easedDrop = 1 - Math.pow(1 - rawDrop, 3);
 
-        const dropStart = window.innerWidth <= 768 ? -420 : -750;
-        const translateY = lerp(dropStart, 0, easedDrop);
+      const dropStart = window.innerWidth <= 768 ? -420 : -750;
+      const translateY = lerp(dropStart, 0, easedDrop);
 
-        card.style.opacity = String(easedDrop);
-        card.style.transform = `translateY(${translateY}px)`;
-      });
+      card.style.opacity = String(easedDrop);
+      card.style.transform = `translateY(${translateY}px)`;
+    });
 
-      if (cardsHeader) {
-        cardsHeader.style.display = 'none';
-      }
-    } else {
-      // Exit Dispersal: removing cards from place when scrolling past Page 2
-      const exitP = clamp((p - 0.80) / 0.20, 0, 1);
-      const easedExit = exitP * exitP * (3 - 2 * exitP);
-      const exitDist = window.innerWidth <= 768 ? -240 : -380;
+    if (cardsHeader) {
+      cardsHeader.style.display = 'none';
+    }
 
-      cardElements.forEach((card, idx) => {
-        const factor = idx + 1;
-        const translateY = lerp(0, exitDist * factor, easedExit);
-        const alpha = lerp(1, 0, easedExit);
-
-        card.style.transform = `translateY(${translateY}px)`;
-        card.style.opacity = String(alpha);
-      });
-
-      if (cardsHeader) {
-        cardsHeader.style.display = 'none';
-      }
-
-      if (exitP > 0.15 && isDetailOpen) {
-        closeDetail();
+    // 3. Navbar hidden during Page 2 animation, revealed at end of animation
+    if (mainNav && currentState === 'PAGE_2') {
+      if (p >= 0.96 && !isDetailOpen) {
+        mainNav.classList.add('is-visible');
+      } else {
+        mainNav.classList.remove('is-visible');
       }
     }
   }
@@ -152,8 +159,16 @@
   let isTransitioning = false;
   let isDetailOpen = false;
   let hasVideoLanded = false;
+  let unmuteHandler = null;
 
   // stage 1 runway video
+  function nudgeEnterBtn() {
+    if (!btnEnterRunway) return;
+    btnEnterRunway.classList.remove('is-nudged');
+    void btnEnterRunway.offsetWidth;
+    btnEnterRunway.classList.add('is-nudged');
+  }
+
   function startRunwayVideo() {
     if (currentState !== 'CURTAIN') return;
     currentState = 'RUNWAY_PLAYING';
@@ -171,14 +186,36 @@
       btnSkipIntro.classList.add('is-visible');
     }
 
-    // Play runway video at native 60fps (no frame drops)
+    // Play runway video at native 60fps with audio (fallback to muted only if browser blocks it)
     if (introVideo) {
-      introVideo.muted = true;
-      introVideo.currentTime = 0;
+      introVideo.muted = false;
+      introVideo.volume = 1;
+      if (introVideo.currentTime > 0) introVideo.currentTime = 0;
       const playPromise = introVideo.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          landOnHero();
+          if (hasVideoLanded || currentState !== 'RUNWAY_PLAYING') return;
+          introVideo.muted = true;
+          introVideo.play().catch(() => landOnHero());
+          unmuteHandler = e => {
+            if (btnSkipIntro && e.target && btnSkipIntro.contains(e.target)) return;
+            window.removeEventListener('click', unmuteHandler);
+            unmuteHandler = null;
+            if (introVideo && currentState === 'RUNWAY_PLAYING' && !hasVideoLanded) {
+              introVideo.muted = false;
+              introVideo.volume = 1;
+              const p = introVideo.play();
+              if (p !== undefined) {
+                p.catch(() => {
+                  if (introVideo && currentState === 'RUNWAY_PLAYING' && !hasVideoLanded) {
+                    introVideo.muted = true;
+                    introVideo.play().catch(() => {});
+                  }
+                });
+              }
+            }
+          };
+          window.addEventListener('click', unmuteHandler);
         });
       }
 
@@ -199,6 +236,15 @@
     if (hasVideoLanded) return;
     hasVideoLanded = true;
     currentState = 'PAGE_1';
+
+    if (unmuteHandler) {
+      window.removeEventListener('click', unmuteHandler);
+      unmuteHandler = null;
+    }
+
+    if (introVideo) {
+      introVideo.muted = true;
+    }
 
     if (btnSkipIntro) {
       btnSkipIntro.classList.remove('is-visible');
@@ -242,7 +288,25 @@
   }
 
   // page transitions
+  function syncPage2WithLowerScroll() {
+    if (!page2Scene || !lowerSections) return;
+    const offset = Math.min(lowerSections.scrollTop, window.innerHeight);
+    page2Scene.style.transition = 'none';
+    page2Scene.style.transform = offset > 0 ? `translateY(${-offset}px)` : '';
+  }
+
+  function resetPage2ScrollTransform() {
+    if (!page2Scene) return;
+    page2Scene.style.transition = '';
+    page2Scene.style.transform = '';
+  }
+
   function goToPage2(targetProgress = null, openModalIndex = null) {
+    if (lowerSections) {
+      lowerSections.classList.remove('is-active');
+      lowerSections.scrollTop = 0;
+    }
+    resetPage2ScrollTransform();
     if (currentState !== 'PAGE_2') {
       currentState = 'PAGE_2';
 
@@ -276,7 +340,11 @@
     currentState = 'PAGE_1';
 
     if (isDetailOpen) closeDetail();
-    if (lowerSections) lowerSections.classList.remove('is-active');
+    if (lowerSections) {
+      lowerSections.classList.remove('is-active');
+      lowerSections.scrollTop = 0;
+    }
+    resetPage2ScrollTransform();
 
     // Reveal Navbar on Page 1 Hero
     if (mainNav) {
@@ -298,12 +366,12 @@
     }
   }
 
-  function goToLowerSections(targetSelector = null) {
+  function goToLowerSections(targetSelector = null, initialDelta = 0) {
     if (isDetailOpen) closeDetail();
     currentState = 'LOWER_PAGE';
 
     if (mainNav) {
-      mainNav.classList.remove('is-visible');
+      mainNav.classList.add('is-visible');
     }
     if (page1Scene) {
       page1Scene.classList.add('is-exited');
@@ -319,10 +387,13 @@
       if (targetSelector) {
         const el = lowerSections.querySelector(targetSelector);
         if (el) {
-          setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 150);
+          setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 60);
         }
+      } else if (initialDelta > 0) {
+        lowerSections.scrollTop = Math.max(1, initialDelta);
+        syncPage2WithLowerScroll();
       } else {
-        lowerSections.scrollTop = 0;
+        lowerSections.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
       }
     }
   }
@@ -332,10 +403,25 @@
     currentState = 'PAGE_2';
     if (lowerSections) {
       lowerSections.classList.remove('is-active');
+      lowerSections.scrollTop = 0;
     }
+    resetPage2ScrollTransform();
     if (cardsScrub) {
-      cardsScrub.setProgress(0.94);
+      cardsScrub.setProgress(1);
     }
+    if (mainNav && !isDetailOpen) {
+      mainNav.classList.add('is-visible');
+    }
+  }
+
+  if (lowerSections) {
+    lowerSections.addEventListener('scroll', () => {
+      if (currentState !== 'LOWER_PAGE') return;
+      syncPage2WithLowerScroll();
+      if (lowerSections.scrollTop <= 0) {
+        backFromLowerToPage2();
+      }
+    }, { passive: true });
   }
 
   // wheel & scroll interceptor
@@ -352,7 +438,7 @@
     if (isDetailOpen) return;
 
     if (currentState === 'CURTAIN') {
-      startRunwayVideo();
+      nudgeEnterBtn();
       return;
     }
 
@@ -382,9 +468,9 @@
         return;
       }
 
-      // If at end of Page 2 (p >= 0.99) and user scrolls down -> enter Glimpses / FAQ / Footer
-      if (p >= 0.99 && e.deltaY > 5) {
-        goToLowerSections();
+      // If at end of Page 2 (p >= 0.99) and user scrolls down -> smoothly move Page 3 up over locked Page 2
+      if (p >= 0.99 && e.deltaY > 2) {
+        goToLowerSections(null, e.deltaY);
         return;
       }
 
@@ -415,7 +501,7 @@
     }
 
     if (currentState === 'CURTAIN') {
-      startRunwayVideo();
+      nudgeEnterBtn();
       return;
     }
 
@@ -439,8 +525,8 @@
         goToPage1();
         return;
       }
-      if (p >= 0.99 && deltaY > 8) {
-        goToLowerSections();
+      if (p >= 0.99 && deltaY > 2) {
+        goToLowerSections(null, deltaY);
         return;
       }
 
@@ -451,6 +537,7 @@
 
   // Keyboard navigation
   window.addEventListener('keydown', e => {
+    if (e.repeat) return;
     if (isDetailOpen) {
       if (e.key === 'Escape') closeDetail();
       if (e.key === 'ArrowLeft') showCompetition(currentCardIndex - 1);
@@ -463,7 +550,7 @@
       e.preventDefault();
       if (currentState === 'CURTAIN') startRunwayVideo();
       else if (currentState === 'RUNWAY_PLAYING') landOnHero();
-      else if (currentState === 'PAGE_1') goToPage2(0.65);
+      else if (currentState === 'PAGE_1') goToPage2(1);
       return;
     }
 
@@ -483,16 +570,25 @@
     }
   });
 
-  // Clicking initial curtain starts video
+  // Clicking Enter button or curtain starts video with audio
+  if (btnEnterRunway) {
+    btnEnterRunway.addEventListener('click', e => {
+      e.stopPropagation();
+      startRunwayVideo();
+    });
+  }
   if (introCurtain) {
-    introCurtain.addEventListener('click', startRunwayVideo);
+    introCurtain.addEventListener('click', e => {
+      e.stopPropagation();
+      startRunwayVideo();
+    });
   }
 
   // Scroll hint on Hero stage clicks straight to Page 2
   if (scrollHint) {
     scrollHint.addEventListener('click', e => {
       e.stopPropagation();
-      goToPage2(0.65);
+      goToPage2(1);
     });
   }
 
@@ -501,19 +597,35 @@
     btn.addEventListener('click', e => {
       e.preventDefault();
       const text = (btn.textContent || '').trim().toUpperCase();
-      if (text === 'ABOUT') {
-        goToPage1();
-      } else if (text === 'EVENTS') {
-        goToPage2(0.68);
+      if (text === 'ABOUT' || text === 'EVENTS') {
+        goToPage2(1);
       } else if (text === 'GLIMPSES') {
         goToLowerSections();
       } else if (text === 'FAQ') {
         goToLowerSections('#faq-section');
+      } else if (text === 'CONTACT') {
+        goToLowerSections('#main-footer');
       } else if (text === 'RULEBOOK') {
-        goToPage2(0.68, 0); // Open Glamour Nova with rulebook
+        goToPage2(1, 0); // Open Glamour Nova with rulebook
       }
     });
   });
+
+  // Footer navigation links inside contact section
+  const footerAboutLink = document.getElementById('footerAboutLink');
+  if (footerAboutLink) {
+    footerAboutLink.addEventListener('click', e => {
+      e.preventDefault();
+      goToPage2(1);
+    });
+  }
+  const footerGlimpsesLink = document.getElementById('footerGlimpsesLink');
+  if (footerGlimpsesLink) {
+    footerGlimpsesLink.addEventListener('click', e => {
+      e.preventDefault();
+      if (lowerSections) lowerSections.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    });
+  }
 
   if (navLogo) {
     navLogo.addEventListener('click', e => {
@@ -546,7 +658,7 @@
     });
   }
 
-  // hero spotlights hover
+  // hero spotlights hover (desktop) + tap toggle (mobile/touch)
   if (heroTitleBox && hero) {
     heroTitleBox.addEventListener('mouseenter', () => {
       hero.classList.add('is-lit');
@@ -554,6 +666,19 @@
 
     heroTitleBox.addEventListener('mouseleave', () => {
       hero.classList.remove('is-lit');
+    });
+
+    heroTitleBox.addEventListener('click', (e) => {
+      if (window.matchMedia('(hover: none)').matches || window.innerWidth <= 768) {
+        e.stopPropagation();
+        hero.classList.toggle('is-lit');
+      }
+    });
+
+    hero.addEventListener('click', (e) => {
+      if ((window.matchMedia('(hover: none)').matches || window.innerWidth <= 768) && !heroTitleBox.contains(e.target)) {
+        hero.classList.remove('is-lit');
+      }
     });
   }
 
@@ -566,9 +691,17 @@
 
     if (detailImg) detailImg.src = data.image;
     if (detailTitle) detailTitle.textContent = data.name;
-    if (detailSubtitle) detailSubtitle.textContent = data.subtitle;
     if (detailText) detailText.textContent = data.text;
     if (detailPrize) detailPrize.textContent = data.prize;
+
+    const detailRegBtn = document.querySelector('.btn-register--detail');
+    if (detailRegBtn && data.tab) {
+      detailRegBtn.setAttribute('href', `/forms/?tab=${data.tab}`);
+    }
+    const detailRulebook = document.getElementById('detailRulebook');
+    if (detailRulebook && data.rulebook) {
+      detailRulebook.setAttribute('href', data.rulebook);
+    }
   }
 
   function openDetail(index) {
@@ -578,6 +711,9 @@
       detailModal.setAttribute('aria-hidden', 'false');
       isDetailOpen = true;
     }
+    if (mainNav) {
+      mainNav.classList.remove('is-visible');
+    }
   }
 
   function closeDetail() {
@@ -585,6 +721,12 @@
       detailModal.classList.remove('is-open');
       detailModal.setAttribute('aria-hidden', 'true');
       isDetailOpen = false;
+    }
+    if (mainNav) {
+      const animDone = currentState === 'PAGE_1'
+        || currentState === 'LOWER_PAGE'
+        || (currentState === 'PAGE_2' && cardsScrub && cardsScrub.getEasedProgress() >= 0.96);
+      if (animDone) mainNav.classList.add('is-visible');
     }
   }
 
@@ -745,3 +887,311 @@
   });
 })();
 //gowtham-end
+
+// Dipank-Glimpses and footer Start
+// gsap
+
+ function fitBrandText() {
+    const el = document.getElementById('footer-brand-text');
+    if (!el) return;
+
+    const targetW = document.documentElement.clientWidth;
+
+    const probe = document.createElement('span');
+    probe.style.cssText = [
+        "font-family:'Palace Script MT','Palace Script',cursive",
+        "white-space:nowrap",
+        "position:fixed",
+        "top:-9999px",
+        "left:-9999px",
+        "visibility:hidden",
+        "line-height:1",
+        "letter-spacing:0px"
+    ].join(';');
+    probe.textContent = 'Vogue Nation';
+    document.body.appendChild(probe);
+
+    let lo = 50, hi = 4000;
+    for (let i = 0; i < 25; i++) {
+        const mid = (lo + hi) >> 1;
+        probe.style.fontSize = mid + 'px';
+        (probe.getBoundingClientRect().width <= targetW) ? lo = mid : hi = mid;
+    }
+
+    document.body.removeChild(probe);
+
+    el.style.fontSize   = lo + 'px';
+    el.style.visibility = 'visible';
+}
+
+document.fonts.ready.then(fitBrandText);
+window.addEventListener('resize', () => document.fonts.ready.then(fitBrandText));
+
+document.addEventListener("DOMContentLoaded", () => {
+    const track    = document.querySelector('.carousel-track');
+    const images   = document.querySelectorAll('.carousel-img');
+    const viewport = document.querySelector('.carousel-viewport');
+    if (!track || !viewport) return;
+
+    const imgWidth       = 320, gap = 12;
+    const itemSpacing    = imgWidth + gap;
+    const singleSetWidth = 5 * itemSpacing;
+    let scrollPos = 0, isDragging = false, startX = 0, startScroll = 0;
+    let hoveredIdx = -1;
+    const hoverScales = Array.from(images, () => 1);
+
+    images.forEach((img, i) => {
+        img.addEventListener('mouseenter', () => { hoveredIdx = i; });
+        img.addEventListener('mouseleave', () => { if (hoveredIdx === i) hoveredIdx = -1; });
+    });
+
+    function render() {
+        const trackX = -(scrollPos % singleSetWidth);
+        track.style.transform = `translateX(${trackX}px)`;
+        const vc = window.innerWidth / 2;
+        const P = 1050;
+        const visualGap = 60;
+
+        const meta = [];
+        let centerIdx = 0;
+        let minAbsD = Infinity;
+
+        images.forEach((img, i) => {
+            const c = trackX + i * itemSpacing + imgWidth / 2;
+            const d = c - vc;
+            const norm = Math.max(-1.25, Math.min(1.25, d / vc));
+            const absNorm = Math.abs(norm);
+
+            const scale = 0.76 + Math.pow(absNorm, 1.25) * 0.26;
+            const rotateY = -norm * 34;
+            const theta = rotateY * Math.PI / 180;
+
+            const halfBase = (imgWidth / 2) * scale;
+            const hCos = halfBase * Math.cos(theta);
+            const hSin = halfBase * Math.sin(theta);
+
+            const kL = P / (P - hSin);
+            const kR = P / (P + hSin);
+
+            if (Math.abs(d) < minAbsD) {
+                minAbsD = Math.abs(d);
+                centerIdx = i;
+            }
+            meta.push({ c, d, absNorm, scale, rotateY, hCos, kL, kR });
+        });
+
+        const screenL = (m, X) => vc + (X - m.hCos) * m.kL;
+        const screenR = (m, X) => vc + (X + m.hCos) * m.kR;
+
+        const X = new Array(images.length);
+        const neighborIdx = meta[centerIdx].d >= 0
+            ? Math.max(0, centerIdx - 1)
+            : Math.min(images.length - 1, centerIdx + 1);
+        const pairWidth = meta[centerIdx].hCos + meta[neighborIdx].hCos + visualGap;
+        X[centerIdx] = meta[centerIdx].d * (pairWidth / itemSpacing);
+
+        for (let i = centerIdx + 1; i < images.length; i++) {
+            const targetL = screenR(meta[i - 1], X[i - 1]) + visualGap;
+            X[i] = meta[i].hCos + (targetL - vc) / meta[i].kL;
+        }
+        for (let i = centerIdx - 1; i >= 0; i--) {
+            const targetR = screenL(meta[i + 1], X[i + 1]) - visualGap;
+            X[i] = -meta[i].hCos + (targetR - vc) / meta[i].kR;
+        }
+
+        images.forEach((img, i) => {
+            const m = meta[i];
+            const sx = (vc + X[i]) - m.c;
+            const targetHover = (i === hoveredIdx && !isDragging) ? 1.06 : 1;
+            hoverScales[i] += (targetHover - hoverScales[i]) * 0.14;
+
+            img.style.transform       = `translateX(${sx}px) rotateY(${m.rotateY}deg) scale(${m.scale * hoverScales[i]})`;
+            img.style.transformOrigin = "center center";
+            img.style.zIndex          = (i === hoveredIdx) ? 20 : Math.round(m.absNorm * 10);
+        });
+    }
+
+    function tick() {
+        if (!isDragging) scrollPos += 1.0;
+        render();
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    viewport.addEventListener('wheel', e => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            e.preventDefault();
+            scrollPos += e.deltaX * 0.8;
+            if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+            render();
+        }
+    }, { passive: false });
+
+    track.addEventListener('mousedown', e => {
+        isDragging = true; startX = e.clientX; startScroll = scrollPos;
+        track.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        scrollPos = startScroll - (e.clientX - startX) * 1.2;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
+
+    track.addEventListener('touchstart', e => {
+        isDragging = true; startX = e.touches[0].clientX; startScroll = scrollPos;
+    }, { passive: true });
+    window.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        scrollPos = startScroll - (e.touches[0].clientX - startX) * 1.2;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    }, { passive: true });
+    window.addEventListener('touchend', () => { isDragging = false; });
+    window.addEventListener('resize', render);
+});
+
+/* ── Mobile Stacked Cards ── */
+document.addEventListener("DOMContentLoaded", () => {
+    const stack = document.getElementById("mobile-card-stack");
+    if (!stack) return;
+    const cards = Array.from(stack.querySelectorAll(".mobile-card"));
+    if (!cards.length) return;
+
+    const restAngles = [-2, -5, -8, -11, -14];
+    let order = cards.map((_, i) => i);
+    let isAnimating = false;
+
+    function layoutCards(animate) {
+        order.forEach((cardIdx, pos) => {
+            const card = cards[cardIdx];
+            const angle = restAngles[pos % restAngles.length];
+            const scale = 1 - pos * 0.015;
+            const yOff  = pos * 3;
+            card.style.zIndex = cards.length - pos;
+            if (animate) {
+                gsap.to(card, {
+                    rotation: angle,
+                    scale: scale,
+                    y: yOff,
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.42,
+                    ease: "power3.out"
+                });
+            } else {
+                gsap.set(card, { rotation: angle, scale: scale, y: yOff, x: 0, opacity: 1 });
+            }
+        });
+    }
+
+    layoutCards(false);
+
+    stack.addEventListener("click", () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        const topCard = cards[order[0]];
+
+        gsap.to(topCard, {
+            y: -48,
+            scale: 1.07,
+            rotation: -6,
+            opacity: 0.85,
+            duration: 0.22,
+            ease: "power2.out",
+            onComplete: () => {
+                order.push(order.shift());
+                layoutCards(true);
+                setTimeout(() => { isAnimating = false; }, 380);
+            }
+        });
+    });
+});
+
+/* ── FAQ ── */
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".faq-item").forEach(item => {
+        const btn   = item.querySelector(".faq-item-btn");
+        const panel = item.querySelector(".faq-item-panel");
+        const arrow = item.querySelector(".faq-arrow");
+        const inner = item.querySelector(".faq-item-inner");
+        if (!btn || !panel || !arrow || !inner) return;
+        let open = false;
+        const apply = o => {
+            item.style.background  = o ? "linear-gradient(to left,#d4af37,white)" : "linear-gradient(to left,#644E0C,#353535)";
+            inner.style.background = o ? "linear-gradient(to bottom right,#292929,#303030)" : "#000";
+            arrow.style.transform  = o ? "rotate(180deg)" : "rotate(0deg)";
+            btn.setAttribute("aria-expanded", String(o));
+        };
+        apply(false);
+        btn.addEventListener("click", () => { open = !open; panel.style.gridTemplateRows = open ? "1fr" : "0fr"; apply(open); });
+    });
+});
+
+// lights
+document.addEventListener("DOMContentLoaded", () => {
+  const wrap = document.getElementById("faq-footer-wrap");
+  const lower = document.getElementById("lowerSections");
+  const lightTopRight = document.getElementById("light-top-right");
+  const lightBottomLeft = document.getElementById("light-bottom-left");
+  if (!wrap || !lightTopRight || !lightBottomLeft) return;
+
+  let ticking = false;
+
+  function updateLightsParallax() {
+    const rect = wrap.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (!rect.height) {
+      ticking = false;
+      return;
+    }
+
+    const totalTravel = rect.height + vh;
+    const progress = Math.min(1, Math.max(0, (vh - rect.top) / totalTravel));
+    const offset = progress - 0.5;
+
+    // Stronger parallax drift so movement is clearly visible across FAQ -> Footer
+    lightTopRight.style.transform = `translate3d(${offset * -160}px, ${offset * 700}px, 0)`;
+    lightBottomLeft.style.transform = `translate3d(${offset * 160}px, ${offset * -700}px, 0)`;
+
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateLightsParallax);
+      ticking = true;
+    }
+  }
+
+  if (lower) {
+    lower.addEventListener("scroll", onScroll, { passive: true });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  updateLightsParallax();
+});
+
+/* ── Team Webops Popup ── */
+function bindTeamPopup(triggerId, popupId) {
+  const trigger = document.getElementById(triggerId);
+  const popup = document.getElementById(popupId);
+  if (!trigger || !popup) return;
+
+  trigger.addEventListener("mouseenter", () => {
+    popup.style.display = "flex";
+  });
+  trigger.addEventListener("mouseleave", () => {
+    popup.style.display = "none";
+  });
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+  });
+}
+
+bindTeamPopup("creatives-trigger", "creatives-popup");
+bindTeamPopup("webops-trigger", "webops-popup");
+
+// Dipank's End
