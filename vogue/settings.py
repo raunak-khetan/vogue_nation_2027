@@ -186,19 +186,24 @@ else:
 # ==============================================================================
 
 if IS_PROD:
-    SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 31536000          # 1 year
+    # Dokku/Traefik handles SSL termination — Django should NOT redirect itself.
+    # Having SECURE_SSL_REDIRECT=True behind a proxy causes CSRF cookies to drop
+    # during the HTTP→HTTPS redirect loop.
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    # Trust the X-Forwarded-Proto header set by Traefik
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-    # Required when behind a reverse proxy (Traefik/Nginx/Dokku).
-    # Django checks the Origin/Referer header against this list on POST.
-    _allowed = os.environ.get('ALLOWED_HOSTS', '')
+    # Explicitly trust all production domains for CSRF.
+    # Django requires these to match the Origin header on cross-origin POST requests.
     CSRF_TRUSTED_ORIGINS = [
-        f'https://{h.strip()}' for h in _allowed.split(',') if h.strip()
+        'https://prelims.alcheringa.co.in',
+        'https://ceportal.alcheringa.co.in',
+        'https://highwaytoalcher.alcheringa.co.in',
     ]
 
 X_FRAME_OPTIONS = 'DENY'

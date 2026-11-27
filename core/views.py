@@ -241,12 +241,7 @@ def hc_d_section(request):
                         for hcd_member_data in member_data:
                             HCDMember.objects.create(
                                 team=hcd_team,
-                                name=hcd_member_data['name'],
-                                email=hcd_member_data['email'],
-                                contactNumber=hcd_member_data['contactNumber'],
-                                gender=hcd_member_data['gender'],
-                                postalCode=hcd_member_data['postalCode'],
-                                cityName=hcd_member_data['cityName'],
+                                **hcd_member_data,
                             )
 
                     valid = True
@@ -315,16 +310,7 @@ def gn_m_section(request):
                         GN_MTeamLeader.objects.create(team=team, **leader_data)
                         for m_form in member_form:
                             if m_form.cleaned_data:
-                                d = m_form.cleaned_data
-                                GN_MMember.objects.create(
-                                    team=team,
-                                    name=d['name'],
-                                    email=d['email'],
-                                    contactNumber=d['contactNumber'],
-                                    gender=d['gender'],
-                                    postalCode=d['postalCode'],
-                                    cityName=d['cityName'],
-                                )
+                                GN_MMember.objects.create(team=team, **m_form.cleaned_data)
                     valid = True
                     messages.success(request, "Registration successful! You're all set for Glamour Nova.")
                     form = GN_M_Form(prefix="gn_m_team")
