@@ -1129,7 +1129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// lights
+// lights (Smooth Scroll + Mouse Parallax)
 document.addEventListener("DOMContentLoaded", () => {
   const wrap = document.getElementById("faq-footer-wrap");
   const lower = document.getElementById("lowerSections");
@@ -1137,42 +1137,69 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightBottomLeft = document.getElementById("light-bottom-left");
   if (!wrap || !lightTopRight || !lightBottomLeft) return;
 
-  let ticking = false;
+  let mouseX = 0;
+  let mouseY = 0;
 
   function updateLightsParallax() {
     const rect = wrap.getBoundingClientRect();
     const vh = window.innerHeight || document.documentElement.clientHeight;
-    if (!rect.height) {
-      ticking = false;
-      return;
-    }
+    if (!rect.height) return;
 
-    const totalTravel = rect.height + vh;
-    const progress = Math.min(1, Math.max(0, (vh - rect.top) / totalTravel));
-    const offset = progress - 0.5;
+    // Full 0 -> 1 progress from top of FAQ to bottom of Footer
+    const scrollable = Math.max(1, rect.height - vh);
+    const p = Math.min(1.2, Math.max(-0.2, -rect.top / scrollable));
+    const centered = p - 0.5; // -0.5 at FAQ top, +0.5 at Footer bottom
 
-    // Stronger parallax drift so movement is clearly visible across FAQ -> Footer
-    lightTopRight.style.transform = `translate3d(${offset * -160}px, ${offset * 700}px, 0)`;
-    lightBottomLeft.style.transform = `translate3d(${offset * 160}px, ${offset * -700}px, 0)`;
+    const topRightX = centered * -180 + mouseX * -35;
+    const topRightY = centered * 520 + mouseY * -35;
 
-    ticking = false;
-  }
+    const bottomLeftX = (1 - p) * 140 + mouseX * 35;
+    const bottomLeftY = (p - 1) * 480 + mouseY * 35;
 
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(updateLightsParallax);
-      ticking = true;
+    if (window.gsap) {
+      gsap.to(lightTopRight, {
+        x: topRightX,
+        y: topRightY,
+        scale: 1 + Math.abs(centered) * 0.12,
+        duration: 0.75,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+      gsap.to(lightBottomLeft, {
+        x: bottomLeftX,
+        y: bottomLeftY,
+        scale: 1 + Math.abs(centered) * 0.12,
+        duration: 0.75,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+    } else {
+      lightTopRight.style.transform = `translate3d(${topRightX}px, ${topRightY}px, 0)`;
+      lightBottomLeft.style.transform = `translate3d(${bottomLeftX}px, ${bottomLeftY}px, 0)`;
     }
   }
 
   if (lower) {
-    lower.addEventListener("scroll", onScroll, { passive: true });
+    lower.addEventListener("scroll", updateLightsParallax, { passive: true });
   }
-  window.addEventListener("scroll", onScroll, { passive: true, capture: true });
-  window.addEventListener("resize", onScroll, { passive: true });
+  window.addEventListener("scroll", updateLightsParallax, { passive: true, capture: true });
+  window.addEventListener("resize", updateLightsParallax, { passive: true });
+
+  // Subtle mouse-depth parallax on desktop
+  window.addEventListener("mousemove", (e) => {
+    mouseX = (e.clientX / window.innerWidth) - 0.5;
+    mouseY = (e.clientY / window.innerHeight) - 0.5;
+    updateLightsParallax();
+  }, { passive: true });
+
+  // Sync immediately when nav buttons jump to FAQ/Contact
+  document.addEventListener("click", () => {
+    setTimeout(updateLightsParallax, 200);
+    setTimeout(updateLightsParallax, 600);
+  });
+
   updateLightsParallax();
 });
-
 /* ── Team Webops Popup ── */
 function bindTeamPopup(triggerId, popupId) {
   const trigger = document.getElementById(triggerId);
@@ -1191,7 +1218,48 @@ function bindTeamPopup(triggerId, popupId) {
   });
 }
 
+
+
 bindTeamPopup("creatives-trigger", "creatives-popup");
 bindTeamPopup("webops-trigger", "webops-popup");
 
+/* ── Footer Vogue Nation Writing Animation ── */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const brandText = document.getElementById("footer-brand-text");
+  const lower = document.getElementById("lowerSections");
+  if (!brandText) return;
+
+  let revealed = false;
+
+  function checkBrandReveal() {
+    const rect = brandText.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const isVisible = rect.height > 0 && rect.top < vh * 0.95 && rect.bottom > 0;
+
+    if (isVisible && !revealed) {
+      revealed = true;
+      brandText.style.transition = "clip-path 2.4s cubic-bezier(0.22, 1, 0.36, 1)";
+      brandText.style.clipPath = "inset(0 0% 0 0)";
+    } else if ((rect.height === 0 || rect.top >= vh) && revealed) {
+      revealed = false;
+      brandText.style.transition = "none";
+      brandText.style.clipPath = "inset(0 100% 0 0)";
+      void brandText.offsetWidth; // force reflow before restoring transition
+      brandText.style.transition = "clip-path 2.4s cubic-bezier(0.22, 1, 0.36, 1)";
+    }
+  }
+
+  if (lower) {
+    lower.addEventListener("scroll", checkBrandReveal, { passive: true });
+  }
+  window.addEventListener("scroll", checkBrandReveal, { passive: true, capture: true });
+
+  document.addEventListener("click", () => {
+    setTimeout(checkBrandReveal, 350);
+    setTimeout(checkBrandReveal, 800);
+  });
+
+  checkBrandReveal();
+});
 // Dipank's End

@@ -488,6 +488,7 @@
                     Team Creatives
                     <span id="creatives-popup" class="team-popup" style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: #161616; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px; padding: 16px 22px; min-width: 190px; display: none; flex-direction: column; gap: 9px; box-shadow: 0 12px 40px rgba(0,0,0,0.9); z-index: 999; white-space: nowrap;">
                         <span style="font-family: Georgia, serif; font-size: 15px; letter-spacing: 1.5px; color: #FFFFFF; text-transform: uppercase; margin-bottom: 2px;">Team Creatives</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;"> &bull; Karan-Head</span>
                         <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;"> &bull; Jigisha Jain</span>
                         <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;">&bull; Shubhra Chaurasiya</span>
                     </span>
@@ -527,6 +528,9 @@
                       letter-spacing: 0px;
                       pointer-events: none;
                       visibility: hidden;
+                      clip-path: inset(0 100% 0 0);
+                      transition: clip-path 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+                      will-change: clip-path;
                       font-size: 200px;">Vogue Nation</p>
         </div>
     </footer>
