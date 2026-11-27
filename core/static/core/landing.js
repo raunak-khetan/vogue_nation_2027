@@ -887,3 +887,311 @@
   });
 })();
 //gowtham-end
+
+// Dipank-Glimpses and footer Start
+// gsap
+
+ function fitBrandText() {
+    const el = document.getElementById('footer-brand-text');
+    if (!el) return;
+
+    const targetW = document.documentElement.clientWidth;
+
+    const probe = document.createElement('span');
+    probe.style.cssText = [
+        "font-family:'Palace Script MT','Palace Script',cursive",
+        "white-space:nowrap",
+        "position:fixed",
+        "top:-9999px",
+        "left:-9999px",
+        "visibility:hidden",
+        "line-height:1",
+        "letter-spacing:0px"
+    ].join(';');
+    probe.textContent = 'Vogue Nation';
+    document.body.appendChild(probe);
+
+    let lo = 50, hi = 4000;
+    for (let i = 0; i < 25; i++) {
+        const mid = (lo + hi) >> 1;
+        probe.style.fontSize = mid + 'px';
+        (probe.getBoundingClientRect().width <= targetW) ? lo = mid : hi = mid;
+    }
+
+    document.body.removeChild(probe);
+
+    el.style.fontSize   = lo + 'px';
+    el.style.visibility = 'visible';
+}
+
+document.fonts.ready.then(fitBrandText);
+window.addEventListener('resize', () => document.fonts.ready.then(fitBrandText));
+
+document.addEventListener("DOMContentLoaded", () => {
+    const track    = document.querySelector('.carousel-track');
+    const images   = document.querySelectorAll('.carousel-img');
+    const viewport = document.querySelector('.carousel-viewport');
+    if (!track || !viewport) return;
+
+    const imgWidth       = 320, gap = 12;
+    const itemSpacing    = imgWidth + gap;
+    const singleSetWidth = 5 * itemSpacing;
+    let scrollPos = 0, isDragging = false, startX = 0, startScroll = 0;
+    let hoveredIdx = -1;
+    const hoverScales = Array.from(images, () => 1);
+
+    images.forEach((img, i) => {
+        img.addEventListener('mouseenter', () => { hoveredIdx = i; });
+        img.addEventListener('mouseleave', () => { if (hoveredIdx === i) hoveredIdx = -1; });
+    });
+
+    function render() {
+        const trackX = -(scrollPos % singleSetWidth);
+        track.style.transform = `translateX(${trackX}px)`;
+        const vc = window.innerWidth / 2;
+        const P = 1050;
+        const visualGap = 60;
+
+        const meta = [];
+        let centerIdx = 0;
+        let minAbsD = Infinity;
+
+        images.forEach((img, i) => {
+            const c = trackX + i * itemSpacing + imgWidth / 2;
+            const d = c - vc;
+            const norm = Math.max(-1.25, Math.min(1.25, d / vc));
+            const absNorm = Math.abs(norm);
+
+            const scale = 0.76 + Math.pow(absNorm, 1.25) * 0.26;
+            const rotateY = -norm * 34;
+            const theta = rotateY * Math.PI / 180;
+
+            const halfBase = (imgWidth / 2) * scale;
+            const hCos = halfBase * Math.cos(theta);
+            const hSin = halfBase * Math.sin(theta);
+
+            const kL = P / (P - hSin);
+            const kR = P / (P + hSin);
+
+            if (Math.abs(d) < minAbsD) {
+                minAbsD = Math.abs(d);
+                centerIdx = i;
+            }
+            meta.push({ c, d, absNorm, scale, rotateY, hCos, kL, kR });
+        });
+
+        const screenL = (m, X) => vc + (X - m.hCos) * m.kL;
+        const screenR = (m, X) => vc + (X + m.hCos) * m.kR;
+
+        const X = new Array(images.length);
+        const neighborIdx = meta[centerIdx].d >= 0
+            ? Math.max(0, centerIdx - 1)
+            : Math.min(images.length - 1, centerIdx + 1);
+        const pairWidth = meta[centerIdx].hCos + meta[neighborIdx].hCos + visualGap;
+        X[centerIdx] = meta[centerIdx].d * (pairWidth / itemSpacing);
+
+        for (let i = centerIdx + 1; i < images.length; i++) {
+            const targetL = screenR(meta[i - 1], X[i - 1]) + visualGap;
+            X[i] = meta[i].hCos + (targetL - vc) / meta[i].kL;
+        }
+        for (let i = centerIdx - 1; i >= 0; i--) {
+            const targetR = screenL(meta[i + 1], X[i + 1]) - visualGap;
+            X[i] = -meta[i].hCos + (targetR - vc) / meta[i].kR;
+        }
+
+        images.forEach((img, i) => {
+            const m = meta[i];
+            const sx = (vc + X[i]) - m.c;
+            const targetHover = (i === hoveredIdx && !isDragging) ? 1.06 : 1;
+            hoverScales[i] += (targetHover - hoverScales[i]) * 0.14;
+
+            img.style.transform       = `translateX(${sx}px) rotateY(${m.rotateY}deg) scale(${m.scale * hoverScales[i]})`;
+            img.style.transformOrigin = "center center";
+            img.style.zIndex          = (i === hoveredIdx) ? 20 : Math.round(m.absNorm * 10);
+        });
+    }
+
+    function tick() {
+        if (!isDragging) scrollPos += 1.0;
+        render();
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    viewport.addEventListener('wheel', e => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            e.preventDefault();
+            scrollPos += e.deltaX * 0.8;
+            if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+            render();
+        }
+    }, { passive: false });
+
+    track.addEventListener('mousedown', e => {
+        isDragging = true; startX = e.clientX; startScroll = scrollPos;
+        track.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        scrollPos = startScroll - (e.clientX - startX) * 1.2;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
+
+    track.addEventListener('touchstart', e => {
+        isDragging = true; startX = e.touches[0].clientX; startScroll = scrollPos;
+    }, { passive: true });
+    window.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        scrollPos = startScroll - (e.touches[0].clientX - startX) * 1.2;
+        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
+        render();
+    }, { passive: true });
+    window.addEventListener('touchend', () => { isDragging = false; });
+    window.addEventListener('resize', render);
+});
+
+/* ── Mobile Stacked Cards ── */
+document.addEventListener("DOMContentLoaded", () => {
+    const stack = document.getElementById("mobile-card-stack");
+    if (!stack) return;
+    const cards = Array.from(stack.querySelectorAll(".mobile-card"));
+    if (!cards.length) return;
+
+    const restAngles = [-2, -5, -8, -11, -14];
+    let order = cards.map((_, i) => i);
+    let isAnimating = false;
+
+    function layoutCards(animate) {
+        order.forEach((cardIdx, pos) => {
+            const card = cards[cardIdx];
+            const angle = restAngles[pos % restAngles.length];
+            const scale = 1 - pos * 0.015;
+            const yOff  = pos * 3;
+            card.style.zIndex = cards.length - pos;
+            if (animate) {
+                gsap.to(card, {
+                    rotation: angle,
+                    scale: scale,
+                    y: yOff,
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.42,
+                    ease: "power3.out"
+                });
+            } else {
+                gsap.set(card, { rotation: angle, scale: scale, y: yOff, x: 0, opacity: 1 });
+            }
+        });
+    }
+
+    layoutCards(false);
+
+    stack.addEventListener("click", () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        const topCard = cards[order[0]];
+
+        gsap.to(topCard, {
+            y: -48,
+            scale: 1.07,
+            rotation: -6,
+            opacity: 0.85,
+            duration: 0.22,
+            ease: "power2.out",
+            onComplete: () => {
+                order.push(order.shift());
+                layoutCards(true);
+                setTimeout(() => { isAnimating = false; }, 380);
+            }
+        });
+    });
+});
+
+/* ── FAQ ── */
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".faq-item").forEach(item => {
+        const btn   = item.querySelector(".faq-item-btn");
+        const panel = item.querySelector(".faq-item-panel");
+        const arrow = item.querySelector(".faq-arrow");
+        const inner = item.querySelector(".faq-item-inner");
+        if (!btn || !panel || !arrow || !inner) return;
+        let open = false;
+        const apply = o => {
+            item.style.background  = o ? "linear-gradient(to left,#d4af37,white)" : "linear-gradient(to left,#644E0C,#353535)";
+            inner.style.background = o ? "linear-gradient(to bottom right,#292929,#303030)" : "#000";
+            arrow.style.transform  = o ? "rotate(180deg)" : "rotate(0deg)";
+            btn.setAttribute("aria-expanded", String(o));
+        };
+        apply(false);
+        btn.addEventListener("click", () => { open = !open; panel.style.gridTemplateRows = open ? "1fr" : "0fr"; apply(open); });
+    });
+});
+
+// lights
+document.addEventListener("DOMContentLoaded", () => {
+  const wrap = document.getElementById("faq-footer-wrap");
+  const lower = document.getElementById("lowerSections");
+  const lightTopRight = document.getElementById("light-top-right");
+  const lightBottomLeft = document.getElementById("light-bottom-left");
+  if (!wrap || !lightTopRight || !lightBottomLeft) return;
+
+  let ticking = false;
+
+  function updateLightsParallax() {
+    const rect = wrap.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (!rect.height) {
+      ticking = false;
+      return;
+    }
+
+    const totalTravel = rect.height + vh;
+    const progress = Math.min(1, Math.max(0, (vh - rect.top) / totalTravel));
+    const offset = progress - 0.5;
+
+    // Stronger parallax drift so movement is clearly visible across FAQ -> Footer
+    lightTopRight.style.transform = `translate3d(${offset * -160}px, ${offset * 700}px, 0)`;
+    lightBottomLeft.style.transform = `translate3d(${offset * 160}px, ${offset * -700}px, 0)`;
+
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateLightsParallax);
+      ticking = true;
+    }
+  }
+
+  if (lower) {
+    lower.addEventListener("scroll", onScroll, { passive: true });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  updateLightsParallax();
+});
+
+/* ── Team Webops Popup ── */
+function bindTeamPopup(triggerId, popupId) {
+  const trigger = document.getElementById(triggerId);
+  const popup = document.getElementById(popupId);
+  if (!trigger || !popup) return;
+
+  trigger.addEventListener("mouseenter", () => {
+    popup.style.display = "flex";
+  });
+  trigger.addEventListener("mouseleave", () => {
+    popup.style.display = "none";
+  });
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+  });
+}
+
+bindTeamPopup("creatives-trigger", "creatives-popup");
+bindTeamPopup("webops-trigger", "webops-popup");
+
+// Dipank's End

@@ -253,421 +253,286 @@
 </style>
 
 <!-- Main Wrapper -->
-<div style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
+<div id="main-wrapper" style="width: 100%; min-height: 100vh; background-color: #0B0B0B; display: block; overflow-x: hidden; user-select: none;">
 
    <!-- SECTION 1: HEADER                                              -->
-<div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 120px; padding-bottom: 30px; box-sizing: border-box;">
-    <div style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
-        <h2 style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
-            Glimpses of&nbsp;&nbsp;VogueNation'26
+<div id="glimpses-header-wrap" style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 80px; padding-bottom: 30px; box-sizing: border-box;">
+    <div id="glimpses-header-box" style="width: 100%; max-width: 681px; height: 89px; display: flex; justify-content: center; align-items: center; text-align: center;">
+        <h2 id="glimpses-heading" style="font-family: 'Palace Script MT', 'Palace Script', cursive; font-size: 96px !important; line-height: 89px !important; color: #FFFFFF !important; white-space: nowrap; margin: 0; padding: 0;">
+            Glimpses of<span class="desktop-spaces">&nbsp;&nbsp;</span><br class="mobile-br">VogueNation'26
         </h2>
     </div>
 </div>
 
 
-<!-- SECTION 2: IMAGES -->
-
+<!-- SECTION 2: IMAGES (WEB CAROUSEL) -->
 <div class="carousel-viewport"
-     style="width: 100%; height: 412px; overflow: hidden; position: relative; box-sizing: border-box;">
-    <!-- Top concave curve -->
-    <svg style="position: absolute; top: -1px; left: 0; width: 100%; height: 75px; pointer-events: none; z-index: 10;"
-         viewBox="0 0 1440 75" preserveAspectRatio="none">
-        <path d="M0,0 Q720,150 1440,0 L1440,0 L0,0 Z" fill="#0B0B0B"></path>
-    </svg>
-
+     style="width: 100%; height: 530px; overflow: hidden; position: relative; box-sizing: border-box; perspective: 1050px; perspective-origin: center center;">
     <div class="carousel-track"
-         style="display: flex; flex-direction: row; align-items: center; width: max-content; height: 100%; cursor: grab; user-select: none;">
+         style="display: flex; flex-direction: row; align-items: center; width: max-content; height: 100%; cursor: grab; user-select: none; transform-style: preserve-3d;">
         <!-- Set 1 -->
-        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 1">
-        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 2">
-        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 3">
-        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 4">
-        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 5">
+        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 1">
+        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 2">
+        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 3">
+        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 4">
+        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 5">
         <!-- Set 2 -->
-        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 1">
-        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 2">
-        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 3">
-        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 4">
-        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 5">
+        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 1">
+        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 2">
+        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 3">
+        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 4">
+        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 5">
         <!-- Set 3 -->
-        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 1">
-        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 2">
-        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 3">
-        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 4">
-        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 280px; height: 412px; flex-shrink: 0; object-fit: cover; margin-right: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); position: relative;" alt="Vogue 5">
+        <img src="{% static 'core/images/glimpses/photo1.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 1">
+        <img src="{% static 'core/images/glimpses/photo2.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 2">
+        <img src="{% static 'core/images/glimpses/photo3.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 3">
+        <img src="{% static 'core/images/glimpses/photo4.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 4">
+        <img src="{% static 'core/images/glimpses/photo5.png' %}" class="carousel-img" style="width: 320px; height: 470px; flex-shrink: 0; object-fit: cover; margin-right: -24px; border-radius: 8px; box-shadow: 0 12px 28px rgba(0,0,0,0.75); position: relative; backface-visibility: hidden;" alt="Vogue 5">
     </div>
 
-    <!-- Bottom concave curve -->
-    <svg style="position: absolute; bottom: -1px; left: 0; width: 100%; height: 75px; pointer-events: none; z-index: 10;"
-         viewBox="0 0 1440 75" preserveAspectRatio="none">
-        <path d="M0,75 Q720,-75 1440,75 L1440,75 L0,75 Z" fill="#0B0B0B"></path>
-    </svg>
+    <!-- Subtle left & right edge fade -->
+    <div style="position: absolute; top: 0; left: 0; width: 110px; height: 100%; background: linear-gradient(to right, #0B0B0B 0%, transparent 100%); pointer-events: none; z-index: 10;"></div>
+    <div style="position: absolute; top: 0; right: 0; width: 110px; height: 100%; background: linear-gradient(to left, #0B0B0B 0%, transparent 100%); pointer-events: none; z-index: 10;"></div>
+</div>
+
+<!-- SECTION 2 (MOBILE): STACKED CLICKABLE CARDS -->
+<div id="mobile-card-stack">
+    <img src="{% static 'core/images/glimpses/photo1.png' %}" class="mobile-card" alt="Vogue 1">
+    <img src="{% static 'core/images/glimpses/photo2.png' %}" class="mobile-card" alt="Vogue 2">
+    <img src="{% static 'core/images/glimpses/photo3.png' %}" class="mobile-card" alt="Vogue 3">
+    <img src="{% static 'core/images/glimpses/photo4.png' %}" class="mobile-card" alt="Vogue 4">
+    <img src="{% static 'core/images/glimpses/photo5.png' %}" class="mobile-card" alt="Vogue 5">
 </div>
 
 
     <!-- SECTION 3: SPACER                                              -->
 
-    <div style="width: 100%; height: 250px; background-color: #0B0B0B;"></div>
+    <div id="section-spacer" style="width: 100%; height: 250px; background-color: #0B0B0B;"></div>
 </div>
 
 
-<!-- SECTION 4: FAQ                                                  -->
+<!-- SHARED WRAPPER FOR FAQ + FOOTER + PARALLAX LIGHTS -->
+<div id="faq-footer-wrap"
+     style="position: relative; width: 100vw; margin-left: calc(50% - 50vw); background-color: #000; overflow: hidden;">
 
-<section id="faq-section"
-         style="width: 100vw; min-height: 100vh; margin-left: calc(50% - 50vw);
-                background-color: #000; padding-top: 112px; padding-bottom: 64px;
+<!-- Top-right light: centered right above "About", fading upward into FAQ and downward into Footer -->
+<div id="light-top-right"
+     style="position: absolute; top: calc(50% - 650px); right: -700px;
+            width: 1400px; height: 1400px;
+            background: radial-gradient(ellipse at center, rgba(212,175,55,0.28) 0%, rgba(212,175,55,0.10) 40%, transparent 70%);
+            pointer-events: none; z-index: 1; will-change: transform;"></div>
+<!-- Bottom-left corner light (center locked to bottom-left corner, 700px soft radius) -->
+<div id="light-bottom-left"
+     style="position: absolute; bottom: -700px; left: -700px;
+            width: 1400px; height: 1400px;
+            background: radial-gradient(ellipse at center, rgba(212,175,55,0.28) 0%, rgba(212,175,55,0.10) 40%, transparent 70%);
+            pointer-events: none; z-index: 1; will-change: transform;"></div>
+
+    <!-- SECTION 4: FAQ -->
+    <section id="faq-section"
+         style="position: relative; z-index: 2; width: 100%; min-height: 100vh;
+                background: transparent !important; padding-top: 112px; padding-bottom: 64px;
                 user-select: none; box-sizing: border-box;">
-    <h1 style="text-align: center; font-size: clamp(28px, 5vw, 52px); font-weight: 400; letter-spacing: -2px; margin-bottom: 55px; font-family: Georgia, serif; color: #fff;">
-        Frequently Asked Questions
-    </h1>
-    <div id="faq-container" style="width: 800px; max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+        <h1 id="faq-heading" style="text-align: center; font-size: clamp(28px, 5vw, 52px); font-weight: 400; letter-spacing: -2px; margin-bottom: 55px; font-family: Oranienbaum, serif; color: #fff;">
+            Frequently Asked Questions
+        </h1>
+        <div id="faq-container" style="font-family: Darker Grotesque; width: 800px; max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
 
-        <!-- FAQ 1 -->
-        <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
-            <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
-                    <span>Can I participate in more than one module?</span>
-                    <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
-                </button>
-                <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Participation in multiple modules depends on the competition rules. Please refer to the module guidelines for eligibility and participation details.</p></div>
+            <!-- FAQ 1 -->
+            <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
+                <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
+                    <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
+                        <span>Can I participate in more than one module?</span>
+                        <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
+                    </button>
+                    <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
+                        <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Participation in multiple modules depends on the competition rules. Please refer to the module guidelines for eligibility and participation details.</p></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- FAQ 2 -->
-        <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
-            <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
-                    <span>Do I need prior modelling or fashion show experience to participate?</span>
-                    <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
-                </button>
-                <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Not necessarily! If you have a passion for fashion, creativity, and the runway, Vogue Nation is an opportunity to showcase your talent.</p></div>
+            <!-- FAQ 2 -->
+            <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
+                <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
+                    <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
+                        <span>Do I need prior modelling or fashion show experience to participate?</span>
+                        <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
+                    </button>
+                    <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
+                        <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Not necessarily! If you have a passion for fashion, creativity, and the runway, Vogue Nation is an opportunity to showcase your talent.</p></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- FAQ 3 -->
-        <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
-            <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
-                    <span>What are the rules and judging criteria for the competition?</span>
-                    <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
-                </button>
-                <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Each module has its own guidelines and judging criteria. Participants should review the respective rulebook for details about creativity, styling, presentation, and other evaluation parameters.</p></div>
+            <!-- FAQ 3 -->
+            <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
+                <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
+                    <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
+                        <span>What are the rules and judging criteria for the competition?</span>
+                        <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
+                    </button>
+                    <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
+                        <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Each module has its own guidelines and judging criteria. Participants should review the respective rulebook for details about creativity, styling, presentation, and other evaluation parameters.</p></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- FAQ 4 -->
-        <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
-            <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
-                    <span>What should I do after completing my registration?</span>
-                    <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
-                </button>
-                <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Keep an eye on your registered email address and the official Alcheringa communication channels for registration confirmation, schedules, and further instructions.</p></div>
+            <!-- FAQ 4 -->
+            <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
+                <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
+                    <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
+                        <span>What should I do after completing my registration?</span>
+                        <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
+                    </button>
+                    <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
+                        <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Keep an eye on your registered email address and the official Alcheringa communication channels for registration confirmation, schedules, and further instructions.</p></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- FAQ 5 -->
-        <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
-            <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
-                    <span>Will participants receive certificates?</span>
-                    <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
-                </button>
-                <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Yes , every participant will receive participation certificate.</p></div>
+            <!-- FAQ 5 -->
+            <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
+                <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
+                    <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
+                        <span>Will participants receive certificates?</span>
+                        <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
+                    </button>
+                    <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
+                        <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Yes , every participant will receive participation certificate.</p></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- FAQ 6 -->
-        <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
-            <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
-                <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 19px; color: #fff; background: none; border: none; cursor: pointer;">
-                    <span>Where can I find updates about Vogue Nation?</span>
-                    <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
-                </button>
-                <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
-                    <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 16px; line-height: 24px; color: #d1d5db;">Keep checking the official Alcheringa website, social media pages, and messages from the Vogue Nation organising team for announcements and schedule updates.</p></div>
+            <!-- FAQ 6 -->
+            <div class="faq-item" style="border-radius: 15px; padding: 2px; background: linear-gradient(to right, #644E0C, #353535);">
+                <div class="faq-item-inner" style="border-radius: 13px; background: #000;">
+                    <button class="faq-item-btn" style="width: 100%; min-height: 76px; padding: 20px 33px; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer;">
+                        <span>Where can I find updates about Vogue Nation?</span>
+                        <span class="faq-arrow" style="display: inline-block; font-size: 20px; transition: transform 0.3s ease; flex-shrink: 0; line-height: 1;">⌄</span>
+                    </button>
+                    <div class="faq-item-panel" style="display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.35s ease;">
+                        <div style="overflow: hidden;"><p style="padding: 0 33px 30px; font-size: 20px; line-height: 39px; color: #d1d5db;">Keep checking the official Alcheringa website, social media pages, and messages from the Vogue Nation organising team for announcements and schedule updates.</p></div>
+                    </div>
                 </div>
             </div>
+
         </div>
+    </section>
 
-
-
-
-    </div>
-</section>
-
-
-<!-- SECTION 5: FOOTER                                              -->
-
-
- 
-<footer id="main-footer"
-        style="width: 100vw;
+    <!-- SECTION 5: FOOTER -->
+    <footer id="main-footer"
+        style="width: 100%;
                min-height: 100vh;
-               margin-left: calc(50% - 50vw);
-               background: radial-gradient(ellipse at 55% 10%, #1c1c35 0%, #0e0e0e 50%, #000 100%);
+               background: transparent;
                position: relative;
+               z-index: 2;
                overflow: hidden;
                user-select: none;
                box-sizing: border-box;
                display: flex;
                flex-direction: column;
                justify-content: flex-end;">
-            
-   <!-- Top-left corner light (white, non-circular) -->
-<div style="position: absolute; top: 0; left: 0;
-            width: 500px; height: 350px;
-            background: radial-gradient(ellipse at top left, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 70%);
-            pointer-events: none; z-index: 0;"></div>
 
-<!-- Top-right corner light (white, non-circular) -->
-<div style="position: absolute; top: 0; right: 0;
-            width: 500px; height: 350px;
-            background: radial-gradient(ellipse at top right, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 70%);
-            pointer-events: none; z-index: 0;"></div>
+        <!-- Contact + Nav  -->
+        <div id="footer-inner-top">
 
-    <!-- Contact + Nav  -->
-    <div id="footer-inner-top">
+            <!-- LEFT: Contact -->
+            <div style="display: flex; align-items: center; justify-content: center ;gap: 36px; flex-wrap: wrap;">
+                <div id="footer-contact-col" style="display: flex; flex-direction: column;">
+                    <p id="footer-contact-label" style="font-family: Oranienbaum; font-size: 25px; letter-spacing: 2px; color: #B6B6B6; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
+                    <p id="footer-contact-name" style="font-family: Darker Grotesque; font-size: 64px; font-weight: 400; color:#676767; margin: 0 0 2px 0; line-height: 1.1;">Joudi Warisa</p>
+                    <p id="footer-contact-role" style="font-family: Darker Grotesque; font-size: 38px; color: #676767; margin: 0 0 28px 0;">Vogue Nation Convenor</p>
+                    <p id="footer-contact-phone" style="font-family: Darker Grotesque; font-size: 32px; color: #FFFFFF; margin: 0 0 5px 0;">8822501458</p>
+                    <p id="footer-contact-email" style="font-family: Darker Grotesque; font-size: 32px; color: #FFFFFF; margin: 0;">vogue@alcheringa.co.in</p>
+                </div>
 
-        <!-- LEFT: Contact -->
-        <div style="display: flex; flex-direction: column;">
-            <p style="font-family: Georgia, serif; font-size: 25px; letter-spacing: 2px; color: #B6B6B6; margin: 0 0 20px 0; text-transform: uppercase;">Contact</p>
-            <p style="font-family: Georgia, serif; font-size: 64px; font-weight: 400; color:#676767; margin: 0 0 2px 0; line-height: 1.1;">Joudi Warisa</p>
-            <p style="font-family: Georgia, serif; font-size: 40px; color: #676767; margin: 0 0 28px 0;">Vogue Nation Convenor</p>
-            <p style="font-family: Georgia, serif; font-size: 32px; color: #FFFFFF; margin: 0 0 5px 0;">8822501458</p>
-            <p style="font-family: Georgia, serif; font-size: 32px; color: #FFFFFF; margin: 0;">vogue@alcheringa.co.in</p>
+                <img src="{% static 'core/images/glimpses/vogue-convener.jpeg' %}"
+                     alt="Joudi Warisa - Vogue Nation Convenor"
+                     style="width: 190px; height: 230px; object-fit: cover; border-radius: 14px; border: 1px solid rgba(212,175,55,0.35); box-shadow: 0 12px 32px rgba(0,0,0,0.65); flex-shrink: 0;">
+            </div>
+
+            <div class="mobile-links-divider"></div>
+
+            <!-- RIGHT: Nav -->
+            <div class="mobile-links-wrapper">
+                <span class="mobile-links-label">Links</span>
+                <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
+                    <a href="#" id="footerAboutLink" style="font-family: Oranienbaum, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+                       onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                        About <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white;">↗</span>
+                    </a>
+                    <a href="#faq-section" style="font-family: Oranienbaum, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+                       onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                        FAQs <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white">↗</span>
+                    </a>
+                    <a href="#" id="footerGlimpsesLink" style="font-family: Oranienbaum, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
+                       onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
+                        Glimpses <span style="font-size: 14px; transform: rotate(0deg); display:inline-block ; -webkit-text-stroke: 2px white">↗</span>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <!-- RIGHT: Nav -->
-        <div id="footer-nav-links" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 6px;">
-            <a href="#" id="footerAboutLink" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
-               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                About <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white;">↗</span>
-            </a>
-            <a href="#faq-section" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
-               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                FAQs <span style="font-size: 14px; transform: rotate(0deg); display:inline-block; -webkit-text-stroke: 2px white">↗</span>
-            </a>
-            <a href="#" id="footerGlimpsesLink" style="font-family: Georgia, serif; font-size: 25px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s;"
-               onmouseover="this.style.color='#999'" onmouseout="this.style.color='#fff'">
-                Glimpses <span style="font-size: 14px; transform: rotate(0deg); display:inline-block ; -webkit-text-stroke: 2px white">↗</span>
-            </a>
+        <!-- Divider -->
+        <div id="footer-divider">
+            <div style="width: 100%; height: 1px; background: rgba(255,255,255,0.1);"></div>
         </div>
-    </div>
 
-    <!-- Divider -->
-    <div id="footer-divider">
-        <div style="width: 100%; height: 1px; background: rgba(255,255,255,0.1);"></div>
-    </div>
+        <!-- Bottom bar -->
+        <div id="footer-bottom-bar">
+            <p style="font-family: Darker Grotesque, serif; font-size: 24px; color: #9A9A9A; margin: 0;">2027 Alcheringa</p>
 
-    <!-- Bottom bar -->
-    <div id="footer-bottom-bar">
-        <p style="font-family: Georgia, serif; font-size: 24px; color: #9A9A9A; margin: 0;">2027 Alcheringa</p>
-
-        <p style="font-family: Georgia, serif; font-size: 24px; color: #9A9A9A; margin: 0;">
-            Designed By 
-            <span style="color:#9A9A9A ; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px;">Team Creatives</span>
-            
-             &nbsp; Developed By 
-            <span id="webops-trigger" style="color: #9A9A9A; cursor: default; position: relative; font-family: Georgia, serif; font-size: 24px;">
-                 Team Webops
-                <span id="webops-popup"
-                      style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
-                             background: #161616; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px;
-                             padding: 16px 22px; min-width: 190px; display: none; flex-direction: column; gap: 9px;
-                             box-shadow: 0 12px 40px rgba(0,0,0,0.9); z-index: 999; white-space: nowrap;">
-                    <span style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #161616; border-right: 1px solid rgba(255,255,255,0.13); border-bottom: 1px solid rgba(255,255,255,0.13);"></span>
-                    <span style="font-family: Georgia, serif; font-size: 10px; letter-spacing: 1.5px; color: #555; text-transform: uppercase; margin-bottom: 2px;">Team Members</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Raunak-Head</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Amaan-Head</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Dipank</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Mritunjay</span>
-                    <span style="font-family: Georgia, serif; font-size: 13px; color: #ccc;">Gowtham</span>
-                    
+            <p style="font-family: Darker Grotesque, serif; font-size: 24px; color: #9A9A9A; margin: 0;">
+                Designed By 
+                <span id="creatives-trigger" style="color:#FFFFFF; cursor: default; position: relative; font-family: Darker Grotesque, serif; font-size: 24px; font-weight: 800;">
+                    Team Creatives
+                    <span id="creatives-popup" class="team-popup" style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: #161616; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px; padding: 16px 22px; min-width: 190px; display: none; flex-direction: column; gap: 9px; box-shadow: 0 12px 40px rgba(0,0,0,0.9); z-index: 999; white-space: nowrap;">
+                        <span style="font-family: Georgia, serif; font-size: 15px; letter-spacing: 1.5px; color: #FFFFFF; text-transform: uppercase; margin-bottom: 2px;">Team Creatives</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;"> &bull; Jigisha Jain</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;">&bull; Shubhra Chaurasiya</span>
+                    </span>
                 </span>
-            </span>
-        </p>
+                
+                &nbsp; Developed By 
+                <span id="webops-trigger" style="color: #FFFFFF; cursor: default; position: relative; font-family: Darker Grotesque, serif; font-size: 24px; font-weight: 800;">
+                    Team Webops
+                    <span id="webops-popup"
+                          style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
+                                 background: #161616; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px;
+                                 padding: 16px 22px; min-width: 190px; display: none; flex-direction: column; gap: 9px;
+                                 box-shadow: 0 12px 40px rgba(0,0,0,0.9); z-index: 999; white-space: nowrap;">
+                        <span style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #161616; border-right: 1px solid rgba(255,255,255,0.13); border-bottom: 1px solid rgba(255,255,255,0.13);"></span>
+                        <span style="font-family: Georgia, serif; font-size: 15px; letter-spacing: 1.5px; color: #FFFFFF; text-transform: uppercase; margin-bottom: 2px;">Team Webops</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;"> &bull; Raunak-Head</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;">&bull; Amaan-Head</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;">&bull; Dipank</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;">&bull; Mritunjay</span>
+                        <span style="font-family: Georgia, serif; font-size: 16px; color: #FFFFFF;">&bull; Gowtham</span>
+                    </span>
+                </span>
+            </p>
 
-        <p style="font-family: Georgia, serif; font-size: 24px; color: #9A9A9A; margin: 0;">All Rights Reserved</p>
-    </div>
+            <p style="font-family: Darker Grotesque, serif; font-size: 24px; color: #9A9A9A; margin: 0;">All Rights Reserved</p>
+        </div>
 
-    <!-- Full-width "Vogue Nation" -->
-    <div style="width: 100%; overflow: hidden; line-height: 1; flex-shrink: 0;">
-        <p id="footer-brand-text"
-           style="font-family: 'Palace Script MT', 'Palace Script', cursive;
-                  color: #FFFFFF;
-                  margin: 0; padding: 0;
-                  white-space: nowrap;
-                  display: block;
-                  line-height: 0.85;
-                  letter-spacing: 0px;
-                  pointer-events: none;
-                  visibility: hidden;
-                  font-size: 200px;">Vogue Nation</p>
-    </div>
-</footer>
+        <!-- Full-width "Vogue Nation" -->
+        <div style="width: 100%; overflow: hidden; line-height: 1; flex-shrink: 0;">
+            <p id="footer-brand-text"
+               style="font-family: 'Palace Script MT', 'Palace Script', cursive;
+                      color: #FFFFFF;
+                      margin: 0; padding: 0;
+                      white-space: nowrap;
+                      display: block;
+                      line-height: 0.85;
+                      letter-spacing: 0px;
+                      pointer-events: none;
+                      visibility: hidden;
+                      font-size: 200px;">Vogue Nation</p>
+        </div>
+    </footer>
 
-<!-- GSAP -->
-<script>
+</div>
 
-function fitBrandText() {
-    const el = document.getElementById('footer-brand-text');
-    if (!el) return;
-
-    const targetW = document.documentElement.clientWidth;
-
-    // Use an off-screen measuring span with the same font
-    const probe = document.createElement('span');
-    probe.style.cssText = [
-        "font-family:'Palace Script MT','Palace Script',cursive",
-        "white-space:nowrap",
-        "position:fixed",
-        "top:-9999px",
-        "left:-9999px",
-        "visibility:hidden",
-        "line-height:1",
-        "letter-spacing:0px"
-    ].join(';');
-    probe.textContent = 'Vogue Nation';
-    document.body.appendChild(probe);
-
-    let lo = 50, hi = 4000;
-    for (let i = 0; i < 25; i++) {
-        const mid = (lo + hi) >> 1;
-        probe.style.fontSize = mid + 'px';
-        (probe.getBoundingClientRect().width <= targetW) ? lo = mid : hi = mid;
-    }
-
-    document.body.removeChild(probe);
-
-    el.style.fontSize   = lo + 'px';
-    el.style.visibility = 'visible';   
-}
-
-
-document.fonts.ready.then(fitBrandText);
-window.addEventListener('resize', () => document.fonts.ready.then(fitBrandText));
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const track    = document.querySelector('.carousel-track');
-    const images   = document.querySelectorAll('.carousel-img');
-    const viewport = document.querySelector('.carousel-viewport');
-    if (!track || !viewport) return;
-
-    const imgWidth       = 280, gap = 12;
-    const itemSpacing    = imgWidth + gap;
-    const singleSetWidth = 5 * itemSpacing;
-    let scrollPos = 0, isDragging = false, startX = 0, startScroll = 0;
-    let hoveredIdx = -1;
-    const hoverScales = Array.from(images, () => 1);
-
-    images.forEach((img, i) => {
-        img.addEventListener('mouseenter', () => { hoveredIdx = i; });
-        img.addEventListener('mouseleave', () => { if (hoveredIdx === i) hoveredIdx = -1; });
-    });
-
-    function render() {
-        const trackX = -(scrollPos % singleSetWidth);
-        track.style.transform = `translateX(${trackX}px)`;
-        const vc = window.innerWidth / 2;
-        images.forEach((img, i) => {
-            const c = trackX + i * itemSpacing + imgWidth / 2;
-            const d = c - vc;
-            const scale = 0.85 + Math.min(Math.abs(d) / vc, 1) * 0.15;
-            const sx = -Math.tanh(d / 420) * 32;
-
-            const targetHover = (i === hoveredIdx && !isDragging) ? 1.07 : 1;
-            hoverScales[i] += (targetHover - hoverScales[i]) * 0.14;
-
-            img.style.transform       = `translateX(${sx}px) scale(${scale * hoverScales[i]})`;
-            img.style.transformOrigin = "center center";
-            img.style.zIndex          = (i === hoveredIdx) ? 5 : 1;
-        });
-    }
-
-    gsap.ticker.add(() => {
-        if (!isDragging) scrollPos += 1.0;
-        render();
-    });
-
-    viewport.addEventListener('wheel', e => {
-        e.preventDefault();
-        scrollPos += (e.deltaY + e.deltaX) * 0.8;
-        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
-        render();
-    }, { passive: false });
-
-    track.addEventListener('mousedown', e => {
-        isDragging = true; startX = e.clientX; startScroll = scrollPos;
-        track.style.cursor = 'grabbing';
-    });
-    window.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        scrollPos = startScroll - (e.clientX - startX) * 1.2;
-        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
-        render();
-    });
-    window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
-
-    track.addEventListener('touchstart', e => {
-        isDragging = true; startX = e.touches[0].clientX; startScroll = scrollPos;
-    }, { passive: true });
-    window.addEventListener('touchmove', e => {
-        if (!isDragging) return;
-        scrollPos = startScroll - (e.touches[0].clientX - startX) * 1.2;
-        if (scrollPos < 0) scrollPos += singleSetWidth * 10;
-        render();
-    }, { passive: true });
-    window.addEventListener('touchend', () => { isDragging = false; });
-    window.addEventListener('resize', render);
-});
-
-/* ── FAQ ── */
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".faq-item").forEach(item => {
-        const btn   = item.querySelector(".faq-item-btn");
-        const panel = item.querySelector(".faq-item-panel");
-        const arrow = item.querySelector(".faq-arrow");
-        const inner = item.querySelector(".faq-item-inner");
-        if (!btn || !panel || !arrow || !inner) return;
-        let open = false;
-        const apply = o => {
-            item.style.background  = o ? "linear-gradient(to left,#d4af37,white)" : "linear-gradient(to left,#644E0C,#353535)";
-            inner.style.background = o ? "linear-gradient(to bottom right,#292929,#303030)" : "#000";
-            arrow.style.transform  = o ? "rotate(180deg)" : "rotate(0deg)";
-            btn.setAttribute("aria-expanded", String(o));
-        };
-        apply(false);
-        btn.addEventListener("click", () => { open = !open; panel.style.gridTemplateRows = open ? "1fr" : "0fr"; apply(open); });
-    });
-});
-
-
-/* ── Team Webops Popup ── */
-document.addEventListener("DOMContentLoaded", () => {
-    const trigger = document.getElementById("webops-trigger");
-    const popup   = document.getElementById("webops-popup");
-    if (!trigger || !popup) return;
-    let t = null;
-    const show = () => { clearTimeout(t); popup.style.display = "flex"; };
-    const hide = () => { t = setTimeout(() => { popup.style.display = "none"; }, 150); };
-    trigger.addEventListener("mouseenter", show);
-    trigger.addEventListener("mouseleave", hide);
-    popup.addEventListener("mouseenter", show);
-    popup.addEventListener("mouseleave", hide);
-});
-</script>
   </div>
 
   <!-- GSAP Core for 60fps animations -->

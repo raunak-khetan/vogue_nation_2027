@@ -1759,3 +1759,127 @@ button {
   }
 }
 /*gowtham-end*/
+
+
+/* Glimpses Footer Styles */
+
+#footer-inner-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 60px 80px 40px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  #footer-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px 28px;
+    box-sizing: border-box;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #footer-divider { padding: 0 80px; box-sizing: border-box; width: 100%; }
+
+  /* Desktop defaults for mobile-only elements */
+  #mobile-card-stack { display: none; }
+  .mobile-links-divider { display: none; }
+  .mobile-links-label { display: none; }
+  .mobile-br { display: none; }
+
+  @media (max-width: 768px) {
+    /* Header */
+    #glimpses-header-wrap { padding-top: 48px !important; padding-bottom: 24px !important; }
+    .desktop-spaces { display: none; }
+    .mobile-br { display: inline; }
+    #glimpses-header-box {
+      height: auto !important;
+      max-width: 100% !important;
+      padding: 0 12px;
+    }
+    #glimpses-heading {
+      font-size: clamp(46px, 14vw, 64px) !important;
+      line-height: 1.08 !important;
+      white-space: normal !important;
+    }
+
+    #main-wrapper,
+    #glimpses-header-wrap,
+    #section-spacer {
+      background-color: #000000 !important;
+    }
+
+    /* Hide desktop carousel, show mobile stacked cards */
+    .carousel-viewport { display: none !important; }
+    #mobile-card-stack {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 264px;
+      max-width: 78vw;
+      height: 396px;
+      margin: 24px auto 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.8);
+      transform-origin: center center;
+      will-change: transform, opacity;
+    }
+
+    /* Spacer */
+    #section-spacer { height: 72px !important; }
+
+    /* FAQ */
+    #faq-section { min-height: auto !important; padding-top: 40px !important; padding-bottom: 56px !important; }
+    #faq-heading { font-size: clamp(28px, 7.5vw, 38px) !important; letter-spacing: -1px !important; margin-bottom: 32px !important; line-height: 1.15; padding: 0 16px; }
+    #faq-container { width: 90vw !important; gap: 14px !important; }
+    .faq-item-btn { min-height: 58px !important; padding: 14px 18px !important; font-size: 14px !important; gap: 12px !important; }
+    .faq-item-panel p { padding: 0 18px 18px !important; font-size: 13px !important; line-height: 20px !important; }
+
+    /* Footer */
+    #main-footer { min-height: auto !important; padding-top: 220px !important; }
+    #footer-inner-top { flex-direction: column; align-items: center; gap: 28px; padding: 24px 28px 28px; }
+    #footer-contact-col { align-items: center !important; text-align: center; width: 100%; }
+    #footer-contact-label { font-size: 25px !important; margin-bottom: 34px !important; letter-spacing: 1.5px !important; }
+    #footer-contact-name { font-size: 60px !important; margin-bottom: 4px !important; }
+    #footer-contact-role { font-size: 35px !important; margin-bottom: 32px !important; }
+    #footer-contact-phone, #footer-contact-email { font-size: 32px !important; }
+
+    .mobile-links-divider { display: block; width: 100%; height: 1px; background: rgba(255,255,255,0.12); }
+    .mobile-links-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      padding: 4px 0;
+    }
+    .mobile-links-label {
+      display: block;
+      font-family: Georgia, serif;
+      font-size: 25px;
+      color: #B6B6B6;
+      padding-top: 44px;
+    }
+    #footer-nav-links { align-items: flex-end !important; gap: 10px !important; padding-top: 0 !important; }
+    #footer-nav-links a { font-size: 25px !important; }
+
+    #footer-bottom-bar { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 16px 28px 20px; }
+    #footer-bottom-bar p, #footer-bottom-bar span { font-size: 13px !important; }
+    #footer-divider { padding: 0 28px; }
+  }
+  @media (max-width: 480px) {
+    #footer-inner-top { padding: 20px 20px 24px; }
+    #footer-bottom-bar { padding: 14px 20px 16px; }
+    #footer-divider { padding: 0 20px; }
+  }
