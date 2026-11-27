@@ -297,7 +297,7 @@ button {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
-  background: #0B0B0B;
+  background: transparent;
   z-index: 40;
   opacity: 0;
   pointer-events: none;
@@ -306,6 +306,12 @@ button {
 .lower-sections.is-active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.lower-sections__spacer {
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
 }
 
 .scene {
@@ -1576,7 +1582,7 @@ button {
     max-height: 92vh !important;
     flex-direction: column !important;
     align-items: center !important;
-    padding: 18px 18px 24px !important;
+    padding: 16px 18px 20px !important;
     border-radius: 28px !important;
     border: 1px solid transparent !important;
     background:
@@ -1598,21 +1604,21 @@ button {
   }
 
   .detail__media {
-    width: 100% !important;
-    height: 375px !important;
+    width: 250px !important;
+    height: 425px !important;
     flex-shrink: 0 !important;
     border-radius: 15px !important;
     border: 1px solid rgba(255, 255, 255, 0.85) !important;
     overflow: hidden !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85) !important;
-    margin: 0 auto 16px !important;
+    margin: 0 auto 12px !important;
   }
 
   .detail__img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: top center !important;
+    object-position: center 18% !important;
   }
 
   .detail__arrow {

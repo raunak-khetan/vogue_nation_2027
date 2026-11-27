@@ -27,13 +27,16 @@ window.createFrameScrubber = function ({
   let target = 0;    // target frame position (float)
   let rafId = null;
   let sized = false;
+  let destroyed = false;
 
   // ---- Preload: first frame first, then the rest ----
   function load(i) {
     return new Promise(resolve => {
+      if (destroyed) { resolve(); return; }
       const img = new Image();
       img.decoding = 'async';
       img.onload = img.onerror = () => {
+        if (destroyed) { resolve(); return; }
         loaded++;
         if (onLoad) onLoad(loaded / frameCount);
         if (!sized && img.naturalWidth) {
@@ -49,12 +52,13 @@ window.createFrameScrubber = function ({
   }
 
   const ready = load(0).then(() => {
+    if (destroyed) return;
     draw();
     // Load the rest in small batches so the first paint isn't blocked
     const rest = [];
     for (let i = 1; i < frameCount; i++) rest.push(i);
     return (async () => {
-      while (rest.length) {
+      while (rest.length && !destroyed) {
         await Promise.all(rest.splice(0, 12).map(load));
       }
     })();
@@ -113,6 +117,13 @@ window.createFrameScrubber = function ({
     reset() {
       current = target = 0;
       draw();
+    },
+    destroy() {
+      destroyed = true;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     }
   };
 };

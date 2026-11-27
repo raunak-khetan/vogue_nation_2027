@@ -85,10 +85,18 @@
     }
   ];
 
-  // cards scrubber setup (uses portrait cards_mobile_frames on mobile)
+  // cards scrubber setup (dynamically switches between desktop & mobile portrait frames on resize)
   let cardsScrub = null;
-  if (window.createFrameScrubber && cardsCanvasVideo) {
-    const isMobileCards = window.innerWidth <= 768;
+  let isMobileCards = null;
+  function setupCardsScrubber() {
+    if (!window.createFrameScrubber || !cardsCanvasVideo) return;
+    const nextMobile = window.innerWidth <= 768;
+    if (nextMobile === isMobileCards && cardsScrub) return;
+
+    const prevP = cardsScrub ? cardsScrub.getProgress() : 0;
+    if (cardsScrub && cardsScrub.destroy) cardsScrub.destroy();
+    isMobileCards = nextMobile;
+
     cardsScrub = window.createFrameScrubber({
       canvas: cardsCanvasVideo,
       frameCount: isMobileCards ? 86 : 240,
@@ -100,7 +108,12 @@
         onCardsScrubProgress(p);
       }
     });
+    if (prevP > 0) {
+      cardsScrub.setProgress(prevP);
+    }
   }
+  setupCardsScrubber();
+  window.addEventListener('resize', setupCardsScrubber);
 
   // cards scrub progress
   function onCardsScrubProgress(p) {
@@ -275,10 +288,25 @@
   }
 
   // page transitions
+  function syncPage2WithLowerScroll() {
+    if (!page2Scene || !lowerSections) return;
+    const offset = Math.min(lowerSections.scrollTop, window.innerHeight);
+    page2Scene.style.transition = 'none';
+    page2Scene.style.transform = offset > 0 ? `translateY(${-offset}px)` : '';
+  }
+
+  function resetPage2ScrollTransform() {
+    if (!page2Scene) return;
+    page2Scene.style.transition = '';
+    page2Scene.style.transform = '';
+  }
+
   function goToPage2(targetProgress = null, openModalIndex = null) {
     if (lowerSections) {
       lowerSections.classList.remove('is-active');
+      lowerSections.scrollTop = 0;
     }
+    resetPage2ScrollTransform();
     if (currentState !== 'PAGE_2') {
       currentState = 'PAGE_2';
 
@@ -312,7 +340,11 @@
     currentState = 'PAGE_1';
 
     if (isDetailOpen) closeDetail();
-    if (lowerSections) lowerSections.classList.remove('is-active');
+    if (lowerSections) {
+      lowerSections.classList.remove('is-active');
+      lowerSections.scrollTop = 0;
+    }
+    resetPage2ScrollTransform();
 
     // Reveal Navbar on Page 1 Hero
     if (mainNav) {
@@ -334,7 +366,7 @@
     }
   }
 
-  function goToLowerSections(targetSelector = null) {
+  function goToLowerSections(targetSelector = null, initialDelta = 0) {
     if (isDetailOpen) closeDetail();
     currentState = 'LOWER_PAGE';
 
@@ -357,8 +389,11 @@
         if (el) {
           setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 60);
         }
+      } else if (initialDelta > 0) {
+        lowerSections.scrollTop = Math.max(1, initialDelta);
+        syncPage2WithLowerScroll();
       } else {
-        lowerSections.scrollTop = 0;
+        lowerSections.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
       }
     }
   }
@@ -370,12 +405,23 @@
       lowerSections.classList.remove('is-active');
       lowerSections.scrollTop = 0;
     }
+    resetPage2ScrollTransform();
     if (cardsScrub) {
       cardsScrub.setProgress(1);
     }
     if (mainNav && !isDetailOpen) {
       mainNav.classList.add('is-visible');
     }
+  }
+
+  if (lowerSections) {
+    lowerSections.addEventListener('scroll', () => {
+      if (currentState !== 'LOWER_PAGE') return;
+      syncPage2WithLowerScroll();
+      if (lowerSections.scrollTop <= 0) {
+        backFromLowerToPage2();
+      }
+    }, { passive: true });
   }
 
   // wheel & scroll interceptor
@@ -422,9 +468,9 @@
         return;
       }
 
-      // If at end of Page 2 (p >= 0.99) and user scrolls down -> go to lower sections
-      if (p >= 0.99 && e.deltaY > 5) {
-        goToLowerSections();
+      // If at end of Page 2 (p >= 0.99) and user scrolls down -> smoothly move Page 3 up over locked Page 2
+      if (p >= 0.99 && e.deltaY > 2) {
+        goToLowerSections(null, e.deltaY);
         return;
       }
 
@@ -479,8 +525,8 @@
         goToPage1();
         return;
       }
-      if (p >= 0.99 && deltaY > 8) {
-        goToLowerSections();
+      if (p >= 0.99 && deltaY > 2) {
+        goToLowerSections(null, deltaY);
         return;
       }
 
@@ -577,7 +623,7 @@
   if (footerGlimpsesLink) {
     footerGlimpsesLink.addEventListener('click', e => {
       e.preventDefault();
-      if (lowerSections) lowerSections.scrollTo({ top: 0, behavior: 'smooth' });
+      if (lowerSections) lowerSections.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
     });
   }
 
