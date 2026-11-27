@@ -194,6 +194,13 @@ if IS_PROD:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
+    # Required when behind a reverse proxy (Traefik/Nginx/Dokku).
+    # Django checks the Origin/Referer header against this list on POST.
+    _allowed = os.environ.get('ALLOWED_HOSTS', '')
+    CSRF_TRUSTED_ORIGINS = [
+        f'https://{h.strip()}' for h in _allowed.split(',') if h.strip()
+    ]
+
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
