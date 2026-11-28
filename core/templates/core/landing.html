@@ -16,9 +16,13 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
   <link rel="stylesheet" href="{% static 'core/style.css' %}">
-  <link rel="stylesheet" href="{% static 'core/landing.css' %}?v=25">
+  <link rel="stylesheet" href="{% static 'core/landing.css' %}?v=26">
 </head>
 <body>
+  <div class="page-loader" id="pageLoader" role="status" aria-live="polite">
+    <span class="page-loader__spinner" aria-hidden="true"></span>
+    <span class="page-loader__text">PREPARING THE RUNWAY</span>
+  </div>
 
   <!-- STICKY TOP NAV (Reveals with Main Landing Hero) -->
   <header class="nav" id="mainNav">
@@ -546,7 +550,7 @@
   <script src="{% static 'core/scrub.js' %}?v=23"></script>
 
   <!-- Core Controller Script -->
-  <script src="{% static 'core/landing.js' %}?v=25"></script>
+  <script src="{% static 'core/landing.js' %}?v=26"></script>
 </body>
 </html>
 <!--gowtham-end-->
