@@ -64,7 +64,7 @@
       tab: 'gnm',
       image: '/static/core/assets/card-1-detail.png',
       rulebook: '/static/core/rulebooks/glamour%20nova.pdf',
-      prize: '50k',
+      prize: 'TBA',
       text: "From the first sketch to the final click, let your creativity take centre stage. Glamour Nova takes participants on a complete fashion journey, from conceptualising and designing outfits to styling models and capturing their vision through photography. It's time to bring ideas to life, create striking visual stories, and make every frame a fashion statement."
     },
     {
@@ -72,7 +72,7 @@
       tab: 'sod',
       image: '/static/core/assets/card-2-detail.png',
       rulebook: '/static/core/rulebooks/state%20of%20dress.pdf',
-      prize: '50k',
+      prize: 'TBA',
       text: "Who knew paper could make a fashion statement? Get ready to fold, shape, and create. State of Dress challenges participants to transform simple sheets of paper into extraordinary outfits, blending the art of origami with the magic of fashion. It's where imagination meets innovation, and every creation tells a story."
     },
     {
@@ -80,7 +80,7 @@
       tab: 'hcd',
       image: '/static/core/assets/card-3.png',
       rulebook: '/static/core/rulebooks/haute%20couture.pdf',
-      prize: '50k',
+      prize: 'TBA',
       text: "Where creativity meets elegance and imagination takes the form of fashion. This competition invites participants to showcase their designing skills, originality, and artistic vision through stunning outfits and captivating runway presentations. It is an opportunity to push creative boundaries, express individuality, and transform imagination into extraordinary fashion statements."
     }
   ];
